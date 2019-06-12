@@ -20,7 +20,7 @@ pipette=instruments.P300_Multi(mount='left')
 pipette.pick_up_tip(tiprack.cols('1'))
 
 pipette.distribute(50, trough.cols('1'),
-	plate.cols('1','2','3','4','5','6','7','8','9','10','11','12'),
+	plate.cols('1',to='12'),
 	disposal_vol=50,
 	new_tip='never',
 	touch_tip=True)
