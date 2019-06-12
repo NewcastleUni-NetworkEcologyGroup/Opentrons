@@ -73,7 +73,7 @@ def run_custom_protocol(
             new_tip=new_tip)
 
         if new_tip == 'never':
-            pipette.drop_tip()
+            pipette.drop_tip(home_after=False)
 
     else:
         # Distribute diluent across the plate to the the number of samples
@@ -99,7 +99,7 @@ def run_custom_protocol(
                 new_tip=new_tip)
 
             if new_tip == 'never':
-                pipette.drop_tip()
+                pipette.drop_tip(home_after=False)
 
 
 run_custom_protocol(**{'pipette_type': 'p300-Multi', 'dilution_factor': 3, 'num_of_dilutions': 6, 'total_mixing_volume': 100.0, 'tip_use_strategy': 'use one tip'})
