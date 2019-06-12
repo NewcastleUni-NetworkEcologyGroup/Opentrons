@@ -17,25 +17,25 @@ tiprack = [labware.load('opentrons-tiprack-300ul', slot)
 
 pipette=instruments.P300_Multi(mount='left')
 
-pipette.pick_up_tip(tiprack.wells('A1'))
+pipette.pick_up_tip(tiprack['A1'])
 
 pipette.distribute(50, trough.wells('A1'),
 	plate.rows('A'),
 	disposal_vol=30,
 	new_tip='never',
 	touch_tip=False)
-pipette.drop_tip()
+pipette.drop_tip(home_after=False)
 
-pipette.pick_up_tip(tiprack.wells('A2'))
+pipette.pick_up_tip(tiprack['A2'])
 
 pipette.distribute(50, trough.wells('A2'),
 	plate.rows('A'),
 	disposal_vol=30,
 	new_tip='never',
 	touch_tip=False)
-pipette.drop_tip()
+pipette.drop_tip(home_after=False)
 
-pipette.pick_up_tip(tiprack.wells('A3'))
-pipette.mix(3, 50, plate.rows('A'), 
+pipette.pick_up_tip(tiprack['A3'])
+pipette.mix(3, 50, plate['A1']-['A12'], 
             new_tip='never')
-pipette.drop_tip()
+pipette.drop_tip(home_after=False)
