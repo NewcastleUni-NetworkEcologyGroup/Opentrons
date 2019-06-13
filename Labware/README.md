@@ -17,4 +17,5 @@ The following labware is currently included in this repository for use on the Op
 
 ### Tubes
 
+###Greek Letters: #####Capital: LaTex | | LaTex | | ----------:|--:|---------:|--:| \Gamma | Γ | \Delta | ∆ | \Lambda | Λ | \Phi | Φ | \Pi | Π | \Psi | Ψ | \Sigma | Σ | \Theta | Θ | \Upsilon | Υ | \Xi | Ξ | \Omega | Ω | | |
 
