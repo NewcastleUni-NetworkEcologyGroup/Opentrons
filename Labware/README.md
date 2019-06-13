@@ -1,4 +1,4 @@
-The following labware is currently included in this repository for use on the Opentrons OT-2
+The following labware is currently included in this repository for use on the Opentrons OT-2:
 
 ## Starlab
 ### PCR plates and strips
@@ -10,6 +10,10 @@ The following labware is currently included in this repository for use on the Op
 * 0.6ml Deepwell plate - [starlab-E2896-0600](https://www.starlabgroup.com/GB-en/consumables/plates_WebPSub-155857/06-ml-96-deepwell-plate-round-wells-with-conical-bottoms_SLE2896-0600.html)
 
 ### Tips
+* 1000 ul RPT tips - 
+* 300 ul RPT tips - 
+* 50 ul RPT tips - 
+* 10 ul RPT tips
 
 ### Tubes
 
