@@ -20,3 +20,6 @@ The following labware is currently included in this repository for use on the Op
 * 10 µl RPT tips
 
 
+## Thermo Scientific
+### Microplates
+* Black skirted microplate - 
