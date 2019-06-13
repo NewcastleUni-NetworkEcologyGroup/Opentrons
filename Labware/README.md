@@ -1,5 +1,8 @@
 The following labware is currently included in this repository for use on the Opentrons OT-2:
-** All of these will require calibration at first use on any OT-2 **
+
+**All of these will require calibration at first use on any OT-2**
+
+***
 
 ## Starlab
 ### PCR plates and strips
