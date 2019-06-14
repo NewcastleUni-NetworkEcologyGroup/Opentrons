@@ -14,10 +14,10 @@ The following labware is currently included in this repository for use on the Op
 * 0.6ml Deepwell plate - [starlab-E2896-0600](https://www.starlabgroup.com/GB-en/consumables/plates_WebPSub-155857/06-ml-96-deepwell-plate-round-wells-with-conical-bottoms_SLE2896-0600.html)
 
 ### Tips
-* 1000 µl RPT tips - 
-* 300 µl RPT tips - 
-* 50 µl RPT tips - 
-* 10 µl RPT tips - [tiprack-starlab-S1181-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-rpt-graduated-filter-tip-sterile-racked_SLS1181-3810.html) <sup name="a2">[1](#f2)</sup>
+* 1000 µl RPT tips -  <sup name="a2">[2](#f2)</sup>
+* 300 µl RPT tips -  <sup name="a2">[3](#f2)</sup>
+* 50 µl RPT tips -  <sup name="a2">[3](#f2)</sup>
+* 10 µl RPT tips - [tiprack-starlab-S1181-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-rpt-graduated-filter-tip-sterile-racked_SLS1181-3810.html) <sup name="a3">[3](#f3)</sup>
 
 
 ## Thermo Scientific
@@ -30,4 +30,6 @@ The following labware is currently included in this repository for use on the Op
 
 <sup name="f1">1</sup> must be used with PCR plate rack [E2396-1641](https://www.starlabgroup.com/GB-en/sample-storage/pcr-sample-racks_WebPSub-177838/pcr-workstation_PF-SL-155400.html) [↩](#a1)
 
-<sup name="f2">1</sup> must be used with [Opentrons TipOne tiprack holder](https://github.com/Opentrons/otone_hardware/blob/master/models/TipOne%2010:200:300%20uL%20Tip%20Rack%20Adaptor.STL) [↩](#a2)
+<sup name="f2">2</sup> must be used with [Opentrons TipOne 10/200/300 µl tiprack holder](https://github.com/Opentrons/otone_hardware/blob/master/models/TipOne%2010:200:300%20uL%20Tip%20Rack%20Adaptor.STL) [↩](#a2)
+
+<sup name="f3">3</sup> must be used with [Opentrons TipOne 1000 µl tiprack holder](https://github.com/Opentrons/otone_hardware/blob/master/models/TipOne%201000uL%20Tip%20Rack%20Adaptor.STL) [↩](#a3)
