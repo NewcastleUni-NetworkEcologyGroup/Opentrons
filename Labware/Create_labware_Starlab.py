@@ -71,5 +71,5 @@ if tip_name not in labware.list():
         grid=(12, 8),                    # specify amount of (columns, rows)
         spacing=(9, 9),               # distances (mm) between each (column, row)
         diameter=8.7,                     # diameter (mm) of each well on the plate
-        depth=93.5,                       # depth (mm) of tiprack and holder
+        depth=98.3,                       # depth (mm) of tiprack and holder
         volume=1000)
