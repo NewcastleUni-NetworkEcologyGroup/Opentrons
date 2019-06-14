@@ -4,7 +4,7 @@ The following labware is currently included in this repository for use on the Op
 
 ***
 
-## Starlab
+## [Starlab](https://github.com/NewcastleUni-NetworkEcologyGroup/Opentrons/blob/master/Labware/Create_labware_Starlab.py)
 ### PCR plates and strips
 * Non-skirted (cuttable) PCR plate - [starlab-E1403-0100](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-non-skirted-cuttable-natural_SLE1403-0100.html) <sup name="a1">[1](#f1)</sup>
 * Fully skirted PCR plate - [starlab-E1403-5200](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-skirted-low-profile_SLE1403-5200.html)
