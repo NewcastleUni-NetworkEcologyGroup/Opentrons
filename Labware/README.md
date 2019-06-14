@@ -31,7 +31,7 @@ The following labware is currently included in this repository for use on the Op
 	+ 300 µl filter tips - [tiprack-starlab-S1120-9810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/300-l-graduated-filter-tip-sterile-racked_SLS1120-9810.html)<sup name="a2">[2](#f2)</sup>
 	+ 1000 µl filter tips - [tiprack-starlab-S1122-1830](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/1000-l-xl-graduated-filter-tip-sterile-racked_SLS1122-1830.html)<sup name="a3">[3](#f3)</sup>
 
-## Thermo Scientific
+## [Thermo Scientific](https://github.com/NewcastleUni-NetworkEcologyGroup/Opentrons/blob/master/Labware/Create_labware_Thermo.py)
 ### Microplates
 * Black skirted microplate - [Thermo-237108](https://www.fishersci.co.uk/shop/products/nunc-f96-microwell-black-white-polystyrene-plate/10307451?searchHijack=true&searchTerm=10307451&searchType=RAPID&matchedCatNo=10307451)
 
