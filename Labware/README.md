@@ -6,7 +6,7 @@ The following labware is currently included in this repository for use on the Op
 
 ## Starlab
 ### PCR plates and strips
-* Non-skirted (cuttable) PCR plate - [starlab-E1403-0100](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-non-skirted-cuttable-natural_SLE1403-0100.html) <sup name="a1">[1](#f1)</sup>
+* Non-skirted (cuttable) PCR plate - [starlab-E1403-0100](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-non-skirted-cuttable-natural_SLE1403-0100.html) <sup name="a1">[1](#f1)</sup>^
 * Fully skirted PCR plate - [starlab-E1403-5200](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-skirted-low-profile_SLE1403-5200.html)
 
 ### Deepwell plates
@@ -17,7 +17,7 @@ The following labware is currently included in this repository for use on the Op
 * 1000 µl RPT tips - 
 * 300 µl RPT tips - 
 * 50 µl RPT tips - 
-* 10 µl RPT tips
+* 10 µl RPT tips - [tiprack-starlab-S1181-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-rpt-graduated-filter-tip-sterile-racked_SLS1181-3810.html) <sup name="a2">[1](#f2)</sup>^
 
 
 ## Thermo Scientific
@@ -29,4 +29,4 @@ The following labware is currently included in this repository for use on the Op
 *Additional notes*
 
 <sup name="f1">1</sup> must be used with PCR plate rack [E2396-1641](https://www.starlabgroup.com/GB-en/sample-storage/pcr-sample-racks_WebPSub-177838/pcr-workstation_PF-SL-155400.html) [↩](#a1)
-
+<sup name="f2">1</sup> must be used with [Opentrons TipOne tiprack holder](https://github.com/Opentrons/otone_hardware/blob/master/models/TipOne%2010:200:300%20uL%20Tip%20Rack%20Adaptor.STL) [↩](#a2)

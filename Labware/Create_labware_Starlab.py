@@ -5,6 +5,22 @@ metadata = {
     'author': 'James Kitson <James.Kitson@ncl.ac.uk>',
     'description': 'A list of the labware create commands for standard Starlab consumables'
     }
+
+#######################################
+######## PCR plates and strips ########
+#######################################
+
+# Starlab plate holders (E2396-1641) with cuttable nonskirted cuttable PCR plates (E1403-0100) on top
+plate_name = 'starlab-E1403-0100'
+if plate_name not in labware.list():
+    custom_plate = labware.create(
+        plate_name,                    # name of you labware
+        grid=(12, 8),                    # specify amount of (columns, rows)
+        spacing=(9, 9),               # distances (mm) between each (column, row)
+        diameter=5.5,                     # diameter (mm) of each well on the plate
+        depth=21,                       # depth (mm) of each well on the plate
+        volume=350)
+
 #######################################
 ########### Deepwell plates ###########
 #######################################
@@ -32,20 +48,16 @@ if plate_name not in labware.list():
         volume=600)
 
 #######################################
-######## PCR plates and strips ########
+################ Tips #################
 #######################################
 
-# Starlab plate holders (E2396-1641) with cuttable nonskirted cuttable PCR plates (E1403-0100) on top
-plate_name = 'starlab-E1403-0100'
-if plate_name not in labware.list():
+# Starlab 10ul RPT filter tips - cat no. S1181-3810
+tip_name = 'tiprack-starlab-S1181-3810'
+if tip_name not in labware.list():
     custom_plate = labware.create(
         plate_name,                    # name of you labware
         grid=(12, 8),                    # specify amount of (columns, rows)
         spacing=(9, 9),               # distances (mm) between each (column, row)
-        diameter=5.5,                     # diameter (mm) of each well on the plate
-        depth=21,                       # depth (mm) of each well on the plate
-        volume=350)
-
-#######################################
-################ Tips #################
-#######################################
+        diameter=6.4,                     # diameter (mm) of each well on the plate
+        depth=34,                       # depth (mm) of each tip in the rack
+        volume=10)
