@@ -25,3 +25,9 @@ The following labware is currently included in this repository for use on the Op
 ## Thermo Scientific
 ### Microplates
 * Black skirted microplate - 
+
+
+Bla bla <sup id="a1">[1](#f1)</sup>
+
+<b id="f1">1</b> Footnote content here. [↩](#a1)
+
