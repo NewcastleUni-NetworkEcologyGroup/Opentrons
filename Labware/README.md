@@ -6,7 +6,7 @@ The following labware is currently included in this repository for use on the Op
 
 ## Starlab
 ### PCR plates and strips
-* Non-skirted (cuttable) PCR plate - [starlab-E1403-0100](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-non-skirted-cuttable-natural_SLE1403-0100.html#tab=tecAttributes) <b id="f1">1</b> Footnote content here. [↩](#a1)
+* Non-skirted (cuttable) PCR plate - [starlab-E1403-0100](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-non-skirted-cuttable-natural_SLE1403-0100.html#tab=tecAttributes) <sup name="a1">[1](#f1)</sup>
 * Fully skirted PCR plate - [starlab-E1403-5200](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-skirted-low-profile_SLE1403-5200.html)
 
 ### Deepwell plates
@@ -26,5 +26,5 @@ The following labware is currently included in this repository for use on the Op
 
 
 ***
-<b id="f1">1</b> must be used with PCR plate rack [E2396-1641](https://www.starlabgroup.com/GB-en/sample-storage/pcr-sample-racks_WebPSub-177838/pcr-workstation_PF-SL-155400.html) [↩](#a1)
+<b name="f1">1</b> must be used with PCR plate rack [E2396-1641](https://www.starlabgroup.com/GB-en/sample-storage/pcr-sample-racks_WebPSub-177838/pcr-workstation_PF-SL-155400.html) [↩](#a1)
 
