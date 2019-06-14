@@ -64,7 +64,7 @@ if tip_name not in labware.list():
 
 #Regular filter tips
 # Starlab 1000ul filter tips - cat no. S1122-1830
-tip_name = 'tiprack-starlab-S1181-3810'
+tip_name = 'tiprack-starlab-S1122-1830'
 if tip_name not in labware.list():
     custom_tiprack = labware.create(
         tip_name,                    # name of you labware
