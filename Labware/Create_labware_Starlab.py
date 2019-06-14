@@ -50,7 +50,7 @@ if plate_name not in labware.list():
 #######################################
 ################ Tips #################
 #######################################
-
+# RPT filter tips
 # Starlab 10ul RPT filter tips - cat no. S1181-3810
 tip_name = 'tiprack-starlab-S1181-3810'
 if tip_name not in labware.list():
@@ -61,3 +61,15 @@ if tip_name not in labware.list():
         diameter=6.4,                     # diameter (mm) of each well on the plate
         depth=63,                       # depth (mm) of tiprack and holder
         volume=10)
+
+#Regular filter tips
+# Starlab 1000ul filter tips - cat no. S1122-1830
+tip_name = 'tiprack-starlab-S1181-3810'
+if tip_name not in labware.list():
+    custom_tiprack = labware.create(
+        tip_name,                    # name of you labware
+        grid=(12, 8),                    # specify amount of (columns, rows)
+        spacing=(9, 9),               # distances (mm) between each (column, row)
+        diameter=8.7,                     # diameter (mm) of each well on the plate
+        depth=93.5,                       # depth (mm) of tiprack and holder
+        volume=1000)
