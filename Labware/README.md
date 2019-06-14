@@ -14,17 +14,18 @@ The following labware is currently included in this repository for use on the Op
 * 0.6 ml Deepwell plate - [starlab-E2896-0600](https://www.starlabgroup.com/GB-en/consumables/plates_WebPSub-155857/06-ml-96-deepwell-plate-round-wells-with-conical-bottoms_SLE2896-0600.html)
 
 ### Tips
-* 10 µl RPT filter tips - [tiprack-starlab-S1181-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-rpt-graduated-filter-tip-sterile-racked_SLS1181-3810.html) <sup name="a2">[2](#f2)</sup>
-* 100 µl RPT filter tips -  [tiprack-starlab-S1180-1840](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/100-l-rpt-bevelled-filter-tip-sterile_SLS1180-1840.html)<sup name="a2">[2](#f2)</sup>
-* 300 µl RPT filter tips -  [tiprack-starlab-S1180-9810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/300-l-rpt-graduated-filter-tip-sterile-racked_SLS1180-9810.html)<sup name="a2">[2](#f2)</sup>
-* 1000 µl RPT filter tips -  [tiprack-starlab-S1182-1830](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/1000-l-rpt-xl-graduated-filter-tip-sterile-racked_SLS1182-1830.html)<sup name="a3">[3](#f3)</sup>
+* RPT tips (for viscous liquids)
+	+ 10 µl RPT filter tips - [tiprack-starlab-S1181-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-rpt-graduated-filter-tip-sterile-racked_SLS1181-3810.html) <sup name="a2">[2](#f2)</sup>
+	+ 100 µl RPT filter tips -  [tiprack-starlab-S1180-1840](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/100-l-rpt-bevelled-filter-tip-sterile_SLS1180-1840.html)<sup name="a2">[2](#f2)</sup>
+	+ 300 µl RPT filter tips -  [tiprack-starlab-S1180-9810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/300-l-rpt-graduated-filter-tip-sterile-racked_SLS1180-9810.html)<sup name="a2">[2](#f2)</sup>
+	+ 1000 µl RPT filter tips -  [tiprack-starlab-S1182-1830](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/1000-l-rpt-xl-graduated-filter-tip-sterile-racked_SLS1182-1830.html)<sup name="a3">[3](#f3)</sup>
 
-
-* 10 µl filter tips - [tiprack-starlab-S1121-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-graduated-filter-tip-sterile-racked_SLS1121-3810.html) <sup name="a2">[2](#f2)</sup>
-* 10/20 µl XL filter tips - [tiprack-starlab-S1120-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-20-l-xl-graduated-filter-tip-sterile-racked_SLS1120-3810.html)<sup name="a2">[2](#f2)</sup>
-* 50 µl filter tips -  [tiprack-starlab-S1120-2810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/50-l-bevelled-filter-tip-sterile-racked_SLS1120-2810.html)<sup name="a2">[2](#f2)</sup>
-* 300 µl filter tips -  [tiprack-starlab-S1120-9810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/300-l-graduated-filter-tip-sterile-racked_SLS1120-9810.html)<sup name="a2">[2](#f2)</sup>
-* 1000 µl filter tips -  [tiprack-starlab-S1122-1830](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/1000-l-xl-graduated-filter-tip-sterile-racked_SLS1122-1830.html)<sup name="a3">[3](#f3)</sup>
+* Regular filter tips
+	+ 10 µl filter tips - [tiprack-starlab-S1121-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-graduated-filter-tip-sterile-racked_SLS1121-3810.html) <sup name="a2">[2](#f2)</sup>
+	+ 10/20 µl XL filter tips - [tiprack-starlab-S1120-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-20-l-xl-graduated-filter-tip-sterile-racked_SLS1120-3810.html)<sup name="a2">[2](#f2)</sup>
+	+ 50 µl filter tips -  [tiprack-starlab-S1120-2810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/50-l-bevelled-filter-tip-sterile-racked_SLS1120-2810.html)<sup name="a2">[2](#f2)</sup>
+	+ 300 µl filter tips -  [tiprack-starlab-S1120-9810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/300-l-graduated-filter-tip-sterile-racked_SLS1120-9810.html)<sup name="a2">[2](#f2)</sup>
+	+ 1000 µl filter tips -  [tiprack-starlab-S1122-1830](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/1000-l-xl-graduated-filter-tip-sterile-racked_SLS1122-1830.html)<sup name="a3">[3](#f3)</sup>
 
 ## Thermo Scientific
 ### Microplates
