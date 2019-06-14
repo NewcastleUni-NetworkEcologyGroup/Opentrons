@@ -6,5 +6,6 @@ metadata = {
     'description': 'A list of the labware delete commands for standard Starlab consumables'
     }
 
-database.delete_container('starlab-E2896-0220')
-database.delete_container('starlab-E2896-0600')
+#database.delete_container('starlab-E2896-0220')
+#database.delete_container('starlab-E2896-0600')
+database.delete_container('tiprack-starlab-S1181-3810')

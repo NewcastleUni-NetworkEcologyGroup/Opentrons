@@ -54,10 +54,10 @@ if plate_name not in labware.list():
 # Starlab 10ul RPT filter tips - cat no. S1181-3810
 tip_name = 'tiprack-starlab-S1181-3810'
 if tip_name not in labware.list():
-    custom_plate = labware.create(
-        plate_name,                    # name of you labware
+    custom_tiprack = labware.create(
+        tip_name,                    # name of you labware
         grid=(12, 8),                    # specify amount of (columns, rows)
         spacing=(9, 9),               # distances (mm) between each (column, row)
         diameter=6.4,                     # diameter (mm) of each well on the plate
-        depth=34,                       # depth (mm) of each tip in the rack
+        depth=63,                       # depth (mm) of tiprack and holder
         volume=10)

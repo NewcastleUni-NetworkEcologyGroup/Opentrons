@@ -6,7 +6,7 @@ metadata = {
     'description': 'A simple test protocol that checks I have set up a give tiprack correctly'
     }
 
-tiprack = [labware.load('tiprack-starlab-S1181-3810', 1)
+tiprack = labware.load('tiprack-starlab-S1181-3810', 1)
 
 pipette=instruments.P10_Multi(mount='right')
 
