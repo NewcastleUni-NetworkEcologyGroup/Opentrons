@@ -28,5 +28,5 @@ The following labware is currently included in this repository for use on the Op
 ***
 *Additional notes*
 
-<b name="f1">1.</b> must be used with PCR plate rack [E2396-1641](https://www.starlabgroup.com/GB-en/sample-storage/pcr-sample-racks_WebPSub-177838/pcr-workstation_PF-SL-155400.html) [↩](#a1)
+<sup name="f1">1</sup> must be used with PCR plate rack [E2396-1641](https://www.starlabgroup.com/GB-en/sample-storage/pcr-sample-racks_WebPSub-177838/pcr-workstation_PF-SL-155400.html) [↩](#a1)
 
