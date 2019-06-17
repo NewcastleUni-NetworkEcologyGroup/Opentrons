@@ -29,9 +29,10 @@ length = 8
 width = 8
 
 def oil_height_track():
-    h_oil
+    global h_oil
     dh = volume_of_mineral_oil_in_ul/(length*width)
     h_oil -= dh
+    #print(h_oil)
 
 # transfer mineral oil
 pipette.set_flow_rate(aspirate=5, dispense=10)
