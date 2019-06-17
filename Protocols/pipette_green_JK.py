@@ -16,7 +16,7 @@ mineral_oil = trough.wells('A1')
 yellow = trough.wells('A3')
 blue = trough.wells('A4')
 liquid_trash = trough.wells('A12')
-distance_from_oil_surface_to_opening_of_trough_in_mm: float = 10
+distance_from_oil_surface_to_opening_of_trough_in_mm: float = 20
 volume_of_mineral_oil_in_ul: float = 30
 
 
@@ -26,7 +26,7 @@ pipette=instruments.P300_Multi(mount='left')
 # variables for mineral oil height track
 h_oil = -(distance_from_oil_surface_to_opening_of_trough_in_mm + 5)
 length = 10
-width = 10
+width = 8
 
 def oil_height_track():
     nonlocal h_oil
