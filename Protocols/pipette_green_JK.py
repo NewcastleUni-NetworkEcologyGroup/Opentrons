@@ -29,7 +29,7 @@ length = 8
 width = 8
 
 def oil_height_track():
-    nonlocal h_oil
+    h_oil
     dh = volume_of_mineral_oil_in_ul/(length*width)
     h_oil -= dh
 
@@ -56,16 +56,16 @@ pipette.drop_tip()
 pipette.set_flow_rate(aspirate=25, dispense=50)
 pipette.pick_up_tip(tiprack['A2'])
 
-pipette.distribute(50, trough.wells('A1'),
+pipette.distribute(50, trough.wells('A'),
 	plate.rows('A'),
 	#disposal_vol=30,
 	new_tip='never',
 	touch_tip=False)
 pipette.drop_tip(home_after=False)
 
-pipette.pick_up_tip(tiprack['A2'])
+pipette.pick_up_tip(tiprack['A3'])
 
-pipette.distribute(50, trough.wells('A3'),
+pipette.distribute(50, trough.wells('A'),
 	plate.rows('A'),
 	#disposal_vol=30,
 	new_tip='never',
