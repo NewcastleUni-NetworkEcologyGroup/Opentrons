@@ -25,7 +25,7 @@ pipette=instruments.P300_Multi(mount='left')
 
 # variables for mineral oil height track
 h_oil = -(distance_from_oil_surface_to_opening_of_trough_in_mm + 5)
-length = 10
+length = 8
 width = 8
 
 def oil_height_track():
