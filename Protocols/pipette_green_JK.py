@@ -57,7 +57,7 @@ pipette.drop_tip()
 pipette.set_flow_rate(aspirate=25, dispense=50)
 pipette.pick_up_tip(tiprack['A2'])
 
-pipette.distribute(50, trough.wells('A'),
+pipette.distribute(50, trough.rows('A'),
 	plate.rows('A'),
 	#disposal_vol=30,
 	new_tip='never',
@@ -66,7 +66,7 @@ pipette.drop_tip(home_after=False)
 
 pipette.pick_up_tip(tiprack['A3'])
 
-pipette.distribute(50, trough.wells('A'),
+pipette.distribute(50, trough.rows('A'),
 	plate.rows('A'),
 	#disposal_vol=30,
 	new_tip='never',
