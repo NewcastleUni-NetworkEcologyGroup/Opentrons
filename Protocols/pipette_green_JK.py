@@ -52,6 +52,8 @@ t_count += 1
 pipette.blow_out()
 pipette.drop_tip()
 
+# Distribute the coloured liquids
+pipette.set_flow_rate(aspirate=25, dispense=50)
 pipette.pick_up_tip(tiprack['A2'])
 
 pipette.distribute(50, trough.wells('A1'),
