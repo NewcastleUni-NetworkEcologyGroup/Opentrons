@@ -8,7 +8,7 @@ metadata = {
 
 # Set labware to use
 trough = labware.load('starlab-E2896-0220', '2')
-plate = labware.load('starlab-E2896-0600', '3')
+plate = labware.load('starlab-E1403-0100', '3')
 tiprack = labware.load('opentrons-tiprack-300ul', '1')
 
 # reagent setup
@@ -36,7 +36,7 @@ def oil_height_track():
 # transfer mineral oil
 pipette.set_flow_rate(aspirate=5, dispense=10)
 t_count = 0
-pipette.pick_up_tip()
+pipette.pick_up_tip(tiprack['A1'])
 for d in plate.rows('A'):
    # prevent oil buildup in the same tip (replace after each plate fill)
    if t_count == 12:
