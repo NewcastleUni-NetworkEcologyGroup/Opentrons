@@ -14,7 +14,7 @@ PCR2 = labware.load('starlab-E1403-5200', '5')
 
 # set tips to use
 tips10 = labware.load('tiprack-starlab-S1181-3810', '2')
-tips300 = labware.load('opentrons-tiprack-300ul', slot='3')
+tips300 = labware.load('opentrons-tiprack-300ul', '3')
 
 # set pipettes
 pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10])
