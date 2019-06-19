@@ -33,5 +33,4 @@ pipette300.drop_tip()
 # forward primer distribution
 for ind, primer in enumerate(forward_primer.rows('A')):
     dests = [plate.rows('A')[ind] for plate in dest_plates]
-    #pipette10.pick_up_tip(tiprack_10['A'])
     pipette10.distribute(1, primer, dests)
