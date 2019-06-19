@@ -20,9 +20,21 @@ if plate_name not in labware.list():
         diameter=5.5,                     # diameter (mm) of each well on the plate
         depth=21,                       # depth (mm) of each well on the plate
         volume=350)
+        
+# Starlab fully skirted PCR plates (E1403-5200) (no holder needed)  
+plate_name = 'starlab-E1403-5200'
+if plate_name not in labware.list():
+    labware.create(
+        plate_name,
+        grid=(12, 8),
+        spacing=(8.9, 8.9),
+        diameter=5.6,
+        depth=15,
+        volume=200
+    )
 
 #######################################
-########### Deepwell plates ###########
+#### Deepwell plates  and troughs #####
 #######################################
 
 # Starlab 2.2ml deepwell plates - cat no. E2896-0220
@@ -46,6 +58,16 @@ if plate_name not in labware.list():
         diameter=6,                     # diameter (mm) of each well on the plate
         depth=28,                       # depth (mm) of each well on the plate
         volume=600)
+        
+trough_name = 'starlab-E2310-1200'
+if trough_name not in labware.list():
+    labware.create(
+        trough_name,
+        grid=(12, 1),
+        spacing=(9, 0),
+        diameter=8.2,
+        depth=41.7,
+        volume=22000)
 
 #######################################
 ################ Tips #################
