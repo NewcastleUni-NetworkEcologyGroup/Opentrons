@@ -1,9 +1,9 @@
 from opentrons import labware, instruments
 
 metadata = {
-    'protocolName': 'Test tips',
+    'protocolName': 'Test multiplate',
     'author': 'James Kitson <James.Kitson@ncl.ac.uk>',
-    'description': 'A simple test protocol that checks I have set up a give tiprack correctly'
+    'description': 'A simple test protocol that checks I can pipatte into the same target well on multiple plates'
     }
 
 # Set plates to use
@@ -17,8 +17,8 @@ tips10 = labware.load('tiprack-starlab-S1181-3810', '2')
 tips300 = labware.load('opentrons-tiprack-300ul', '3')
 
 # set pipettes
-pipette10 = instruments.P10_Multi(mount='right')
-pipette300 = instruments.P300_Multi(mount='left')
+pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10])
+pipette300 = instruments.P300_Multi(mount='left', tip_racks=[tips300])
 
 master_mix = trough.wells('A3')
 
