@@ -7,9 +7,10 @@ metadata = {
     }
 
 # Set labware to use
+tiprack = labware.load('opentrons-tiprack-300ul', '1')
 trough = labware.load('starlab-E2896-0220', '2')
 plate = labware.load('starlab-E1403-0100', '3')
-tiprack = labware.load('opentrons-tiprack-300ul', '1')
+tips10 = labware.load('tiprack-starlab-S1181-3810', '4')
 
 # reagent setup
 mineral_oil = trough.wells('A1')
@@ -21,7 +22,7 @@ volume_of_mineral_oil_in_ul: float = 30
 
 
 # pipette setup
-pipette=instruments.P300_Multi(mount='left')
+pipette=instruments.P300_Multi(mount='left', tip_racks=[tiprack,tips10])
 
 # variables for mineral oil height track
 h_oil = -(distance_from_oil_surface_to_opening_of_trough_in_mm + 5)
