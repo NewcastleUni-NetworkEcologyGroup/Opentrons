@@ -1,7 +1,7 @@
 from opentrons import labware, instruments
 
 metadata = {
-    'protocolName': 'Pipette Green from',
+    'protocolName': 'Pipette Green',
     'author': 'James Kitson <James.Kitson@ncl.ac.uk>',
     'description': 'A simple test protocol that mixes yellow and blue solutions to make a plate'
     }
