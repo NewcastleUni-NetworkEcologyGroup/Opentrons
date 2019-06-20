@@ -25,7 +25,7 @@ dest_plates = [PCR1,PCR2]
 
 all_dests = [well for plate in dest_plates for well in plate.rows('A')]
 
-# dispence the PCr masterpix across both plates
+# dispence the PCR mastermix across both plates
 pipette300.set_flow_rate(aspirate=25, dispense=50)
 pipette300.pick_up_tip()
 for d in all_dests:
