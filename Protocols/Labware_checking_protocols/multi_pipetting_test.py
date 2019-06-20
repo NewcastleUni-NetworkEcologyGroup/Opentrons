@@ -29,8 +29,8 @@ all_dests = [well for plate in dest_plates for well in plate.rows('A')]
 pipette300.set_flow_rate(aspirate=25, dispense=50)
 pipette300.pick_up_tip()
 for d in all_dests:
-    pipette300.transfer(18, master_mix, d.top(), blow_out=True, new_tip='never')
-pipette300.drop_tip()
+    pipette300.distribute(30, master_mix, d.top(-3), blow_out=False, new_tip='never')
+pipette300.return_tip()
 
 # forward primer distribution
 for ind, primer in enumerate(forward_primer.rows('A')):
