@@ -15,18 +15,20 @@ PCR2 = labware.load('starlab-E1403-5200', '5')
 forward_primer = labware.load('starlab-E1403-0100','10')
 
 # set pipettes
-pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10])
 pipette300 = instruments.P300_Multi(mount='left', tip_racks=[tips300])
+pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10])
+
 
 master_mix = trough.wells('A3')
 
-dest_plates = [PCR1,PCR2]
+dest_plates = ['PCR1','PCR2']
 
-all_dests = [well for plate in dest_plates for well in plate.rows('A')]
+#all_dests = [well for plate in dest_plates for well in plate.rows('A')]
 
 # 
-for d in all_dests:
-    pipette300.transfer(30, master_mix, d.top(), blow_out=True, new_tip='never')
+for plate in dest_plates:
+    pipette300.transfer(30, master_mix, plate.rows('A'), blow_out=True,
+                        new_tip='never')
 pipette300.drop_tip()
 
 # forward primer distribution
