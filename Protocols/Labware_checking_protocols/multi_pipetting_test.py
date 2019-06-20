@@ -21,14 +21,15 @@ pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10])
 
 master_mix = trough.wells('A3')
 
-dest_plates = ['PCR1','PCR2']
+dest_plates = [PCR1,PCR2]
 
-#all_dests = [well for plate in dest_plates for well in plate.rows('A')]
+all_dests = [well for plate in dest_plates for well in plate.rows('A')]
 
-# 
-for plate in dest_plates:
-    pipette300.transfer(30, master_mix, plate.rows('A'), blow_out=True,
-                        new_tip='never')
+# dispence the PCr masterpix across both plates
+pipette300.set_flow_rate(aspirate=25, dispense=50)
+pipette300.pick_up_tip()
+for d in all_dests:
+    pipette300.transfer(18, master_mix, d.top(), blow_out=True, new_tip='never')
 pipette300.drop_tip()
 
 # forward primer distribution
