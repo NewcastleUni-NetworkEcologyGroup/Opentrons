@@ -8,6 +8,7 @@ metadata = {
 
 # Set labware to use
 trough = labware.load('starlab-E2310-1200', '1')
+#tubes = labware.load('opentrons-tuberack-2ml-eppendorf')
 tips300 = labware.load('opentrons-tiprack-300ul', '2')
 tips10 = labware.load('tiprack-starlab-S1181-3810', '3')
 PCR1 = labware.load('starlab-E1403-5200', '4')
@@ -18,11 +19,16 @@ forward_primer = labware.load('starlab-E1403-0100','10')
 pipette300 = instruments.P300_Multi(mount='left', tip_racks=[tips300])
 pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10])
 
-
+# Define where the mastermix to be distributed is - this version is for bulk setup
 master_mix = trough.wells('A3')
 
+# Define where the mastermix to be distributed is - this version is for a single plate with a single channel
+#master_mix = tubes.wells('A1')
+
+# List the target plates
 dest_plates = [PCR1,PCR2]
 
+# Get a list of all the pipetting locations on every plate in dest_plates
 all_dests = [well for plate in dest_plates for well in plate.rows('A')]
 
 # dispence the PCR mastermix across both plates
