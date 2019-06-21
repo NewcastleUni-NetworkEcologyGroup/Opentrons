@@ -10,7 +10,7 @@ metadata = {
 tubes = labware.load('opentrons-tuberack-15ml', '1')
 tips300 = labware.load('opentrons-tiprack-300ul', '2')
 tips10 = labware.load('tiprack-starlab-S1181-3810', '3')
-PCR1 = labware.load('starlab-E1403-5200', '4')
+PCR1 = labware.load('starlab-E1403-0100','4')
 #PCR2 = labware.load('starlab-E1403-5200', '5')
 forward_primer = labware.load('starlab-E1403-0100','10')
 
@@ -102,7 +102,7 @@ pipette300.drop_tip()
 
 for x in ['A1','A2','A3','A4']:
     pipette10.pick_up_tip()
-    pipette10.aspirate(vol_transfer_primer, forward_primer.well(x).bottom(5))
+    pipette10.aspirate(vol_transfer_primer, forward_primer.well(x).bottom(2))
     pipette10.dispense(PCR1.well(x).bottom(5))
     pipette10.touch_tip(radius = 0.8)
     pipette10.drop_tip()
