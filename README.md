@@ -8,4 +8,4 @@ This repository contains the custom protocols and labware used by the Network Ec
 ***
 
 ## Tips and tricks to working with the OT-2
-Here are a few points to keep note of when getting used to the OT-2:
+Here are a few points to keep note of when getting used to the OT-2. If you are coming here with a fair amount of Python knowlege then this probably isn't for you. Rather, this is intended to help novice users climb the learning curve and get working with the OT-2 rapidly.
