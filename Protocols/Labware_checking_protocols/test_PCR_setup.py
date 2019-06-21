@@ -7,7 +7,7 @@ metadata = {
     }
 
 # Set labware to use
-tubes = labware.load('opentrons-tuberack-15ml', '1')
+tubes = labware.load('opentrons-tuberack-15_50ml', '5')
 tips300 = labware.load('opentrons-tiprack-300ul', '2')
 tips10 = labware.load('tiprack-starlab-S1181-3810', '3')
 PCR1 = labware.load('starlab-E1403-0100','4')
