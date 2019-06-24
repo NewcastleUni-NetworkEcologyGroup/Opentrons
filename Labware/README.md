@@ -2,7 +2,7 @@ The following labware is currently included in this repository for use on the Op
 
 **All of these will require calibration at first use on any OT-2**
 
-**Use the create labware scripts to calibrate before first use in a protocol***
+**Use the create labware scripts to calibrate before first use in a protocol**
 
 ***
 
