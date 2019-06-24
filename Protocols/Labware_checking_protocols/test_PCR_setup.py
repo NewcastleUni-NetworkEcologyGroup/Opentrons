@@ -15,7 +15,7 @@ PCR1 = labware.load('starlab-E1403-0100','4')
 forward_primer = labware.load('starlab-E1403-0100','10')
 
 # set pipettes
-pipette300 = instruments.P300_Multi(mount='left', tip_racks=[tips300])
+pipette300 = instruments.P300_Single(mount='left', tip_racks=[tips300])
 pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10])
 
 # Define starting and transfer volumes
@@ -27,7 +27,7 @@ vol_transfer_primer: float = 1
 
 # Define position of oil and mastermix
 mineral_oil = tubes['A1']
-mastermix = tubes['A3']
+mastermix = tubes['C1']
 
 # Define tube parameters
 total_length_5ml: float = 65.9
@@ -72,22 +72,17 @@ remain_vol = start_vol_oil
 
 # transfer mineral oil
 pipette300.set_flow_rate(aspirate=5, dispense=10)
-t_count = 0
+#t_count = 0
 pipette300.pick_up_tip()
-for x in PCR1.wells('A1', to='H4'):
-    if t_count == 16:
-        pipette300.drop_tip()
-        pipette300.pick_up_tip()
-        t_count = 1
-        
-        pipette_height_oil = height_track(vol_transfer_oil)
-        pipette300.aspirate(vol_transfer_oil, mineral_oil.top(pipette_height_oil))
-        pipette300.delay(seconds=2)
-        pipette300.touch_tip(radius = 0.8)
-        pipette300.dispense(PCR1.wells(x).bottom(5))
-        pipette300.delay(seconds=2)
-        pipette300.touch_tip(radius = 0.8)
-        t_count += 1
+for dest_well in range(32):
+    pipette_height_oil = height_track(vol_transfer_oil)
+    pipette300.aspirate(vol_transfer_oil, mineral_oil.top(pipette_height_oil))
+    pipette300.delay(seconds=2)
+    pipette300.touch_tip(radius = 0.8)
+    pipette300.dispense(PCR1.wells(dest_well).bottom(5))
+    pipette300.delay(seconds=2)
+    pipette300.touch_tip(radius = 0.8)
+    #t_count += 1
 pipette300.drop_tip()
 
 
@@ -97,7 +92,7 @@ remain_vol = start_vol_mastermix
 # transfer mastermix
 pipette300.set_flow_rate(aspirate=25, dispense=50)
 pipette300.pick_up_tip()
-pipette300.distribute(vol_transfer_mastermix, mastermix, PCR1.wells('A1', to='H4'), new_tip='never').touch_tip(radius=0.8)
+pipette300.distribute(vol_transfer_mastermix, mastermix.top(-40), PCR1.wells('A1', to='H4'), new_tip='never').touch_tip(radius=0.8)
 pipette300.drop_tip()
 
 for x in ['A1','A2','A3','A4']:

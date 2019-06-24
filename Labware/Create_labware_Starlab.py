@@ -1,4 +1,4 @@
-from opentrons import labware
+from opentrons import labware, instruments
 
 metadata = {
     'protocolName': 'Create_labware_Starlab',
@@ -238,8 +238,9 @@ if tip_name not in labware.list():
 #tips = labware.load('tiprack-starlab-S1182-1830','5’)
 
 # Trough
-tips300 = labware.load('opentrons-tiprack-300ul', '2')
-trough = labware.load('starlab-E2310-1200', '5')
+#pipette=instruments.P300_Multi(mount='left')
+#tips300 = labware.load('opentrons-tiprack-300ul', '2')
+#trough = labware.load('starlab-E2310-1200', '5')
 
 # PCR Plates
 #tips300 = labware.load('opentrons-tiprack-300ul', '2')
