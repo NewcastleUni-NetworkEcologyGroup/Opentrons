@@ -216,3 +216,37 @@ if tip_name not in labware.list():
         diameter=8.7,                     # diameter (mm) of each well on the plate
         depth=98.3,                       # depth (mm) of tiprack and holder
         volume=1000)
+    
+#######################################
+### Calibration section, unhash the appropriate commands to calibrate new labware.
+### Do this away from edges on the deck so the robot does not crash
+#######################################
+
+# Tips
+#tips = labware.load('tiprack-starlab-S1120-2810','5’)
+#tips = labware.load('tiprack-starlab-S1120-3810','5’)
+#tips = labware.load('tiprack-starlab-S1120-8810','5’)
+#tips = labware.load('tiprack-starlab-S1120-9810','5’)
+#tips = labware.load('tiprack-starlab-S1121-3810','5’)
+#tips = labware.load('tiprack-starlab-S1122-1830','5’)
+#tips = labware.load('tiprack-starlab-S1123-1840','5’)
+#tips = labware.load('tiprack-starlab-S1180-1840','5’)
+#tips = labware.load('tiprack-starlab-S1180-3810','5’)
+#tips = labware.load('tiprack-starlab-S1180-8810','5’)
+#tips = labware.load('tiprack-starlab-S1180-9810','5’)
+#tips = labware.load('tiprack-starlab-S1181-3810','5’)
+#tips = labware.load('tiprack-starlab-S1182-1830','5’)
+
+# Trough
+tips300 = labware.load('opentrons-tiprack-300ul', '2')
+trough = labware.load('starlab-E2310-1200', '5')
+
+# PCR Plates
+#tips300 = labware.load('opentrons-tiprack-300ul', '2')
+#plate = labware.load('starlab-E1403-0100','5')
+#plate = labware.load('starlab-E1403-5200','5')
+
+# Deepwell plates
+#tips300 = labware.load('opentrons-tiprack-300ul', '2')
+#plate = labware.load('starlab-E2896-0220','5')
+#plate = labware.load('starlab-E2896-0600','5')
