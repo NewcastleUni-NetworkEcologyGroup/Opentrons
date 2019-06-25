@@ -135,7 +135,7 @@ pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix.bottom(2),
-                      PCR1.cols('1', to ='4'))
+                      PCR1.cols('5', to ='8'))
 
 # transfer primers
 for x in ['A5','A6','A7','A8']:
