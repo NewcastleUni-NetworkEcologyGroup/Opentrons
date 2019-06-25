@@ -99,10 +99,10 @@ def height_track(transfer_vol):
     global remain_vol
     remain_vol = remain_vol-transfer_vol # should this be 8*volume_of_mineral_oil_in_ul for a trough?
     remain_height = round(start_height(start_vol = remain_vol,
-                                              total_length=total_length_5ml,
-                                              tip_type='round',
-                                              tip_length = tip_length_5ml,
-                                              width = width_5ml),1)
+                                              total_length=total_length_deepwell,
+                                              tip_type='pyramid',
+                                              tip_length = tip_length_deepwell,
+                                              width = width_deepwell),1)
     return remain_height
 
 
@@ -115,10 +115,12 @@ pipette300.set_flow_rate(aspirate=5, dispense=5)
 pipette300.pick_up_tip()
 for dest_col in ['A1','A2','A3','A4']:
     pipette_height_oil = height_track(vol_transfer_oil)
-    pipette300.aspirate(vol_transfer_oil, mineral_oil.top(pipette_height_oil))
+    pipette300.aspirate(vol_transfer_oil, mineral_oil.top(pipette_height_oil-5))
+    pipette300.move_to(mineral_oil.top(-1)) 
     pipette300.delay(seconds=2)
     pipette300.touch_tip(radius = 0.8)
     pipette300.dispense(PCR1.wells(dest_col).bottom(5))
+    pipette300.move_to(PCR1.wells(dest_col).top(-1)) 
     pipette300.delay(seconds=2).blow_out()
     pipette300.touch_tip(radius = 0.8)
     #t_count += 1
@@ -131,16 +133,20 @@ remain_vol = start_vol_mastermix
 # transfer mastermix
 pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
-pipette300.distribute(vol_transfer_mastermix, 
-                      mastermix.top(-(total_length_deepwell-5)), 
-                      PCR1.wells('A1', to='H4'), 
-                      new_tip='never',
-                      disposal_vol=10).delay(1).touch_tip(radius=0.8)
+#pipette300.distribute(vol_transfer_mastermix, 
+#                      mastermix.bottom(5),
+#                      PCR1.wells('A1', to='H4').bottom(2), 
+#                      new_tip='never',
+#                      disposal_vol=10)
+for x in ['A1','A2','A3','A4']:
+    pipette300.aspirate(vol_transfer_mastermix, mastermix.bottom(5))
+    pipette300.dispense(vol_transfer_mastermix, PCR1.well(x).bottom(2))
+    pipette300.touch_tip(radius = 0.8)
 pipette300.drop_tip()
 
 for x in ['A1','A2','A3','A4']:
     pipette10.pick_up_tip()
-    pipette10.aspirate(vol_transfer_primer+1, forward_primer.well(x).bottom(2)).air_gap(2)
+    pipette10.aspirate(vol_transfer_primer+1, forward_primer.well(x).bottom(2))
     pipette10.dispense(vol_transfer_primer, PCR1.well(x).bottom(2))
     pipette10.touch_tip(radius = 0.8)
     pipette10.drop_tip()
