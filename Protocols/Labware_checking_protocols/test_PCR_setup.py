@@ -113,15 +113,15 @@ remain_vol = start_vol_oil
 pipette300.set_flow_rate(aspirate=5, dispense=5)
 #t_count = 0
 pipette300.pick_up_tip()
-for dest_col in ['A1','A2','A3','A4']:
+for dest_col in ['A5','A6','A7','A8']:
     pipette_height_oil = height_track(vol_transfer_oil)
     pipette300.aspirate(vol_transfer_oil, mineral_oil.top(pipette_height_oil-5))
     pipette300.move_to(mineral_oil.top(-1)) 
     pipette300.delay(seconds=2)
     pipette300.touch_tip(radius = 0.8)
-    pipette300.dispense(PCR1.wells(dest_col).bottom(5))
+    pipette300.dispense(PCR1.wells(dest_col).bottom(5)).blow_out()
     pipette300.move_to(PCR1.wells(dest_col).top(-1)) 
-    pipette300.delay(seconds=2).blow_out()
+    pipette300.delay(seconds=2)
     pipette300.touch_tip(radius = 0.8)
     #t_count += 1
 pipette300.drop_tip()
@@ -133,21 +133,15 @@ remain_vol = start_vol_mastermix
 # transfer mastermix
 pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
-#pipette300.distribute(vol_transfer_mastermix, 
-#                      mastermix.bottom(5),
-#                      PCR1.wells('A1', to='H4').bottom(2), 
-#                      new_tip='never',
-#                      disposal_vol=10)
-for x in ['A1','A2','A3','A4']:
-    pipette300.aspirate(vol_transfer_mastermix, mastermix.bottom(5))
-    pipette300.dispense(vol_transfer_mastermix, PCR1.well(x).bottom(2))
-    pipette300.touch_tip(radius = 0.8)
-pipette300.drop_tip()
+pipette300.distribute(vol_transfer_mastermix,
+                      mastermix.bottom(2),
+                      PCR1.cols('1', to ='4'))
 
-for x in ['A1','A2','A3','A4']:
+# transfer primers
+for x in ['A5','A6','A7','A8']:
     pipette10.pick_up_tip()
-    pipette10.aspirate(vol_transfer_primer+1, forward_primer.well(x).bottom(2))
-    pipette10.dispense(vol_transfer_primer, PCR1.well(x).bottom(2))
+    pipette10.aspirate(vol_transfer_primer, forward_primer.well(x).bottom(2))
+    pipette10.dispense(vol_transfer_primer, PCR1.well(x).bottom(2)).blow_out()
     pipette10.touch_tip(radius = 0.8)
     pipette10.drop_tip()
     
