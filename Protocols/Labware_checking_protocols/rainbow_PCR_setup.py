@@ -13,8 +13,8 @@ tips50 = labware.load('tiprack-starlab-S1120-2810', '5')
 tips10_1 = labware.load('tiprack-starlab-S1181-3810', '3')
 tips10_2 = labware.load('tiprack-starlab-S1181-3810', '6')
 PCR1 = labware.load('starlab-E1403-0100','4', 'output plate')
-forward_primer = labware.load('starlab-E1403-0100','10')
-DNA = labware.load('starlab-E1403-0100','11')
+forward_primer = labware.load('starlab-E1403-0100','10', 'primer plate')
+DNA = labware.load('starlab-E1403-0100','11', 'template DNA plate')
 
 # set pipettes
 pipette50 = instruments.P300_Multi(mount='left', tip_racks=[tips50])
@@ -22,7 +22,7 @@ pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10_1, tips10_2])
 
 # Define starting and transfer volumes
 start_vol_oil: float = 1500
-start_vol_mastermix: float = 500
+start_vol_mastermix: float = 91.2
 vol_transfer_mastermix: float = 18
 vol_transfer_oil: float = 20
 vol_transfer_primer: float = 1
