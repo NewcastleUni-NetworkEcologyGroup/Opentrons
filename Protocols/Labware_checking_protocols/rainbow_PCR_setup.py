@@ -9,15 +9,15 @@ metadata = {
 # Set labware to use
 trough = labware.load('starlab-E2896-0220', '1', 'oil trough')
 trough2 = labware.load('starlab-E1403-0100', '7', 'mastermix trough')
-tips50 = labware.load('tiprack-starlab-S1120-2810', '5')
-tips10_1 = labware.load('tiprack-starlab-S1181-3810', '3')
-tips10_2 = labware.load('tiprack-starlab-S1181-3810', '6')
+tips300 = labware.load('opentrons-tiprack-300ul', '5')
+tips10_1 = labware.load('opentrons-tiprack-10ul', '3')
+tips10_2 = labware.load('opentrons-tiprack-10ul', '6')
 PCR1 = labware.load('starlab-E1403-0100','4', 'output plate')
 forward_primer = labware.load('starlab-E1403-0100','10', 'primer plate')
 DNA = labware.load('starlab-E1403-0100','11', 'template DNA plate')
 
 # set pipettes
-pipette50 = instruments.P300_Multi(mount='left', tip_racks=[tips50])
+pipette300 = instruments.P300_Multi(mount='left', tip_racks=[tips300])
 pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10_1, tips10_2])
 
 # Define starting and transfer volumes
@@ -114,21 +114,21 @@ remain_vol = start_vol_oil
 #pipette_height_oil = height_track(vol_transfer_oil)
 
 # transfer mineral oil
-pipette50.set_flow_rate(aspirate=5, dispense=5)
+pipette300.set_flow_rate(aspirate=5, dispense=5)
 #t_count = 0
-pipette50.pick_up_tip()
+pipette300.pick_up_tip()
 for dest_col in range(12):
     pipette_height_oil = height_track(vol_transfer_oil)
-    pipette50.aspirate(vol_transfer_oil, mineral_oil.top(pipette_height_oil-5))
-    pipette50.move_to(mineral_oil.top(-1)) 
-    pipette50.delay(seconds=2)
-    pipette50.touch_tip(radius = 0.8)
-    pipette50.dispense(PCR1.cols(dest_col).bottom(5)).blow_out()
-    pipette50.move_to(PCR1.cols(dest_col).top(-1)) 
-    pipette50.delay(seconds=2)
-    pipette50.touch_tip(radius = 0.8)
+    pipette300.aspirate(vol_transfer_oil, mineral_oil.top(pipette_height_oil-5))
+    pipette300.move_to(mineral_oil.top(-1)) 
+    pipette300.delay(seconds=2)
+    pipette300.touch_tip(radius = 0.8)
+    pipette300.dispense(PCR1.cols(dest_col).bottom(5)).blow_out()
+    pipette300.move_to(PCR1.cols(dest_col).top(-1)) 
+    pipette300.delay(seconds=2)
+    pipette300.touch_tip(radius = 0.8)
     #t_count += 1
-pipette50.drop_tip()
+pipette300.drop_tip()
 
 # set a source desitination with negatives in and a fancy pattern of destination wells
 source = ['A5','A6','A7','A8']
@@ -140,23 +140,23 @@ remain_vol = start_vol_mastermix
 #pipette_height_mastermix = height_track(vol_transfer_mastermix)
 
 # transfer mastermix yellow
-pipette50.set_flow_rate(aspirate=25, dispense=25)
-pipette50.pick_up_tip()
-pipette50.distribute(vol_transfer_mastermix,
+pipette300.set_flow_rate(aspirate=25, dispense=25)
+pipette300.pick_up_tip()
+pipette300.distribute(vol_transfer_mastermix,
                       mastermix_yellow.bottom(2),
                       PCR1.wells(dest1).bottom(2))
 
 # transfer mastermix red
-pipette50.set_flow_rate(aspirate=25, dispense=25)
-pipette50.pick_up_tip()
-pipette50.distribute(vol_transfer_mastermix,
+pipette300.set_flow_rate(aspirate=25, dispense=25)
+pipette300.pick_up_tip()
+pipette300.distribute(vol_transfer_mastermix,
                       mastermix_red.bottom(2),
                       PCR1.wells(dest2).bottom(2))
 
 # transfer mastermix blue
-pipette50.set_flow_rate(aspirate=25, dispense=25)
-pipette50.pick_up_tip()
-pipette50.distribute(vol_transfer_mastermix,
+pipette300.set_flow_rate(aspirate=25, dispense=25)
+pipette300.pick_up_tip()
+pipette300.distribute(vol_transfer_mastermix,
                       mastermix_blue.bottom(2),
                       PCR1.wells(dest3).bottom(2))
 
