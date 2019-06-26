@@ -144,21 +144,22 @@ pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_yellow.bottom(2),
-                      PCR1.wells(dest1).bottom(2))
+                      PCR1.cols('1', to ='4'))
 
 # transfer mastermix red
 pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_red.bottom(2),
-                      PCR1.wells(dest2).bottom(2))
+                      PCR1.cols('5', to ='8'))
+
 
 # transfer mastermix blue
 pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_blue.bottom(2),
-                      PCR1.wells(dest3).bottom(2))
+                      PCR1.cols('9', to ='12'))
 
 # transfer primers
 for idx, x in enumerate(source):
@@ -167,7 +168,7 @@ for idx, x in enumerate(source):
   pipette10.dispense(vol_transfer_primer, PCR1.well(dest1.__getitem__(idx)).bottom(2)).blow_out()
   pipette10.touch_tip(radius = 0.8)
   pipette10.drop_tip()
-
+ 
 for idx, x in enumerate(source):
   pipette10.pick_up_tip()
   pipette10.aspirate(vol_transfer_primer, forward_primer.well(x).bottom(2))
