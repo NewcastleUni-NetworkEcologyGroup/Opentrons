@@ -132,9 +132,9 @@ pipette300.drop_tip()
 
 # set a source desitination with negatives in and a fancy pattern of destination wells
 source = ['A5','A6','A7','A8']
-dest1 =  ['A1','A4','A7','A10']
-dest2 =  ['A2','A5','A8','A11']
-dest3 =  ['A3','A6','A9','A12']
+dest1 =  ['A1','A2','A3','A4']
+dest2 =  ['A5','A6','A7','A8']
+dest3 =  ['A9','A10','A11','A12']
 
 remain_vol = start_vol_mastermix    
 #pipette_height_mastermix = height_track(vol_transfer_mastermix)
@@ -144,22 +144,23 @@ pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_yellow.bottom(2),
-                      PCR1.cols('1', to ='4'), disposal_vol=10)
+                      PCR1.cols('1', to ='4'),
+                      disposal_vol=10)
 
 # transfer mastermix red
-pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_red.bottom(2),
-                      PCR1.cols('5', to ='8'), disposal_vol=10)
+                      PCR1.cols('5', to ='8'),
+                      disposal_vol=10)
 
 
 # transfer mastermix blue
-pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_blue.bottom(2),
-                      PCR1.cols('9', to ='12'), disposal_vol=10)
+                      PCR1.cols('9', to ='12'),
+                      disposal_vol=10)
 
 # transfer primers
 for idx, x in enumerate(source):
