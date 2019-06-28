@@ -12,7 +12,7 @@ Here are a few points to keep note of when getting used to the OT-2. If you are 
 
 * **Don't expect the OT-2 to replace all your pipetting!** For short protocols (e.g. setting up a single PCR plate) you are probably much faster than the OT-2. This machine is for bulk PCR setups and performing setups that are difficult to track in your head. 
     + e.g. reordering wells on a plate or combining failed samples into a rerun plate.
-* Install [Anaconda](https://www.anaconda.com/) and use [Spyder](https://www.spyder-ide.org/) to write your code and to help with debugging. Don't reply the OT-2 app errors, they are too cryptic.
+* Install [Anaconda](https://www.anaconda.com/) and use [Spyder](https://www.spyder-ide.org/) to write your code and to help with debugging. Don't rely on the OT-2 app errors, they are too cryptic.
     + Sometimes no error will appear at all in the OT-2 app but you will have missing labware at calibration. Check this in Spyder and you will often find that you've forgotten to do something that permits an otherwise correctly written command e.g. pick up some tips before distributing.
 * Install the opentrons package into Python/Ananconda, you can't do any debugging if your python doesn't understand the data objects.
     + `python -m pip install opentrons` in your linux or OSX command line to install the opentrons package.

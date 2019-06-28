@@ -23,9 +23,9 @@ pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10_1, tips10_2])
 # Define starting and transfer volumes
 start_vol_oil: float = 1500
 start_vol_mastermix: float = 91.2
-vol_transfer_mastermix: float = 18
+vol_transfer_mastermix: float = 17
 vol_transfer_oil: float = 20
-vol_transfer_primer: float = 1
+vol_transfer_primer: float = 2
 vol_transfer_DNA: float = 1
 
 # Define position of oil and mastermix
@@ -158,7 +158,7 @@ pipette300.distribute(vol_transfer_mastermix,
 # transfer mastermix blue
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
-                      mastermix_blue.bottom(2),
+                      mastermix_blue,
                       PCR1.cols('9', to ='12'),
                       disposal_vol=10)
 
