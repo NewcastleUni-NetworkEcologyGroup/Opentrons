@@ -36,7 +36,9 @@ width_50ml: float = 27.3
 
 # Define liquid locations and volumes
 SybrGreen = tubes.wells('A1')
+Tris = tubes.wells('A2')
 start_vol_SybrGreen: float = 23040
+start_vol_Tris: float = 10000
 
 # This function will calculate the starting height for any pointy bottomed tube relative to top of the tube.
 # This requires you to state whether the well is square or round as the tip volume will either be calculated as a cone or a pyramid.
@@ -76,7 +78,7 @@ def height_track(transfer_vol):
     remain_vol = remain_vol-transfer_vol # should this be 8*volume_of_mineral_SybrGreen_in_ul for a trough?
     remain_height = round(start_height(start_vol = remain_vol,
                                               total_length=total_length_50ml,
-                                              well_shape='square',
+                                              well_shape='round',
                                               tip_length = tip_length_50ml,
                                               width = width_50ml),1)
     return remain_height
@@ -86,29 +88,36 @@ remain_vol = start_vol_SybrGreen
 
 ### Part 1 - Mix the dilutions series of Lambda DNA
 # Dilution series pipetting steps
-#pipette1000.set_flow_rate(aspirate=25, dispense=25)
+# Dispense Tris-HCl into the dilution wells
+Tris_vols=[300,375,500,750,750,750,1500]
+Tris_dest=['B1','C1','D1','E1','F1','G1','H1']
+
+for idx, x in enumerate(Tris_dest):
+   pipette1000.transfer(Tris_vols.__getitem__(idx),
+                     Tris.top(-95),
+                     trough.well(x).bottom(5))
 
 # The following code is the 'manual' way of doing the serial dilution
 # Get a tip
 pipette1000.pick_up_tip()
 # perfom dilution 1
 pipette1000.transfer(1200, trough.wells('A1').bottom(5), trough.wells('B1').bottom(5), new_tip='never')
-pipette1000.mix(5,200)
+pipette1000.mix(5,200,trough.wells('B1').bottom(5))
 # perfom dilution 2
 pipette1000.transfer(1125, trough.wells('B1').bottom(5), trough.wells('C1').bottom(5), new_tip='never')
-pipette1000.mix(5,200)
+pipette1000.mix(5,200,trough.wells('C1').bottom(5))
 # perfom dilution 3
 pipette1000.transfer(1000, trough.wells('C1').bottom(5), trough.wells('D1').bottom(5), new_tip='never')
-pipette1000.mix(5,200)
+pipette1000.mix(5,200,trough.wells('D1').bottom(5))
 # perfom dilution 4
 pipette1000.transfer(750, trough.wells('D1').bottom(5), trough.wells('E1').bottom(5), new_tip='never')
-pipette1000.mix(5,200)
+pipette1000.mix(5,200,trough.wells('E1').bottom(5))
 # perfom dilution 5
 pipette1000.transfer(750, trough.wells('E1').bottom(5), trough.wells('F1').bottom(5), new_tip='never')
-pipette1000.mix(5,200)
+pipette1000.mix(5,200,trough.wells('F1').bottom(5))
 # perfom dilution 6
 pipette1000.transfer(750, trough.wells('F1').bottom(5), trough.wells('G1').bottom(5), new_tip='never')
-pipette1000.mix(5,200)
+pipette1000.mix(5,200,trough.wells('G1').bottom(5))
 pipette1000.drop_tip()
 
 # =============================================================================
@@ -142,14 +151,20 @@ pipette1000.pick_up_tip()
 #Set a pipette depth using the formula, this is currently done manually as I don't have direct access to the total aspiration volume in a distribute
 pipette_height_SybrGreen = height_track(transfer_vol=9960)
 # Distribute the Sybr Green to the control wells
-pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen), Control_plate.wells('A1', to='H6'), disposal_vol=30)
+pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen),
+                       Control_plate.wells('A1', to='H6'),
+                       disposal_vol=30,
+                       blow_out=SybrGreen)
 pipette_height_SybrGreen = height_track(transfer_vol=9960)
 # Distribute the Sybr Green to the sample wells
-pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen), Control_plate.wells('A7', to='H12'), disposal_vol=30)
+pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen),
+                       Control_plate.wells('A7', to='H12'),
+                       disposal_vol=30,
+                       blow_out=SybrGreen)
 
 ### Part 3 - Distribute the DNA
 # Distribute the DNA to the control wells
 pipette10.transfer(10, trough['A1'].bottom(5), Control_plate.cols('1', to='6'))
 
 # Distribute the DNA to the sample wells as a test - this bit need changed once we're certain it works
-pipette10.transfer([1,2,4,5,8,10], trough['A1'].bottom(5), Control_plate.cols('7', to='12'))
+pipette10.transfer([5,5,5,10,10,10], trough['A1'].bottom(5), Control_plate.cols('7', to='12'))
