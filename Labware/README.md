@@ -38,16 +38,29 @@ The following labware is currently included in this repository for use on the Op
 * Black skirted microplate - [Thermo-237108](https://www.fishersci.co.uk/shop/products/nunc-f96-microwell-black-white-polystyrene-plate/10307451?searchHijack=true&searchTerm=10307451&searchType=RAPID&matchedCatNo=10307451)
 
 
-## Tube parameters
-### (for use with liquid height tracking functions)
+## Tube parameters - (for use with liquid height tracking functions)
 
 2.2 ml Deepwell plate - [starlab-E2896-0220](https://www.starlabgroup.com/GB-en/consumables/plates_WebPSub-155857/22-ml-96-deepwell-plate-square-wells-with-v-shaped-bottoms-deepwell-plates_SLE2896-0220.html?query=E2896-0220)
-
 ```
 total_length_deepwell: float = 37
 length_barrel_deepwell: float = 34
 tip_length_deepwell: float = round(total_length_deepwell-length_barrel_deepwell,1)
 width_deepwell: float = 8
+```
+50 ml Falcon tubes - [starlab-E1450-0200](https://www.starlabgroup.com/GB-en/consumables/tubes_WebPSub-155856/centrifuge-tubes_PF-SL-155235.html)
+```
+total_length_50ml: float = 113.9
+length_barrel_50ml: float = 98.0
+tip_length_50ml: float = round(total_length_deepwell-length_barrel_deepwell,1)
+width_50ml: float = 27.3
+```
+
+5 ml screw-cap tubes - [Eppendorf 30122313](https://online-shop.eppendorf.co.uk/UK-en/Laboratory-Consumables-44512/Tubes-44515/EppendorfTubes-5.0mL-PF-156668.html)
+```
+total_length_5ml: float = 65.9
+length_barrel_5ml: float = 42.6
+tip_length_5ml: float = round(total_length_5ml-length_barrel_5ml,1)
+width_5ml: float = 15.3
 ```
 
 ***
