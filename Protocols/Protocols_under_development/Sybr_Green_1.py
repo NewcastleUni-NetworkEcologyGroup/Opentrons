@@ -92,32 +92,37 @@ remain_vol = start_vol_SybrGreen
 Tris_vols=[300,375,500,750,750,750,1500]
 Tris_dest=['B1','C1','D1','E1','F1','G1','H1']
 
+# Get a tip
+pipette1000.pick_up_tip()
+
 for idx, x in enumerate(Tris_dest):
    pipette1000.transfer(Tris_vols.__getitem__(idx),
-                     Tris.top(-95),
-                     trough.well(x).bottom(5))
+                     Tris.top(-105),
+                     trough.well(x).bottom(5),
+                     new_tip='never')
+pipette1000.drop_tip()
 
 # The following code is the 'manual' way of doing the serial dilution
 # Get a tip
 pipette1000.pick_up_tip()
 # perfom dilution 1
 pipette1000.transfer(1200, trough.wells('A1').bottom(5), trough.wells('B1').bottom(5), new_tip='never')
-pipette1000.mix(5,200,trough.wells('B1').bottom(5))
+pipette1000.mix(5,400,trough.wells('B1').bottom(10))
 # perfom dilution 2
 pipette1000.transfer(1125, trough.wells('B1').bottom(5), trough.wells('C1').bottom(5), new_tip='never')
-pipette1000.mix(5,200,trough.wells('C1').bottom(5))
+pipette1000.mix(5,400,trough.wells('C1').bottom(5))
 # perfom dilution 3
 pipette1000.transfer(1000, trough.wells('C1').bottom(5), trough.wells('D1').bottom(5), new_tip='never')
-pipette1000.mix(5,200,trough.wells('D1').bottom(5))
+pipette1000.mix(5,400,trough.wells('D1').bottom(5))
 # perfom dilution 4
 pipette1000.transfer(750, trough.wells('D1').bottom(5), trough.wells('E1').bottom(5), new_tip='never')
-pipette1000.mix(5,200,trough.wells('E1').bottom(5))
+pipette1000.mix(5,400,trough.wells('E1').bottom(5))
 # perfom dilution 5
 pipette1000.transfer(750, trough.wells('E1').bottom(5), trough.wells('F1').bottom(5), new_tip='never')
-pipette1000.mix(5,200,trough.wells('F1').bottom(5))
+pipette1000.mix(5,400,trough.wells('F1').bottom(5))
 # perfom dilution 6
 pipette1000.transfer(750, trough.wells('F1').bottom(5), trough.wells('G1').bottom(5), new_tip='never')
-pipette1000.mix(5,200,trough.wells('G1').bottom(5))
+pipette1000.mix(5,400,trough.wells('G1').bottom(5))
 pipette1000.drop_tip()
 
 # =============================================================================
@@ -151,16 +156,16 @@ pipette1000.pick_up_tip()
 #Set a pipette depth using the formula, this is currently done manually as I don't have direct access to the total aspiration volume in a distribute
 pipette_height_SybrGreen = height_track(transfer_vol=9960)
 # Distribute the Sybr Green to the control wells
-pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen),
+pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen-5),
                        Control_plate.wells('A1', to='H6'),
                        disposal_vol=30,
-                       blow_out=SybrGreen)
+                       blow_out=SybrGreen.top(-30))
 pipette_height_SybrGreen = height_track(transfer_vol=9960)
 # Distribute the Sybr Green to the sample wells
-pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen),
+pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen-5),
                        Control_plate.wells('A7', to='H12'),
                        disposal_vol=30,
-                       blow_out=SybrGreen)
+                       blow_out=SybrGreen.top(-30))
 
 ### Part 3 - Distribute the DNA
 # Distribute the DNA to the control wells
