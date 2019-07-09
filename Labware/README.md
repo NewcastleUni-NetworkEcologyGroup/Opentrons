@@ -51,7 +51,7 @@ width_deepwell: float = 8
 ```
 total_length_50ml: float = 113.9
 length_barrel_50ml: float = 98.0
-tip_length_50ml: float = round(total_length_deepwell-length_barrel_deepwell,1)
+tip_length_50ml: float = round(total_length_50ml-length_barrel_50ml,1)
 width_50ml: float = 27.3
 ```
 
