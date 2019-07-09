@@ -13,7 +13,7 @@ tips10_2 = labware.load('opentrons-tiprack-10ul', '3', 'for template DNA')
 Control_plate = labware.load('Thermo-237108','4', 'lambda DNA controls')
 test_DNA = labware.load('Thermo-237108','5', 'template DNA plate')
 
-tubes = labware.load('opentrons-tuberack-15_50ml', '6', 'Sybr Green 1 in A4')
+tubes = labware.load('opentrons-tuberack-50ml', '6', 'Sybr Green 1 in A1')
 trough = labware.load('starlab-E2896-0220', '7', 'Control dilutions')
 
 pipette1000 = instruments.P1000_Single(mount='left', tip_racks=[tips1000])
@@ -35,7 +35,7 @@ tip_length_50ml: float = round(total_length_50ml-length_barrel_50ml,1)
 width_50ml: float = 27.3
 
 # Define liquid locations and volumes
-SybrGreen = tubes.wells('A4')
+SybrGreen = tubes.wells('A1')
 start_vol_SybrGreen: float = 23040
 
 # This function will calculate the starting height for any pointy bottomed tube relative to top of the tube.
@@ -86,7 +86,7 @@ remain_vol = start_vol_SybrGreen
 
 ### Part 1 - Mix the dilutions series of Lambda DNA
 # Dilution series pipetting steps
-pipette1000.set_flow_rate(aspirate=25, dispense=25)
+#pipette1000.set_flow_rate(aspirate=25, dispense=25)
 
 # The following code is the 'manual' way of doing the serial dilution
 # Get a tip
