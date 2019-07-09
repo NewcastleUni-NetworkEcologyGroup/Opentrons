@@ -145,14 +145,14 @@ pipette300.set_flow_rate(aspirate=25, dispense=25)
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_yellow.bottom(2),
-                      PCR1.cols('1', to ='4'),
+                      PCR1(dest1),
                       disposal_vol=10)
 
 # transfer mastermix red
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_red.bottom(2),
-                      PCR1.cols('5', to ='8'),
+                      PCR1(dest2),
                       disposal_vol=10)
 
 
@@ -160,28 +160,31 @@ pipette300.distribute(vol_transfer_mastermix,
 pipette300.pick_up_tip()
 pipette300.distribute(vol_transfer_mastermix,
                       mastermix_blue,
-                      PCR1.cols('9', to ='12'),
+                      PCR1(dest3),
                       disposal_vol=10)
 
 # transfer primers
 for idx, x in enumerate(source):
   pipette10.pick_up_tip()
   pipette10.aspirate(vol_transfer_primer, forward_primer.well(x).bottom(2))
-  pipette10.dispense(vol_transfer_primer, PCR1.well(dest1.__getitem__(idx)).bottom(2)).blow_out()
+  pipette10.dispense(vol_transfer_primer,
+                     PCR1.well(dest1.__getitem__(idx)).bottom(2)).blow_out()
   pipette10.touch_tip(radius = 0.8)
   pipette10.drop_tip()
- 
+
 for idx, x in enumerate(source):
   pipette10.pick_up_tip()
   pipette10.aspirate(vol_transfer_primer, forward_primer.well(x).bottom(2))
-  pipette10.dispense(vol_transfer_primer, PCR1.well(dest2.__getitem__(idx)).bottom(2)).blow_out()
+  pipette10.dispense(vol_transfer_primer,
+                     PCR1.well(dest2.__getitem__(idx)).bottom(2)).blow_out()
   pipette10.touch_tip(radius = 0.8)
   pipette10.drop_tip()
   
 for idx, x in enumerate(source):
   pipette10.pick_up_tip()
   pipette10.aspirate(vol_transfer_primer, forward_primer.well(x).bottom(2))
-  pipette10.dispense(vol_transfer_primer, PCR1.well(dest3.__getitem__(idx)).bottom(2)).blow_out()
+  pipette10.dispense(vol_transfer_primer,
+                     PCR1.well(dest3.__getitem__(idx)).bottom(2)).blow_out()
   pipette10.touch_tip(radius = 0.8)
   pipette10.drop_tip()
   
