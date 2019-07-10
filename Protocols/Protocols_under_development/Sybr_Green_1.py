@@ -100,11 +100,11 @@ for idx, x in enumerate(Tris_dest):
                      Tris.top(-105),
                      trough.well(x).bottom(5),
                      new_tip='never')
-pipette1000.drop_tip()
+#pipette1000.drop_tip()
 
 # The following code is the 'manual' way of doing the serial dilution
 # Get a tip
-pipette1000.pick_up_tip()
+#pipette1000.pick_up_tip()
 # perfom dilution 1
 pipette1000.transfer(1200, trough.wells('A1').bottom(5), trough.wells('B1').bottom(5), new_tip='never')
 pipette1000.mix(5,400,trough.wells('B1').bottom(10))
@@ -151,6 +151,8 @@ pipette1000.drop_tip()
 # =============================================================================
 
 ### Part 2 - Distribute the Syber green 1
+# We're dispensing large volumes a bit rapidly so slow down the dispense rate
+pipette1000.set_flow_rate(aspirate=500, dispense=200)
 # Get a tip
 pipette1000.pick_up_tip()
 #Set a pipette depth using the formula, this is currently done manually as I don't have direct access to the total aspiration volume in a distribute
@@ -159,17 +161,21 @@ pipette_height_SybrGreen = height_track(transfer_vol=9960)
 pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen-5),
                        Control_plate.wells('A1', to='H6'),
                        disposal_vol=30,
-                       blow_out=SybrGreen.top(-30))
+                       air_gap=30,
+                       blow_out=SybrGreen,
+                       touch_tip=True)
 pipette_height_SybrGreen = height_track(transfer_vol=9960)
 # Distribute the Sybr Green to the sample wells
 pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen-5),
                        Control_plate.wells('A7', to='H12'),
                        disposal_vol=30,
-                       blow_out=SybrGreen.top(-30))
+                       air_gap=30,
+                       blow_out=SybrGreen,
+                       touch_tip=True)
 
 ### Part 3 - Distribute the DNA
 # Distribute the DNA to the control wells
-pipette10.transfer(10, trough['A1'].bottom(5), Control_plate.cols('1', to='6'))
+pipette10.transfer(10, trough['A1'].bottom(2), Control_plate.cols('1', to='6'))
 
 # Distribute the DNA to the sample wells as a test - this bit need changed once we're certain it works
-pipette10.transfer([5,5,5,10,10,10], trough['A1'].bottom(5), Control_plate.cols('7', to='12'))
+pipette10.transfer([5,5,5,10,10,10], trough['A1'].bottom(2), Control_plate.cols('7', to='12'))
