@@ -161,7 +161,6 @@ pipette_height_SybrGreen = height_track(transfer_vol=9960)
 pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen-5),
                        Control_plate.wells('A1', to='H6'),
                        disposal_vol=30,
-                       air_gap=30,
                        blow_out=SybrGreen,
                        touch_tip=True)
 pipette_height_SybrGreen = height_track(transfer_vol=9960)
@@ -169,7 +168,6 @@ pipette_height_SybrGreen = height_track(transfer_vol=9960)
 pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen-5),
                        Control_plate.wells('A7', to='H12'),
                        disposal_vol=30,
-                       air_gap=30,
                        blow_out=SybrGreen,
                        touch_tip=True)
 
