@@ -173,7 +173,13 @@ pipette1000.distribute(200, SybrGreen.top(pipette_height_SybrGreen-5),
 
 ### Part 3 - Distribute the DNA
 # Distribute the DNA to the control wells
-pipette10.transfer(10, trough['A1'].bottom(2), Control_plate.cols('1', to='6'))
+pipette10.transfer(10, 
+                   trough['A1'].bottom(2), 
+                   Control_plate.cols('1', to='6'), 
+                   mix_after=(5,5))
 
 # Distribute the DNA to the sample wells as a test - this bit need changed once we're certain it works
-pipette10.transfer([5,5,5,10,10,10], trough['A1'].bottom(2), Control_plate.cols('7', to='12'))
+pipette10.transfer([5,5,5,10,10,10], 
+                   trough['A1'].bottom(2), 
+                   Control_plate.cols('7', to='12'), 
+                   mix_after=(5,5))
