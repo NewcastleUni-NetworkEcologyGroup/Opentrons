@@ -26,7 +26,7 @@ tip_length_50ml: float = round(total_length_50ml-length_barrel_50ml,1)
 width_50ml: float = 27.3
 
 n_controls=24
-n_samples=384
+n_samples=24
 assay_vol=200
 control_start_conc=5
 control_vol=10
@@ -129,22 +129,22 @@ for idx, x in enumerate(Tris_dest):
 
 # The following code is the 'manual' way of doing the serial dilution
 # perfom dilution 1
-pipette1000.transfer(640, trough.wells('A1').bottom(5), trough.wells('B1').bottom(5), new_tip='never')
+pipette1000.transfer(400, trough.wells('A1').bottom(5), trough.wells('B1').bottom(5), new_tip='never')
 pipette1000.mix(5,400,trough.wells('B1').bottom(10))
 # perfom dilution 2
-pipette1000.transfer(640, trough.wells('B1').bottom(5), trough.wells('C1').bottom(5), new_tip='never')
+pipette1000.transfer(400, trough.wells('B1').bottom(5), trough.wells('C1').bottom(5), new_tip='never')
 pipette1000.mix(5,400,trough.wells('C1').bottom(5))
 # perfom dilution 3
-pipette1000.transfer(640, trough.wells('C1').bottom(5), trough.wells('D1').bottom(5), new_tip='never')
+pipette1000.transfer(400, trough.wells('C1').bottom(5), trough.wells('D1').bottom(5), new_tip='never')
 pipette1000.mix(5,400,trough.wells('D1').bottom(5))
 # perfom dilution 4
-pipette1000.transfer(640, trough.wells('D1').bottom(5), trough.wells('E1').bottom(5), new_tip='never')
+pipette1000.transfer(400, trough.wells('D1').bottom(5), trough.wells('E1').bottom(5), new_tip='never')
 pipette1000.mix(5,400,trough.wells('E1').bottom(5))
 # perfom dilution 5
-pipette1000.transfer(640, trough.wells('E1').bottom(5), trough.wells('F1').bottom(5), new_tip='never')
+pipette1000.transfer(400, trough.wells('E1').bottom(5), trough.wells('F1').bottom(5), new_tip='never')
 pipette1000.mix(5,400,trough.wells('F1').bottom(5))
 # perfom dilution 6
-pipette1000.transfer(640, trough.wells('F1').bottom(5), trough.wells('G1').bottom(5), new_tip='never')
+pipette1000.transfer(400, trough.wells('F1').bottom(5), trough.wells('G1').bottom(5), new_tip='never')
 pipette1000.mix(5,400,trough.wells('G1').bottom(5))
 pipette1000.drop_tip()
 
