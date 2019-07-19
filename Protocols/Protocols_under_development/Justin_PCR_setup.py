@@ -22,9 +22,9 @@ pipette10 = instruments.P10_Multi(mount='right', tip_racks=[tips10_1, tips10_2])
 # Define starting and transfer volumes
 start_vol_oil: float = 1500
 start_vol_mastermix: float = 530.4
-vol_transfer_mastermix: float = 17
+vol_transfer_mastermix: float = 16
 vol_transfer_oil: float = 20
-vol_transfer_primer: float = 1
+vol_transfer_primer: float = 2
 
 # Define position of oil and mastermix
 mineral_oil = trough['A1']
@@ -139,16 +139,27 @@ all_dests = [well for plate in dest_plates for well in plate.rows('A')]
 remain_vol = start_vol_mastermix    
 #pipette_height_mastermix = height_track(vol_transfer_mastermix)
 
-# distribute PCR master mix
-pipette300.set_flow_rate(aspirate=25, dispense=50)
+# =============================================================================
+# # distribute PCR master mix
+# pipette300.set_flow_rate(aspirate=25, dispense=50)
+# pipette300.pick_up_tip()
+# for d in all_dests:
+#     pipette300.transfer(vol_transfer_mastermix, mastermix, d.bottom(2), blow_out=True, new_tip='never')
+# pipette300.drop_tip()
+# 
+# =============================================================================
+# forward primer distribution
 pipette300.pick_up_tip()
-for d in all_dests:
-    pipette300.transfer(vol_transfer_mastermix, mastermix, d.bottom(2), blow_out=True, new_tip='never')
+for ind, primer in enumerate(PCR1.rows('A')):
+    dests = [plate.rows('A')[ind] for plate in dest_plates]
+    pipette300.distribute(vol_transfer_mastermix, mastermix, dests, 
+                          new_tip='never',
+                          touch_tip=True)
 pipette300.drop_tip()
 
 # forward primer distribution
 for ind, primer in enumerate(primer_mix.rows('A')):
     dests = [plate.rows('A')[ind] for plate in dest_plates]
-    pipette10.distribute(1, primer, dests)
+    pipette10.distribute(vol_transfer_primer, primer, dests)
 
 
