@@ -139,23 +139,18 @@ all_dests = [well for plate in dest_plates for well in plate.rows('A')]
 remain_vol = start_vol_mastermix    
 #pipette_height_mastermix = height_track(vol_transfer_mastermix)
 
-# =============================================================================
-# # distribute PCR master mix
-# pipette300.set_flow_rate(aspirate=25, dispense=50)
-# pipette300.pick_up_tip()
-# for d in all_dests:
-#     pipette300.transfer(vol_transfer_mastermix, mastermix, d.bottom(2), blow_out=True, new_tip='never')
-# pipette300.drop_tip()
-# 
-# =============================================================================
-# forward primer distribution
+# distribute PCR master mix
+pipette300.set_flow_rate(aspirate=50, dispense=100)
 pipette300.pick_up_tip()
-for ind, primer in enumerate(PCR1.rows('A')):
-    dests = [plate.rows('A')[ind] for plate in dest_plates]
-    pipette300.distribute(vol_transfer_mastermix, mastermix, dests, 
-                          new_tip='never',
-                          touch_tip=True)
+for d in all_dests:
+    pipette300.aspirate(vol_transfer_mastermix, mastermix)
+    pipette300.move_to(mastermix.top(-1)) 
+    pipette300.dispense(d.bottom(3)).blow_out()
+    pipette300.move_to(d.top(-1)) 
+    pipette300.delay(seconds=0.5)
+    pipette300.touch_tip(radius = 0.8)
 pipette300.drop_tip()
+
 
 # forward primer distribution
 for ind, primer in enumerate(primer_mix.rows('A')):
