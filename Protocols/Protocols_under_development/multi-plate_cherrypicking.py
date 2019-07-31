@@ -15,10 +15,10 @@ metadata = {
 # 
 # =============================================================================
 
-input_file_path = '/home/neg/Documents/Projects/Opentrons/Protocols/Protocols_under_development/cherrypicking.csv'
+input_file_path = './cherrypicking.csv'
 volumes_csv = open(input_file_path, 'r').read()
-pipette_model = 'p300'
-source_plate_type = 'starlab-E2896-0600'
+pipette_model = 'p50'
+source_plate_type = 'starlab-E1403-0100'
 destination_plate_type = 'starlab-E1403-0100'
 tip_reuse = 'new tip each time'
 tip_type = 'tiprack-starlab-S1120-9810'
