@@ -26,7 +26,8 @@ number_of_source_plates = 2
 
 pipette_max_vol = int(pipette_model[1:])
 
-tiprack_slots = ['1']
+tiprack_slots = ['10']
+dest_plate = labware.load(destination_plate_type, '11')
 
 if pipette_max_vol == 300:
     tipracks = [
@@ -46,15 +47,19 @@ elif pipette_max_vol == 1000:
     pipette = instruments.P1000_Single(mount='left', tip_racks=tipracks)
 
 data = [
-    [slot, well, vol]
-    for slot, well, vol in
+    [plate, well, vol]
+    for plate, well, vol in
     [row.split(',') for row in volumes_csv.strip().splitlines() if row]
 ]
 
-#source_plate = labware.load(source_plate_type, '2')
-source_plates = [labware.load(source_plate_type, str(slot), 'source plate')
-             for slot in range(2, 2+(number_of_source_plates-1))]
-dest_plate = labware.load(destination_plate_type, '11')
+# =============================================================================
+# #source_plate = labware.load(source_plate_type, '2')
+# source_plates = [labware.load(source_plate_type, str(slot), 'source plate')
+#              for slot in range(2, 2+(number_of_source_plates-1))]
+# =============================================================================
+
+plate1 = labware.load(source_plate_type, '1', 'source plate')
+plate2 = labware.load(source_plate_type, '2', 'source plate')
 
 # =============================================================================
 # # set a source desitination with negatives in and a fancy pattern of destination wells
@@ -63,11 +68,12 @@ dest_plate = labware.load(destination_plate_type, '11')
 # =============================================================================
 
 tip_strategy = 'always' if tip_reuse == 'new tip each time' else 'once'
-for well_idx, (source_well, vol) in enumerate(data):
+
+for well_idx, (source_plate, source_well, vol) in enumerate(data):
     if source_well and vol:
         vol = float(vol)
         pipette.transfer(
             vol,
-            source_plates.wells(source_well),
-            dest_plate.wells(well_idx),
+            vars()[source_plate].wells(source_well).bottom(3),
+            dest_plate.wells(well_idx).bottom(3),
             new_tip=tip_strategy)
