@@ -17,14 +17,11 @@ The following labware is currently included in this repository for use on the Op
 
 ### Tips
 * RPT tips (for viscous liquids)
- * use with p10 or p10 multi
 	+ 10 µl RPT filter tips - [tiprack-starlab-S1181-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-l-rpt-graduated-filter-tip-sterile-racked_SLS1181-3810.html) <sup name="a2">[2](#f2)</sup>
 	+ 10/20 µl XL RPT filter tips - [tiprack-starlab-S1180-3810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/10-20-l-rpt-xl-graduated-filter-tip-sterile-racked_SLS1180-3810.html)<sup name="a2">[2](#f2)</sup>
- * use with p50, P50 multi, p300 or p300 multi
 	+ 100 µl RPT filter tips - [tiprack-starlab-S1180-1840](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/100-l-rpt-bevelled-filter-tip-sterile_SLS1180-1840.html)<sup name="a2">[2](#f2)</sup>
 	+ 200 µl RPT filter tips - [tiprack-starlab-S1180-8810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/200-l-rpt-graduated-filter-tip-sterile-racked_SLS1180-8810.html)<sup name="a2">[2](#f2)</sup>
 	+ 300 µl RPT filter tips - [tiprack-starlab-S1180-9810](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/300-l-rpt-graduated-filter-tip-sterile-racked_SLS1180-9810.html)<sup name="a2">[2](#f2)</sup>
- * use with p1000
 	+ 1000 µl RPT filter tips - [tiprack-starlab-S1182-1830](https://www.starlabgroup.com/GB-en/pipette-tips/tipone-pipette-tip-system_WebPSub-155869/1000-l-rpt-xl-graduated-filter-tip-sterile-racked_SLS1182-1830.html)<sup name="a3">[3](#f3)</sup>
 
 * Regular filter tips
