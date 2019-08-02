@@ -12,7 +12,7 @@ plate = labware.load('starlab-E1403-5200', '7', share = True)
 
 magdeck.engage(height=10)
 pipette.pick_up_tip()
-pipette.move_to(plate.wells('A1','D5','H11'))
+pipette.move_to(plate.wells('A1'))
 pipette.drop_tip(tips50['A1'])
 pipette.delay(10)
 
