@@ -16,9 +16,9 @@ metadata = {
 # =============================================================================
 
 # File path on robot
-input_file_path = '/data/cherrypicking_csvs/cherrypicking.csv'
+#input_file_path = '/data/cherrypicking_csvs/cherrypicking.csv'
 # File path on local machine for simulation
-#input_file_path = '/home/neg/Documents/Projects/Cratopus/Cratopus-chrysochlorus-diet/Output_files/cherrypicking.csv'
+input_file_path = '/home/neg/Documents/Projects/Cratopus/Cratopus-chrysochlorus-diet/Output_files/cherrypicking.csv'
 volumes_csv = open(input_file_path, 'r').read()
 
 # Set up other parameters for the code to follow
