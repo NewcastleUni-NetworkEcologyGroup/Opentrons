@@ -27,7 +27,7 @@ for x in ['1','6','9','12']:
         pipette50.transfer(18.5,
                            mastermix('A1').bottom(1),
                            PCR_plate(y+x).bottom(1),
-                           touch_tip=True,
+                           touch_tip=False,
                            new_tip='never')
 pipette50.drop_tip()
 
@@ -41,7 +41,16 @@ for x in ['1','6','9','12']:
                            touch_tip=False,
                            blow_out=True)
         
-        
-        
+# =============================================================================
+# #Distribute the water for the negative
+# pipette10.pick_up_tip(tips_10('H2'))
+# pipette10.distribute(1.5,
+#                    mastermix('A2').bottom(1),
+#                    PCR_plate('F1','F6','F9','F12').bottom(1),
+#                    touch_tip=False,
+#                    new_tip='never')
+# pipette10.drop_tip()
+#         
+# =============================================================================
         
         
