@@ -28,9 +28,9 @@ neg_num: float = 1
 
 # distribute mastermix
 pipette50.pick_up_tip()
-for x in range(0, sample_num+neg_num):
+for idx, x in enumerate(range(0, sample_num+neg_num)):
     pipette50.transfer(mastermix_vol,
-                       mastermix('A1').bottom(1),
+                       mastermix('A1').bottom(round(37-(idx*(36/(sample_num+neg_num))))),
                        PCR_plate(x).bottom(1),
                        blow_out=True,
                        new_tip='never')
@@ -47,11 +47,10 @@ for x in range(0, (round((sample_num/8)+0.49))):
 for x in range(sample_num, sample_num+neg_num):
     pipette10.pick_up_tip(tips_10['H12'])
     pipette10.aspirate(DNA_vol,mastermix('A2').top(-10))
-    pipette10.dispense(DNA_vol,x.bottom(1)).blow_out()
+    pipette10.dispense(DNA_vol,PCR_plate(x).bottom(1)).blow_out()
     pipette10.drop_tip()
                        
-                       
-                       
-                       mastermix('A2').top(-10),
-                       PCR_plate(x).bottom(1),
-                       blow_out=True)
+
+
+#for idx, x in enumerate(range(0, sample_num+neg_num)):
+#    print(round(37-(idx*(36/(sample_num+neg_num)))))
