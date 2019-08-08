@@ -8,10 +8,13 @@ metadata = {
 magdeck = modules.load('magdeck', '7') 
 tips50 = labware.load('tiprack-starlab-S1120-2810', '1')
 pipette = instruments.P50_Single(mount='left',tip_racks=[tips50])
-plate = labware.load('starlab-E1403-5200', '7', share = True) 
+plate = labware.load('starlab-E1403-5200', '7', share = True)
+plate2 = labware.load('starlab-E1403-5200', '9') 
 
 pipette.pick_up_tip()
-pipette.drop_tip(tips50['A1'])
+
+pipette.transfer(10, plate2['A1'], plate2['A2'])
+pipette.transfer(10, plate2['A1'], plate['A2'])
 
 
 magdeck.engage(height=15)
