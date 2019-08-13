@@ -9,6 +9,18 @@ mag_deck = modules.load('magdeck', '10')
 mag_plate = labware.load('starlab-E1403-5200', '10', share=True)
 output_plate = labware.load('starlab-E1403-0100', '6')
 
+# add an empty p1000 box as a waste bucket
+waste_plate = labware.labware.load('tiprack-starlab-S1182-1830', '9')
+
+# define a pipetting location for the waste_plate
+waste = waste_plate.wells('A6').top(-10)
+reagent_container = labware.load('starlab-E2896-0220', '4')
+
+# Define reagents and liquid waste
+
+# Chnage these slots!!
+ethanol = labware.load('starlab-E2896-0220', 'some_number') #!!!!!!
+elution_buffer = labware.load('starlab-E2896-0220', 'some_number') #!!!!!!
 
 def run_custom_protocol(
         pipette_type: 'StringSelection...'='p300_Multi',
@@ -78,10 +90,12 @@ def run_custom_protocol(
         samples = [col for col in mag_plate.cols()[:col_num]]
         output = [col for col in output_plate.cols()[:col_num]]
 
-    # Define reagents and liquid waste
-    beads = reagent_container.wells(0)
-    ethanol = reagent_container.wells(1)
-    elution_buffer = reagent_container.wells(2)
+# =============================================================================
+#     # Define reagents and liquid waste
+#     beads = reagent_container.wells(0)
+#     ethanol = reagent_container.wells(1)
+#     elution_buffer = reagent_container.wells(2)
+# =============================================================================
 
     # Define bead and mix volume ##Justin: Consider moving to seperate script
     bead_volume = sample_volume*bead_ratio
@@ -107,11 +121,12 @@ def run_custom_protocol(
     mag_deck.engage(height = 10)
     pipette.delay(minutes=settling_time)
 
-    # Remove supernatant from magnetic beads
+    # Remove supernatant from magnetic beads - this bit has been changed by james!!
     pipette.set_flow_rate(aspirate=25, dispense=150)
+    pipette.pick_up_tip()
     for target in samples:
-        pipette.transfer(total_vol, target, liquid_waste, blow_out=True)
-
+        pipette.transfer(total_vol, target, waste, blow_out=True, new_tip='never')
+    pipette.drop_tip()
     # Wash beads twice with 70% ethanol
     air_vol = pipette.max_volume * 0.1
     for cycle in range(2):
