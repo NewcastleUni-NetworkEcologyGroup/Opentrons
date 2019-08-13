@@ -83,7 +83,7 @@ def run_custom_protocol(
     ethanol = reagent_container.wells(1)
     elution_buffer = reagent_container.wells(2)
 
-    # Define bead and mix volume
+    # Define bead and mix volume ##Justin: Consider moving to seperate script
     bead_volume = sample_volume*bead_ratio
     if bead_volume/2 > pipette.max_volume:
         mix_vol = pipette.max_volume
@@ -91,7 +91,7 @@ def run_custom_protocol(
         mix_vol = bead_volume/2
     total_vol = bead_volume + sample_volume + 5
 
-    # Mix beads and PCR samples
+    # Mix beads and PCR samples ##Justin: Consider removing an doing by hand
     for target in samples:
         pipette.pick_up_tip()
         pipette.mix(5, mix_vol, beads)
@@ -100,7 +100,7 @@ def run_custom_protocol(
         pipette.blow_out()
         pipette.drop_tip()
 
-    # Incubate beads and PCR product at RT for 5 minutes
+    # Incubate beads and PCR product at RT for 5 minutes ##Justin: Consider doing by hand
     pipette.delay(minutes=incubation_time)
 
     # Engagae MagDeck and incubate
