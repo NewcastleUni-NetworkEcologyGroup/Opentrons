@@ -12,7 +12,8 @@ ethanol_plate = labware.load('starlab-E2896-0220', '4')
 elution_buffer = labware.load('starlab-E2896-0220', '1') 
 
 # add an empty p1000 box as a waste bucket
-waste_plate = labware.labware.load('tiprack-starlab-S1182-1830', '9')
+
+waste_plate = labware.load('trash-starlab-S1182-1830', '9')
 
 # define a pipetting location for the waste_plate
 waste = waste_plate.wells('A6').top(-10)
@@ -48,13 +49,12 @@ def run_custom_protocol(
     
     total_tips = sample_number*8
     tiprack_num = total_tips//96 + (1 if total_tips % 96 > 0 else 0)
-    slots = ['2', '3', '5', '6', '7', '8', '9'][:tiprack_num]
+    slots = ['2', '3', '5', '7', '8'][:tiprack_num]
     
-    pipette_type == 'p300_Multi':
     tipracks = [labware.load('tiprack-starlab-S1120-8810', slot) for slot in slots]
     pipette = instruments.P300_Multi(
-    mount=pipette_mount,
-    tip_racks=tipracks)
+        mount=pipette_mount,
+        tip_racks=tipracks)
 
     mode = pipette_type.split('_')[1] # this is 'Multi'
 
@@ -95,7 +95,7 @@ def run_custom_protocol(
 ### Workflow:
     
     # Engagae MagDeck and incubate
-    mag_deck.engage(height = 20)
+    mag_deck.engage(height = 18)
     pipette.delay(minutes=settling_time)
 
     # Remove supernatant from magnetic beads - this bit has been changed by james!!
@@ -111,9 +111,11 @@ def run_custom_protocol(
         for target in samples:
             pipette.transfer(200, ethanol, target, air_gap=air_vol,
                              new_tip='never')
+        pipette.move_to(ethanol.top())
         pipette.delay(minutes=1)
+        
         for target in samples:
-            pipette.transfer(200, target, liquid_waste, air_gap=air_vol,
+            pipette.transfer(200, target, waste, air_gap=air_vol,
                              new_tip = 'never')
             
     pipette.drop_tip()
@@ -142,7 +144,7 @@ def run_custom_protocol(
     pipette.delay(minutes=5)
 
     # Engagae MagDeck for 1 minute and remain engaged for DNA elution
-    mag_deck.engage(height = 10)
+    mag_deck.engage(height = 16)
     pipette.delay(minutes=settling_time)
 
     # Transfer clean PCR product to a new well
