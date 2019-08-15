@@ -13,7 +13,7 @@ elution_buffer = labware.load('starlab-E2896-0220', '1')
 
 # add an empty p1000 box as a waste bucket
 
-waste_plate = labware.load('trash-starlab-S1182-1830', '9')
+waste_plate = labware.load('trash-starlab-S1182-1830', '8')
 
 # define a pipetting location for the waste_plate
 waste = waste_plate.wells('A6').top(-10)
@@ -28,11 +28,13 @@ waste = waste_plate.wells('A6').top(-10)
 #                       ethanol = ethanol_plate.wells(e_col[e_index])
 
 
-ethanol = ethanol_plate.wells() #!!!!!! 
+ethanol = ethanol_plate.wells('A1', 'A2', 'A3') 
 
 # Elution buffer needs to be done in the same way
 
-tris = elution_buffer.wells()
+tris = elution_buffer.wells('A1')
+
+# Specify sample well
 
 def run_custom_protocol(
         pipette_type: 'StringSelection...'='p300_Multi',
@@ -47,7 +49,7 @@ def run_custom_protocol(
 
     ## We'll need to work out how many tips are needed !!!!!!
     
-    total_tips = sample_number*8
+    total_tips = 40
     tiprack_num = total_tips//96 + (1 if total_tips % 96 > 0 else 0)
     slots = ['2', '3', '5', '7', '8'][:tiprack_num]
     
@@ -56,7 +58,7 @@ def run_custom_protocol(
         mount=pipette_mount,
         tip_racks=tipracks)
 
-    mode = pipette_type.split('_')[1] # this is 'Multi'
+#    mode = pipette_type.split('_')[1] # this is 'Multi'
 
 ### Here I'm not really sure whats going on. I think that this is is recording
   # the potential locations for pipetting out from and to 
@@ -66,7 +68,8 @@ def run_custom_protocol(
     output = [col for col in output_plate.cols()[:col_num]]
 
 # total_vol still needs to be specified
-    total_vol = 32 # = 15ul of samples + 12 ul of beads + 5ul of excess
+    bead_volume = sample_volume*bead_ratio
+    total_vol = bead_volume + sample_volume + 5 # = 15ul of samples + 12 ul of beads + 5ul of excess
 
 # =============================================================================
 #       This Section will be done by hand prior to running the protocol to save 1600 tips
@@ -96,7 +99,7 @@ def run_custom_protocol(
     
     # Engagae MagDeck and incubate
     mag_deck.engage(height = 18)
-    pipette.delay(minutes=settling_time)
+########################################    pipette.delay(minutes=settling_time)
 
     # Remove supernatant from magnetic beads - this bit has been changed by james!!
     pipette.set_flow_rate(aspirate=25, dispense=150)
@@ -105,23 +108,27 @@ def run_custom_protocol(
         pipette.transfer(total_vol, target, waste, blow_out=True, new_tip='never')
     pipette.drop_tip()
     # Wash beads twice with 70% ethanol
-    air_vol = pipette.max_volume * 0.1
+    air_vol = 15
     pipette.pick_up_tip()
     for cycle in range(2):
-        for target in samples:
-            pipette.transfer(200, ethanol, target, air_gap=air_vol,
-                             new_tip='never')
-        pipette.move_to(ethanol.top())
-        pipette.delay(minutes=1)
+        ticker = 0
+        for targets in samples:
+            ethanol_source = ticker//4
+            pipette.transfer(185, ethanol[ethanol_source], target.top(-1),
+                         air_gap=air_vol,
+                         new_tip='never')
+            ticker += 1
+                
+        #########################################################################pipette.delay(minutes=1)
         
         for target in samples:
-            pipette.transfer(200, target, waste, air_gap=air_vol,
+            pipette.transfer(195, target, waste, air_gap=air_vol,
                              new_tip = 'never')
             
     pipette.drop_tip()
 
     # Dry at RT
-    pipette.delay(minutes=drying_time)
+######################## #####################################################   pipette.delay(minutes=drying_time)
 
     # Disengage MagDeck
     mag_deck.disengage()
@@ -129,28 +136,43 @@ def run_custom_protocol(
 ### Do the bead and elution buffer need mixing? Probably
 
     # Mix beads with elution buffer
-    if elution_buffer_volume/2 > pipette.max_volume:
-        mix_vol = pipette.max_volume
-    else:
-        mix_vol = elution_buffer_volume/2
-    for target in samples:
-        pipette.pick_up_tip()
-        pipette.transfer(
-            elution_buffer_volume, elution_buffer, target, new_tip='never')
-        pipette.mix(20, mix_vol, target)
-        pipette.drop_tip()
 
-    # Incubate at RT for 3 minutes
-    pipette.delay(minutes=5)
+    mix_vol = elution_buffer_volume
+    
+# =============================================================================
+#     pipette.pick_up_tip()
+#     for target in samples:
+#         pipette.transfer(
+#             elution_buffer_volume, tris, target.top(), new_tip='never')
+#         pipette.mix(15, mix_vol, target)
+#         pipette.move_to(target.top(-1))
+#         pipette.blow_out()
+#     pipette.drop_tip()
+# =============================================================================
+    pipette.pick_up_tip()
+
+    
+    for target in samples:
+        pipette.transfer(
+                elution_buffer_volume, tris, samples.top(-1), new_tip='never')
+        
+    for target in samples:
+        pipette.mix(6, mix_vol, samples)   #less because it takes such a long time...
+        pipette.move_to(target.top(-1))
+        pipette.blow_out()
+    pipette.drop_tip()
+    # Incubate at RT for 5 minutes
+#############################################################################    pipette.delay(minutes=5)
 
     # Engagae MagDeck for 1 minute and remain engaged for DNA elution
     mag_deck.engage(height = 16)
-    pipette.delay(minutes=settling_time)
+###############################################################################    pipette.delay(minutes=settling_time)
 
     # Transfer clean PCR product to a new well
     pipette.pick_up_tip()
     for target, dest in zip(samples, output):
-        pipette.transfer(elution_buffer_volume, target, dest, blow_out=True, new_tip = 'never')
+        pipette.transfer(
+            elution_buffer_volume, target, dest, blow_out=True, new_tip = 'never')
     pipette.drop_tip()
 
-run_custom_protocol(**{'pipette_type': 'p300_Multi', 'pipette_mount': 'right', 'sample_number': 16, 'sample_volume': 20.0, 'bead_ratio': 0.8, 'elution_buffer_volume': 30.0, 'incubation_time': 5.0, 'settling_time': 5.0, 'drying_time': 15.0})
+run_custom_protocol(**{'pipette_type': 'p300_Multi', 'pipette_mount': 'right', 'sample_number': 96, 'sample_volume': 15.0, 'bead_ratio': 0.8, 'elution_buffer_volume': 30.0, 'incubation_time': 5.0, 'settling_time': 5.0, 'drying_time': 15.0})
