@@ -16,7 +16,7 @@ elution_buffer = labware.load('starlab-E2896-0220', '1')
 waste_plate = labware.load('trash-starlab-S1182-1830', '8')
 
 # define a pipetting location for the waste_plate
-waste = waste_plate.wells('A6').top(-10)
+waste = waste_plate.wells('A6').top(-30)
 
 # Define reagents locations in a loop Or maybe can be done more simply
 
@@ -53,7 +53,7 @@ total_tips = 40
 tiprack_num = total_tips//96 + (1 if total_tips % 96 > 0 else 0)
 slots = ['2', '3', '5', '7', '8'][:tiprack_num]
 
-tipracks = [labware.load('tiprack-starlab-S1120-8810', slot) for slot in slots]
+tipracks = [labware.load('tiprack-starlab-S1120-9810', slot) for slot in slots]
 pipette = instruments.P300_Multi(
 mount=pipette_mount,
 tip_racks=tipracks)
@@ -105,7 +105,8 @@ mag_deck.engage(height = 18)
 pipette.set_flow_rate(aspirate=25, dispense=150)
 pipette.pick_up_tip()
 for target in samples:
-    pipette.transfer(total_vol, target, waste, blow_out=True, new_tip='never')
+    pipette.transfer(total_vol, target, waste, new_tip='never')
+    pipette.blow_out(waste)
 pipette.drop_tip()
 # Wash beads twice with 70% ethanol
 air_vol = 15
@@ -119,11 +120,11 @@ for cycle in range(2):
                          new_tip='never')
         ticker += 1
         
-#########################################################################pipette.delay(minutes=1)
+    #########################################################################pipette.delay(minutes=1)
 
-for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-    pipette.transfer(195, mag_plate[target], waste, air_gap=air_vol,
-                     new_tip = 'never')
+    for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
+        pipette.transfer(195, mag_plate[target], waste, air_gap=air_vol,
+                         new_tip = 'never')
     
 pipette.drop_tip()
 
