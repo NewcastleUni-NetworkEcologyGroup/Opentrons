@@ -59,7 +59,8 @@ for idx, plate in enumerate(lysates):
         pipette300.pick_up_tip()
         pipette300.aspirate(lysate_volume, plate[well].top(-20))
         pipette300.dispense(lysate_volume, mixes[idx][well].bottom(3))
-        pipette300.mix(5,lysate_volume)
+        pipette300.mix(5,lysate_volume, mixes[idx][well].bottom(1.5))
+        pipette300.mix(5,lysate_volume, mixes[idx][well].bottom(4))
         pipette300.transfer(lysate_volume+denature_volume,
                             mixes[idx][well].bottom(0.5),
                             spins[idx][well].top(-4),
