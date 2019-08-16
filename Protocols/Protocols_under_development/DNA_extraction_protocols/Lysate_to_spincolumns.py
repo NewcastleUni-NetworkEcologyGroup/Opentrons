@@ -57,13 +57,13 @@ spins=[spin_cols1,spin_cols2]
 for idx, plate in enumerate(lysates):
     for well in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
         pipette300.pick_up_tip()
-        pipette300.aspirate(lysate_volume, plate[well].top(-20))
+        pipette300.aspirate(lysate_volume, plate[well].top(-28))
         pipette300.dispense(lysate_volume, mixes[idx][well].bottom(3))
         pipette300.mix(5,lysate_volume, mixes[idx][well].bottom(1.5))
         pipette300.mix(5,lysate_volume, mixes[idx][well].bottom(4))
         pipette300.transfer(lysate_volume+denature_volume,
                             mixes[idx][well].bottom(0.5),
-                            spins[idx][well].top(-4),
+                            spins[idx][well].top(-8),
                             air_gap=20,
                             touch_tip=False,
                             new_tip='never').blow_out(spins[idx][well].top(-4))
