@@ -48,8 +48,8 @@ incubation_time: float=5
 settling_time: float=5
 drying_time: float=13
 
-p50_type = 'StringSelection...'='p50_Single'
-p50_mount = 'StringSelection...'='left'
+p50_type: 'StringSelection...'='p50_Single'
+p50_mount: 'StringSelection...'='left'
 
 ## We'll need to work out how many tips are needed !!!!!!
 
@@ -57,11 +57,13 @@ total_tips = 40
 tiprack_num = total_tips//96 + (1 if total_tips % 96 > 0 else 0)
 slots = ['2', '3', '5', '7', '8'][:tiprack_num]
 
-tipracks = labware.load('tiprack-starlab-S1120-9810', 2)
-p50_tips = labware.load('tiprack-starlab-S1120-9810', 3)
+tipracks = labware.load('tiprack-starlab-S1120-9810', slot = '2')
+p50_tips = labware.load('tiprack-starlab-S1120-2810', '3')
+
 p300 = instruments.P300_Multi(
 mount=p300_mount,
 tip_racks=tipracks)
+
 p50 = instruments.P50_Single(
 mount=p50_mount,
 tip_racks=p50_tips)
@@ -79,35 +81,15 @@ output = [col for col in output_plate.cols()[:col_num]]
 bead_volume = sample_volume*bead_ratio
 total_vol = bead_volume + sample_volume + 1 # = 15ul of samples + 12 ul of beads + 5ul of excess
 
-# =============================================================================
-#       This Section will be done by hand prior to running the protocol to save 1600 tips
-#
-#     # Define bead and mix volume ##Justin: Consider moving to seperate script
-#     bead_volume = sample_volume*bead_ratio
-#     if bead_volume/2 > p300.max_volume:
-#         mix_vol = p300.max_volume
-#     else:
-#         mix_vol = bead_volume/2
-#     total_vol = bead_volume + sample_volume + 5
-# 
-#     # Mix beads and PCR samples ##Justin: Consider removing an doing by hand
-#     for target in samples:
-#         p300.pick_up_tip()
-#         p300.mix(5, mix_vol, beads)
-#         p300.transfer(bead_volume, beads, target, new_tip='never')
-#         p300.mix(10, mix_vol, target)
-#         p300.blow_out()
-#         p300.drop_tip()
-# 
-#     # Incubate beads and PCR product at RT for 5 minutes ##Justin: Consider doing by hand
-#     p300.delay(minutes=incubation_time)
-# =============================================================================
 
 ### Workflow:
 
 # Engagae MagDeck and incubate
 mag_deck.engage(height = 17)
-p300.delay(minutes=settling_time)
+
+# =============================================================================
+# p300.delay(minutes=settling_time)
+# =============================================================================
 
 # Remove supernatant from magnetic beads - this bit has been changed by james!!
 p300.set_flow_rate(aspirate=25, dispense=150)
@@ -130,7 +112,9 @@ for cycle in range(2):
                          new_tip='never')
         ticker += 1
         
-    p300.delay(minutes=1)
+        # =============================================================================
+        #     p300.delay(minutes=1)
+        # =============================================================================
 
     for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
         p300.transfer(180, mag_plate[target].bottom(0.05), waste, air_gap=air_vol,
@@ -147,8 +131,10 @@ p50.drop_tip()
 p50.set_flow_rate(aspirate = 25)
 
 
-# Dry at RT
-p300.delay(minutes=drying_time)
+# =============================================================================
+# # Dry at RT
+# p300.delay(minutes=drying_time)
+# =============================================================================
 
 # Disengage MagDeck
 mag_deck.disengage()
@@ -156,34 +142,6 @@ mag_deck.disengage()
 # Mix beads with elution buffer
 
 mix_vol = elution_buffer_volume
-
-# =============================================================================
-#     p300.pick_up_tip()
-#     for target in samples:
-#         p300.transfer(
-#             elution_buffer_volume, tris, target.top(), new_tip='never')
-#         p300.mix(15, mix_vol, target)
-#         p300.move_to(target.top(-1))
-#         p300.blow_out()
-#     p300.drop_tip()
-# =============================================================================
-# =============================================================================
-#     p300.pick_up_tip()
-# 
-#     
-#     for target in samples:
-#         p300.transfer(
-#                 elution_buffer_volume, tris, samples.top(-1), new_tip='never')
-#         
-#     for target in samples:
-#         p300.mix(6, mix_vol, samples)   #less because it takes such a long time...
-#         p300.move_to(target.top(-1))
-#         p300.blow_out()
-#     p300.drop_tip()
-#     
-#     
-#         p300.pick_up_tip()
-# =============================================================================
 
 ### Bit added by James to directly target a list of wells instead of making the list a well series in an object   
 p300.pick_up_tip()
@@ -201,8 +159,13 @@ for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
     p300.move_to(mag_plate[target].top(-1))
     p300.blow_out()
 p300.drop_tip()
-# Incubate at RT for 5 minutes
-p300.delay(minutes=5)
+
+# =============================================================================
+# 
+# # Incubate at RT for 5 minutes
+# p300.delay(minutes=5)
+# 
+# =============================================================================
 
 # Engagae MagDeck for 1 minute and remain engaged for DNA elution
 mag_deck.engage(height = 16)
