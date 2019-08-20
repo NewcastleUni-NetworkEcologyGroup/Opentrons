@@ -6,7 +6,7 @@ metadata = {
     'description': 'a series of commands that will transfer tissue lysate from a deepwell plate into mixing plates and then on to spin columns' 
     }
 
-# get the plates loaded in the middle of the deck so we can do fancy multichannel pickups
+# get the plates loaded and spin columns loaded
 lysate_plate1 = labware.load('starlab-E2896-0220', '4', 'input lysate plate')
 lysate_plate2 = labware.load('starlab-E2896-0220', '5', 'input lysate plate')
 
@@ -16,7 +16,7 @@ mix_plate2 = labware.load('starlab-E2896-0220', '8', 'mixing plate')
 spin_cols1 = labware.load('spin_cols_96', '10', 'mixing plate')
 spin_cols2 = labware.load('spin_cols_96', '11', 'mixing plate')
 
-
+# load the tips
 tips_300 = [labware.load('tiprack-starlab-S1120-9810', str(slot))
              for slot in [1,2]]
 
@@ -26,30 +26,7 @@ pipette300 = instruments.P300_Multi(mount='left', tip_racks=tips_300)
 lysate_volume: float=200
 denature_volume: float=400
 
-# =============================================================================
-# for well in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-#     pipette300.pick_up_tip()
-#     pipette300.aspirate(lysate_volume, lysate_plate1[well].top(-20))
-#     pipette300.dispense(lysate_volume, mix_plate1[well].bottom(3))
-#     pipette300.mix(5,lysate_volume)
-#     pipette300.transfer(lysate_volume+denature_volume,
-#                         mix_plate1[well].bottom(0.5),
-#                         spin_cols1[well].top(-4),
-#                         new_tip='never').blow_out()
-#     pipette300.drop_tip()
-#     
-# for well in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-#     pipette300.pick_up_tip()
-#     pipette300.aspirate(lysate_volume, lysate_plate2[well].top(-20))
-#     pipette300.dispense(lysate_volume, mix_plate2[well].bottom(3))
-#     pipette300.mix(5,lysate_volume)
-#     pipette300.transfer(lysate_volume+denature_volume,
-#                         mix_plate2[well].bottom(0.5),
-#                         spin_cols2[well].top(-4),
-#                         new_tip='never').blow_out()
-#     pipette300.drop_tip()
-# =============================================================================
-
+# set up lists of labware to iterate across
 lysates=[lysate_plate1,lysate_plate2]
 mixes=[mix_plate1,mix_plate2]
 spins=[spin_cols1,spin_cols2]
