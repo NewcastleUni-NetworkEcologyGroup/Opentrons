@@ -17,7 +17,7 @@ pipette.transfer(10, plate2['A1'], plate2['A2'])
 pipette.transfer(10, plate2['A1'], plate['A2'])
 
 
-magdeck.engage(height=15)
+magdeck.engage(height=18)
 pipette.delay(5)
 magdeck.disengage()
 
