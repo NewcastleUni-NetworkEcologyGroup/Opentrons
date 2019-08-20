@@ -51,22 +51,16 @@ drying_time: float=13
 p50_type: 'StringSelection...'='p50_Single'
 p50_mount: 'StringSelection...'='left'
 
-## We'll need to work out how many tips are needed !!!!!!
-
-total_tips = 40
-tiprack_num = total_tips//96 + (1 if total_tips % 96 > 0 else 0)
-slots = ['2', '3', '5', '7', '8'][:tiprack_num]
-
-tipracks = labware.load('tiprack-starlab-S1120-9810', slot = '2')
-p50_tips = labware.load('tiprack-starlab-S1120-2810', '3')
+tipracks = labware.load('tiprack-starlab-S1120-9810', slot = 2)
+p50_tips = labware.load('tiprack-starlab-S1120-2810', slot = 3)
 
 p300 = instruments.P300_Multi(
 mount=p300_mount,
-tip_racks=tipracks)
+tip_racks=[tipracks])
 
 p50 = instruments.P50_Single(
 mount=p50_mount,
-tip_racks=p50_tips)
+tip_racks=[p50_tips])
 
 #    mode = p300_type.split('_')[1] # this is 'Multi'
 
@@ -95,7 +89,7 @@ mag_deck.engage(height = 17)
 p300.set_flow_rate(aspirate=25, dispense=150)
 p300.pick_up_tip()
 for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-    p300.transfer(total_vol, mag_plate[target].bottom(0), waste,
+    p300.transfer(total_vol, mag_plate[target].bottom(0.1), waste,
                      new_tip='never')
     p300.blow_out(waste)
     p300.touch_tip(waste_plate.wells('A6'), radius =0.8, v_offset=30)
