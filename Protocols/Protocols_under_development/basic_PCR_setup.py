@@ -30,7 +30,7 @@ neg_num: float = 1
 pipette50.pick_up_tip()
 for idx, x in enumerate(range(0, sample_num+neg_num)):
     pipette50.transfer(mastermix_vol,
-                       mastermix('A1').bottom(round(37-(idx*(36/(sample_num+neg_num))))),
+                       mastermix('A1').bottom(round(35-(idx*(34/(sample_num+neg_num))))),
                        PCR_plate(x).bottom(1),
                        blow_out=True,
                        new_tip='never')
