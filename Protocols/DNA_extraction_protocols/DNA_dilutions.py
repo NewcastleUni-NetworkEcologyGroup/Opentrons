@@ -56,7 +56,7 @@ for idx, plate in enumerate(dilutions):
     for well in wells:
         pipette10.pick_up_tip()
         pipette10.transfer(final_volume*dilution_factor,
-                            DNAs[idx][well].bottom(0.5),
+                            DNAs[idx][well].bottom(2),
                             plate[well].top(-8),
                             new_tip='never').mix(4,5).blow_out(plate[well].top(-4))
         pipette10.drop_tip()
