@@ -73,7 +73,7 @@ output = [col for col in output_plate.cols()[:col_num]]
 
 # total_vol still needs to be specified
 bead_volume = sample_volume*bead_ratio
-total_vol = bead_volume + sample_volume + 1 # = 15ul of samples + 12 ul of beads + 5ul of excess
+total_vol = bead_volume + sample_volume + 4 # = 15ul of samples + 12 ul of beads + 5ul of excess
 
 
 ### Workflow:
@@ -89,19 +89,19 @@ mag_deck.engage(height = 17)
 p300.set_flow_rate(aspirate=25, dispense=150)
 p300.pick_up_tip()
 for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-    p300.transfer(total_vol, mag_plate[target].bottom(0.1), waste,
+    p300.transfer(total_vol, mag_plate[target].bottom(0.7), waste,
                      new_tip='never')
     p300.blow_out(waste)
     p300.touch_tip(waste_plate.wells('A6'), radius =0.8, v_offset=30)
 p300.drop_tip()
 # Wash beads twice with 70% ethanol
-air_vol = 15
+air_vol = 10
 p300.pick_up_tip()
 for cycle in range(2):
     ticker = 0
     for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
         ethanol_source = ticker//4
-        p300.transfer(170, ethanol[ethanol_source], mag_plate[target].top(-1),
+        p300.transfer(165, ethanol[ethanol_source], mag_plate[target].top(-1),
                          air_gap=air_vol,
                          new_tip='never')
         ticker += 1
@@ -111,15 +111,16 @@ for cycle in range(2):
         # =============================================================================
 
     for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-        p300.transfer(180, mag_plate[target].bottom(0.05), waste, air_gap=air_vol,
+        p300.transfer(185, mag_plate[target].bottom(0.8), waste, air_gap=air_vol,
                          new_tip = 'never')
+        p300.blow_out(waste)
     
 p300.drop_tip()
 
 p50.set_flow_rate(aspirate = 10)
 
 p50.pick_up_tip()
-p50.transfer(10, mag_plate().bottom(0.1), waste, new_tip = 'never')
+p50.transfer(10, mag_plate.wells('A1', to = 'H12').bottom(0.3), waste, new_tip = 'never')
 p50.drop_tip()
 
 p50.set_flow_rate(aspirate = 25)
