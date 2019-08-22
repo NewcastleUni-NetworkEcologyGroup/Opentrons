@@ -29,11 +29,11 @@ waste = waste_plate.wells('A6').top(-30)
 #                       ethanol = ethanol_plate.wells(e_col[e_index])
 
 
-ethanol = ethanol_plate.wells('A4', 'A5', 'A6') 
+ethanol = ethanol_plate.wells('A7', 'A8', 'A9') 
 
 # Elution buffer needs to be done in the same way
 
-tris = elution_buffer.wells('A2')
+tris = elution_buffer.wells('A3')
 
 # Specify sample well
 
@@ -46,7 +46,7 @@ bead_ratio: float=0.8
 elution_buffer_volume: float=30
 incubation_time: float=5
 settling_time: float=5
-drying_time: float=13
+drying_time: float=4
 
 p50_type: 'StringSelection...'='p50_Single'
 p50_mount: 'StringSelection...'='left'
@@ -87,7 +87,7 @@ p300.delay(minutes=settling_time)
 p300.set_flow_rate(aspirate=25, dispense=150)
 p300.pick_up_tip()
 for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-    p300.transfer(total_vol, mag_plate[target].bottom(0.7), waste,
+    p300.transfer(total_vol, mag_plate[target].bottom(0.9), waste,
                      new_tip='never')
     p300.blow_out(waste)
     p300.touch_tip(waste_plate.wells('A6'), radius =0.8, v_offset=30)
@@ -106,7 +106,7 @@ for cycle in range(2):
         ticker += 1
         
     for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-        p300.transfer(185, mag_plate[target].bottom(0.8), waste, air_gap=air_vol,
+        p300.transfer(185, mag_plate[target].bottom(1), waste, air_gap=air_vol,
                          new_tip = 'never')
         p300.blow_out(waste)
     
@@ -116,21 +116,13 @@ p50.set_flow_rate(aspirate = 10)
 
 p50.pick_up_tip()
 for x in range(0,96):
-    p50.transfer(10, mag_plate.wells(x).bottom(0.3), waste, new_tip = 'never')
+    p50.transfer(20, mag_plate.wells(x).bottom(0.3), waste, new_tip = 'never')
 p50.drop_tip()
 
 p50.set_flow_rate(aspirate = 25)
 
-<<<<<<< HEAD
-
 # Dry at RT
 p300.delay(minutes=drying_time)
-=======
-# =============================================================================
-# # Dry at RT
-# p300.delay(minutes=drying_time)
-# =============================================================================
->>>>>>> 9bba0f25db8127ff38f337a90ddd7c871ac29da6
 
 # Disengage MagDeck
 mag_deck.disengage()
@@ -157,7 +149,7 @@ for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
 p300.drop_tip()
 
 # Incubate at RT for 5 minutes
-p300.delay(minutes=5)
+p300.delay(minutes=2)
 
 
 # Engagae MagDeck for 1 minute and remain engaged for DNA elution
@@ -173,7 +165,10 @@ for target, dest in zip(samples, output):
 p300.drop_tip()
 
 #### Consolidating all
+#p50.pick_up_tip()
 #p50.consolidate(10, mag_plate, elutiontube(1), new_tip = 'never')
-
+#for x in range(0,96):
+#    p50.transfer(10, mag_plate.wells(x).bottom(0.3), elution_tube.wells('A1').top(-5), new_tip = 'never')
+#p50.drop_tip()
 
 #run_custom_protocol(**{'p300_type': 'p300_Multi', 'p300_mount': 'right', 'sample_number': 96, 'sample_volume': 15.0, 'bead_ratio': 0.8, 'elution_buffer_volume': 30.0, 'incubation_time': 5.0, 'settling_time': 5.0, 'drying_time': 15.0})
