@@ -33,7 +33,7 @@ ethanol = ethanol_plate.wells('A1', 'A2', 'A3')
 
 # Elution buffer needs to be done in the same way
 
-tris = elution_buffer.wells('A1')
+tris = elution_buffer.wells('A2')
 
 # Specify sample well
 
@@ -81,9 +81,7 @@ total_vol = bead_volume + sample_volume + 4 # = 15ul of samples + 12 ul of beads
 # Engagae MagDeck and incubate
 mag_deck.engage(height = 17)
 
-# =============================================================================
-# p300.delay(minutes=settling_time)
-# =============================================================================
+p300.delay(minutes=settling_time)
 
 # Remove supernatant from magnetic beads - this bit has been changed by james!!
 p300.set_flow_rate(aspirate=25, dispense=150)
@@ -94,6 +92,7 @@ for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
     p300.blow_out(waste)
     p300.touch_tip(waste_plate.wells('A6'), radius =0.8, v_offset=30)
 p300.drop_tip()
+
 # Wash beads twice with 70% ethanol
 air_vol = 10
 p300.pick_up_tip()
@@ -106,10 +105,6 @@ for cycle in range(2):
                          new_tip='never')
         ticker += 1
         
-        # =============================================================================
-        #     p300.delay(minutes=1)
-        # =============================================================================
-
     for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
         p300.transfer(185, mag_plate[target].bottom(0.8), waste, air_gap=air_vol,
                          new_tip = 'never')
@@ -126,10 +121,8 @@ p50.drop_tip()
 p50.set_flow_rate(aspirate = 25)
 
 
-# =============================================================================
-# # Dry at RT
-# p300.delay(minutes=drying_time)
-# =============================================================================
+# Dry at RT
+p300.delay(minutes=drying_time)
 
 # Disengage MagDeck
 mag_deck.disengage()
@@ -155,12 +148,9 @@ for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
     p300.blow_out()
 p300.drop_tip()
 
-# =============================================================================
-# 
-# # Incubate at RT for 5 minutes
-# p300.delay(minutes=5)
-# 
-# =============================================================================
+# Incubate at RT for 5 minutes
+p300.delay(minutes=5)
+
 
 # Engagae MagDeck for 1 minute and remain engaged for DNA elution
 mag_deck.engage(height = 16)
