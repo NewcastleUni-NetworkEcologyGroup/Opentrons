@@ -29,7 +29,7 @@ waste = waste_plate.wells('A6').top(-30)
 #                       ethanol = ethanol_plate.wells(e_col[e_index])
 
 
-ethanol = ethanol_plate.wells('A1', 'A2', 'A3') 
+ethanol = ethanol_plate.wells('A4', 'A5', 'A6') 
 
 # Elution buffer needs to be done in the same way
 
