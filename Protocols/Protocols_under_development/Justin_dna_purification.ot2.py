@@ -120,11 +120,11 @@ p300.drop_tip()
 p50.set_flow_rate(aspirate = 10)
 
 p50.pick_up_tip()
-p50.transfer(10, mag_plate.wells('A1', to = 'H12').bottom(0.3), waste, new_tip = 'never')
+for x in range(0,96):
+    p50.transfer(10, mag_plate.wells(x).bottom(0.3), waste, new_tip = 'never')
 p50.drop_tip()
 
 p50.set_flow_rate(aspirate = 25)
-
 
 # =============================================================================
 # # Dry at RT
