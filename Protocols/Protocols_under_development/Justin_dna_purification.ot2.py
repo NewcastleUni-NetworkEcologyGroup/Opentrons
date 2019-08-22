@@ -123,6 +123,11 @@ p50.set_flow_rate(aspirate = 25)
 
 # Dry at RT
 p300.delay(minutes=drying_time)
+=======
+# =============================================================================
+# # Dry at RT
+# p300.delay(minutes=drying_time)
+# =============================================================================
 
 # Disengage MagDeck
 mag_deck.disengage()
