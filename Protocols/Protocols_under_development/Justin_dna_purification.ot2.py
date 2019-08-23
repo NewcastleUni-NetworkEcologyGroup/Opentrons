@@ -7,10 +7,10 @@ metadata = {
 
 mag_deck = modules.load('magdeck', '10')
 mag_plate = labware.load('starlab-E1403-5200', '10', share=True)
-output_plate = labware.load('starlab-E1403-0100', '6')
 ethanol_plate = labware.load('starlab-E2896-0220', '4')
 elution_buffer = labware.load('starlab-E2896-0220', '1') 
-#elution_tube = labware.load('opentrons_24_tuberack_generic_2ml_screwcap')
+#output_plate = labware.load('starlab-E1403-0100', '6')
+elution_tube = labware.load('opentrons_24_tuberack_generic_2ml_screwcap', '6')
 
 # add an empty p1000 box as a waste bucket
 
@@ -29,11 +29,17 @@ waste = waste_plate.wells('A6').top(-30)
 #                       ethanol = ethanol_plate.wells(e_col[e_index])
 
 
-ethanol = ethanol_plate.wells('A7', 'A8', 'A9') 
+ethanol = ethanol_plate.wells('A7', 'A8', 'A9').bottom(2) 
 
 # Elution buffer needs to be done in the same way
 
-tris = elution_buffer.wells('A3')
+tris = elution_buffer.wells('A7').bottom(4)
+
+# Make a list for wells to collect elution from
+output_wells = list(range(0,96))
+output_wells.remove(95)
+output_wells.remove(87)
+#output_wells.remove(79)
 
 # Specify sample well
 
@@ -51,7 +57,8 @@ drying_time: float=4
 p50_type: 'StringSelection...'='p50_Single'
 p50_mount: 'StringSelection...'='left'
 
-tipracks = labware.load('tiprack-starlab-S1120-9810', slot = 2)
+# tipracks = labware.load('tiprack-starlab-S1120-9810', slot = 2)
+tipracks = labware.load('opentrons_96_tiprack_300ul', 2)
 p50_tips = labware.load('tiprack-starlab-S1120-2810', slot = 3)
 
 p300 = instruments.P300_Multi(
@@ -69,7 +76,7 @@ tip_racks=[p50_tips])
 
 col_num = sample_number // 8 + (1 if sample_number % 8 > 0 else 0)
 samples = [col for col in mag_plate.cols()[:col_num]]
-output = [col for col in output_plate.cols()[:col_num]]
+#output = [col for col in output_plate.cols()[:col_num]]
 
 # total_vol still needs to be specified
 bead_volume = sample_volume*bead_ratio
@@ -87,14 +94,14 @@ p300.delay(minutes=settling_time)
 p300.set_flow_rate(aspirate=25, dispense=150)
 p300.pick_up_tip()
 for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-    p300.transfer(total_vol, mag_plate[target].bottom(0.9), waste,
+    p300.transfer(total_vol, mag_plate[target].bottom(1), waste,
                      new_tip='never')
     p300.blow_out(waste)
     p300.touch_tip(waste_plate.wells('A6'), radius =0.8, v_offset=30)
 p300.drop_tip()
 
 # Wash beads twice with 70% ethanol
-air_vol = 10
+air_vol = 15
 p300.pick_up_tip()
 for cycle in range(2):
     ticker = 0
@@ -106,7 +113,7 @@ for cycle in range(2):
         ticker += 1
         
     for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
-        p300.transfer(185, mag_plate[target].bottom(1), waste, air_gap=air_vol,
+        p300.transfer(200, mag_plate[target].bottom(1), waste, air_gap=air_vol,
                          new_tip = 'never')
         p300.blow_out(waste)
     
@@ -116,7 +123,8 @@ p50.set_flow_rate(aspirate = 10)
 
 p50.pick_up_tip()
 for x in range(0,96):
-    p50.transfer(20, mag_plate.wells(x).bottom(0.3), waste, new_tip = 'never')
+    p50.transfer(20, mag_plate.wells(x).bottom(0.1), waste, new_tip = 'never')
+    p50.blow_out(waste)
 p50.drop_tip()
 
 p50.set_flow_rate(aspirate = 25)
@@ -140,7 +148,22 @@ p300.pick_up_tip()
 #         elution_buffer_volume, tris, mag_plate[target].top(-1), new_tip='never')
 # =============================================================================
     
-p300.distribute(elution_buffer_volume, tris, mag_plate.cols('1', to = str(col_num)), new_tip = 'never')
+# p300.distribute(elution_buffer_volume, tris, mag_plate.cols('1', to = str(col_num)), new_tip = 'never')
+
+p300.aspirate(250, tris)
+for target in ['A1','A2','A3','A4','A5','A6']:
+#    p300.move_to(mag_plate[target].top(-1))
+    p300.dispense(30, mag_plate[target].top(-1))
+    
+p300.blow_out(tris)
+    
+p300.aspirate(250, tris)
+for target in ['A7','A8','A9','A10','A11','A12']:
+    p300.move_to(mag_plate[target].top(-1))
+    p300.dispense(30, mag_plate[target].top(-1))
+    
+p300.blow_out(tris)
+
 
 for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
     p300.mix(6, mix_vol, mag_plate[target])   #less because it takes such a long time...
@@ -158,17 +181,31 @@ mag_deck.engage(height = 16)
 p300.delay(minutes=settling_time)
 
 # Transfer clean PCR product to a new well
-p300.pick_up_tip()
-for target, dest in zip(samples, output):
-    p300.transfer(
-            20, target, dest, blow_out=True, new_tip = 'never')
-p300.drop_tip()
+# =============================================================================
+# p300.pick_up_tip()
+# for target, dest in zip(samples, output):
+#     p300.transfer(
+#             20, target, dest, blow_out=True, new_tip = 'never')
+# p300.drop_tip()
+# =============================================================================
 
 #### Consolidating all
+# =============================================================================
+# p50.pick_up_tip()
+# for x in output_wells:
+#     p50.transfer(15, mag_plate.wells(x), output_plate(x).top(-5), new_tip = 'never')
+#     p50.blow_out(output_plate(x))
+# p50.drop_tip()
+# =============================================================================
+
+
 #p50.pick_up_tip()
 #p50.consolidate(10, mag_plate, elutiontube(1), new_tip = 'never')
-#for x in range(0,96):
-#    p50.transfer(10, mag_plate.wells(x).bottom(0.3), elution_tube.wells('A1').top(-5), new_tip = 'never')
-#p50.drop_tip()
+
+p50.pick_up_tip()
+for x in output_wells:
+    p50.transfer(15, mag_plate.wells(x), elution_tube.wells('A1').top(-5), new_tip = 'never')
+    p50.blow_out(elution_tube.wells('A1').top(-5)).touch_tip()
+p50.drop_tip()
 
 #run_custom_protocol(**{'p300_type': 'p300_Multi', 'p300_mount': 'right', 'sample_number': 96, 'sample_volume': 15.0, 'bead_ratio': 0.8, 'elution_buffer_volume': 30.0, 'incubation_time': 5.0, 'settling_time': 5.0, 'drying_time': 15.0})
