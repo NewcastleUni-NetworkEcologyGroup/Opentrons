@@ -22,24 +22,44 @@ waste = waste_plate.wells('A6').top(-30)
 # Define reagents locations in a loop Or maybe can be done more simply
 
 # Ethanol Location
-# Here we need a loop specifying where to take ethanol from
-# something like:   e_col = ['A1', 'A2', 'A3']
-#                   if e_ticker == 8,
-#                       e_index = e_index + 1
-#                       ethanol = ethanol_plate.wells(e_col[e_index])
 
-
-ethanol = ethanol_plate.wells('A7', 'A8', 'A9').bottom(2) 
+ethanol = ethanol_plate.wells('A7', 'A8', 'A9')
 
 # Elution buffer needs to be done in the same way
 
-tris = elution_buffer.wells('A7').bottom(4)
+tris = elution_buffer.wells('A11').bottom(4)
 
 # Make a list for wells to collect elution from
-output_wells = list(range(0,96))
-output_wells.remove(95)
-output_wells.remove(87)
-#output_wells.remove(79)
+# =============================================================================
+# output_wells = list(range(0,96))
+# output_wells.remove(95)
+# output_wells.remove(87)
+# output_wells.remove(79)
+# 
+# =============================================================================
+outA = list(range(8, 96))
+
+outA.remove(95)
+outA.remove(87)
+outA.remove(79)
+outA.remove(71)
+outA.remove(63)
+
+
+outA.remove(93)
+outA.remove(85)
+outA.remove(77)
+outA.remove(69)
+outA.remove(61)
+outA.remove(53)
+outA.remove(45)
+
+outA.remove(43)
+
+outA.remove(88) 
+
+
+output_wells = outA
 
 # Specify sample well
 
@@ -92,7 +112,8 @@ p300.delay(minutes=settling_time)
 
 # Remove supernatant from magnetic beads - this bit has been changed by james!!
 p300.set_flow_rate(aspirate=25, dispense=150)
-p300.pick_up_tip()
+
+p300.pick_up_tip(tipracks.wells('A3'))
 for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
     p300.transfer(total_vol, mag_plate[target].bottom(1), waste,
                      new_tip='never')
@@ -101,13 +122,13 @@ for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
 p300.drop_tip()
 
 # Wash beads twice with 70% ethanol
-air_vol = 15
-p300.pick_up_tip()
+air_vol = 20
+p300.pick_up_tip(tipracks.wells('A4'))
 for cycle in range(2):
     ticker = 0
     for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
         ethanol_source = ticker//4
-        p300.transfer(165, ethanol[ethanol_source], mag_plate[target].top(-1),
+        p300.transfer(165, ethanol[ethanol_source].bottom(2), mag_plate[target].top(-1),
                          air_gap=air_vol,
                          new_tip='never')
         ticker += 1
@@ -123,8 +144,8 @@ p50.set_flow_rate(aspirate = 10)
 
 p50.pick_up_tip()
 for x in range(0,96):
-    p50.transfer(20, mag_plate.wells(x).bottom(0.1), waste, new_tip = 'never')
-    p50.blow_out(waste)
+    p50.transfer(20, mag_plate.wells(x).bottom(0.2), waste, new_tip = 'never')
+    p50.blow_out(waste).touch_tip()
 p50.drop_tip()
 
 p50.set_flow_rate(aspirate = 25)
@@ -140,7 +161,7 @@ mag_deck.disengage()
 mix_vol = elution_buffer_volume
 
 ### Bit added by James to directly target a list of wells instead of making the list a well series in an object   
-p300.pick_up_tip()
+p300.pick_up_tip(tipracks.wells('A5'))
 # =============================================================================
 # 
 # for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
@@ -150,19 +171,9 @@ p300.pick_up_tip()
     
 # p300.distribute(elution_buffer_volume, tris, mag_plate.cols('1', to = str(col_num)), new_tip = 'never')
 
-p300.aspirate(250, tris)
-for target in ['A1','A2','A3','A4','A5','A6']:
-#    p300.move_to(mag_plate[target].top(-1))
-    p300.dispense(30, mag_plate[target].top(-1))
-    
-p300.blow_out(tris)
-    
-p300.aspirate(250, tris)
-for target in ['A7','A8','A9','A10','A11','A12']:
-    p300.move_to(mag_plate[target].top(-1))
-    p300.dispense(30, mag_plate[target].top(-1))
-    
-p300.blow_out(tris)
+for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
+    p300.transfer(35, tris, mag_plate[target].bottom(8),
+                  air_gap=air_vol, new_tip='never', blow_out = True)
 
 
 for target in ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12']:
