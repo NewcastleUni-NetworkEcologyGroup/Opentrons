@@ -5,7 +5,12 @@ The following labware is currently included in this repository for use on the Op
 **Use the create labware scripts to calibrate before first use in a protocol**
 
 ***
+# API V2 labware code
+## Sarsteadt
+### PCR plates and strips
+* Fully skirted PCR plate - [sarsteadt_96_wellplate_200ul](https://www.sarstedt.com/en/products/laboratory/pcr-molecular-biology/pcr-plates/product/dmsarproducts/specificationPdf/Product/72.1980.202/)
 
+# API V1 code directory contains the following old  labware definitions (most users should be on API  v2 now)
 ## [Starlab](https://github.com/NewcastleUni-NetworkEcologyGroup/Opentrons/blob/master/Labware/Create_labware_Starlab.py)
 ### PCR plates and strips
 * Non-skirted (cuttable) PCR plate - [starlab-E1403-0100](https://www.starlabgroup.com/GB-en/consumables/pcr-consumables_WebPSub-155858/96-well-pcr-plate-non-skirted-cuttable-natural_SLE1403-0100.html) <sup name="a1">[1](#f1)</sup>
