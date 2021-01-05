@@ -4,7 +4,7 @@
 
 # Newcastle University Network Ecology Group Opentrons repository.
 
-This repository contains the custom protocols and labware used by the Network Ecology Group at Newcastle University on our [Opentrons OT-2 robots](https://opentrons.com/ot-2).
+This repository contains the custom protocols and labware used by the Network Ecology Group at Newcastle University on our [Opentrons OT-2 robots](https://opentrons.com/ot-2). Each folder contains 'api_v1' and 'api_v2' folders to separate out the protocol written in each format. As protocols are required for projects, we'll be fine tuning them and moving them into 'api_v2' folders.
 ***
 
 ## Important considerations working with the OT-2
