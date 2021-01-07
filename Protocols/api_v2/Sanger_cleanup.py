@@ -20,9 +20,9 @@ metadata = {'apiLevel': '2.0',
 def run(protocol: protocol_api.ProtocolContext):
 
     # labware for protocol
-    reservoir = protocol.load_labware('starlab-E2896-0220',2)
+    reservoir = protocol.load_labware('sarstedt_96_wellplate_2200ul',2)
     tiprack_300 = protocol.load_labware('opentrons_96_tiprack_300ul', 3)
-    tiprack_200 = protocol.load_labware('opentrons_96_tiprack_300ul', 6)
+    tiprack_200 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 6)
     
     # module and labware on it
     module = protocol.load_module('magdeck', 1)
@@ -30,12 +30,21 @@ def run(protocol: protocol_api.ProtocolContext):
                                       label='Samples')
     
     # pipettes
-    left_pipette = protocol.load_instrument('p50_single', mount='left', tip_racksacks=[tiprack])
-    right_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racksacks=[tiprack])
+    left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_300])
+    right_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racks=[tiprack_200])
     
-    # commands
+    # commands to distribute reagent 1
     left_pipette.pick_up_tip()
     left_pipette.distribute(30,
                             reservoir.wells_by_name()['A1'],
-                            magplate.rows_by_name()['A'])
+                            magplate.rows_by_name()['A'],
+                            new_tip='never',
+                            blow_out=True)
     
+    # commands to distribute reagent 2
+    right_pipette.pick_up_tip()
+    right_pipette.distribute(30,
+                            reservoir.wells_by_name()['A2'],
+                            magplate.rows_by_name()['A'],
+                            new_tip='never',
+                            blow_out=False)    
