@@ -26,7 +26,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # module and labware on it
     module = protocol.load_module('magdeck', 1)
-    magplate = module.load_labware('sarsteadt_96_wellplate_200ul',
+    magplate = module.load_labware('sarstedt_96_wellplate_200ul',
                                       label='Samples')
     
     # pipettes
