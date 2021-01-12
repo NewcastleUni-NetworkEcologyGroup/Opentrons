@@ -34,8 +34,7 @@ def run(protocol: protocol_api.ProtocolContext):
     tiprack_300 = protocol.load_labware('opentrons_96_tiprack_300ul', 10)
     spri_plate_name = 'sarstedt_96_wellplate_200ul'
     dest_plates = [protocol.load_labware(spri_plate_name, str(slot))
-               for slot in [available_slots[i] for i in range(0,number_of_destination_plates)]]
-    print(dest_plates)
+               for slot in [available_slots[i] for i in range(number_of_destination_plates)]]
         
     # # define tube parameters for deepwell tubes - no skirt
     # total_length_deepwell: float = 41.85
@@ -57,9 +56,28 @@ def run(protocol: protocol_api.ProtocolContext):
     left_pipette.flow_rate.blow_out = 10
     
     # distribute spri mix
-    for d in all_dests:
-        left_pipette.distribute(spri_vol, beads, d, new_tip='always', touch_tip=True)
- 
+    # for d in all_dests:
+    #     left_pipette.distribute(spri_vol, beads, d, new_tip='always', touch_tip=True)
+    
+    spri_dest=['B1','C1','D1','E1','F1','G1','H1']
+    
+    for plate in dest_plates:
+        for idx in spri_dest:
+            left_pipette.aspirate(spri_vol,beads)
+            left_pipette.dispense(spri_vol,plate.wells(idx))
+
+
+# Tris_dest=['B1','C1','D1','E1','F1','G1','H1']
+
+# # Get a tip
+# pipette1000.pick_up_tip()
+
+# for idx, x in enumerate(Tris_dest):
+#    pipette1000.transfer(Tris_vols.__getitem__(idx),
+#                      Tris.top(-105),
+#                      trough.well(x).bottom(5),
+#                      new_tip='never')    
+
     # # This function will calculate the starting height for any pointy bottomed tube relative to top of the tube.
     # # This requires you to state whether the well is square or round as the tip volume will either be calculated as a cone or a pyramid.
     # def start_height(start_vol, total_length, well_shape, tip_length, width):
