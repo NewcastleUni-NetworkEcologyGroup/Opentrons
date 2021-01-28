@@ -33,8 +33,8 @@ def run(protocol: protocol_api.ProtocolContext):
                                       label='Samples')
     
     # pipettes
-    left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_1,tiprack_2,tiprack_3])
-    right_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racks=[tiprack_1,tiprack_2,tiprack_3])
+    left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_1, tiprack_2, tiprack_3])
+    right_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racks=[tiprack_1, tiprack_2,tiprack_3])
     
     # Create a list of target wells  and step numbers to iterate across so we can change aspirate heights when needed
     well_name = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12']
