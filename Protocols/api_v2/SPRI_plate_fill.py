@@ -26,13 +26,18 @@ def run(protocol: protocol_api.ProtocolContext):
     number_of_destination_plates: int = 2
     if number_of_destination_plates > 5:
         raise Exception('Please specify 5 or fewer destination plates, you cant hold enough SPRI beads in a 2.2ml plate for more.') 
+        
+     #### Step 6 - pause, cover and shake ####
+    protocol.pause(
+            "Have you put 2000 ul of SPRI beads in column one of the reservoir?")
+    
 
     # labware for protocol
     reservoir = protocol.load_labware('sarstedt_96_wellplate_2200ul',5)
     beads = reservoir['A1']
     # start_vol_beads = 2000
     tiprack_300 = protocol.load_labware('opentrons_96_tiprack_300ul', 10)
-    spri_plate_name = 'sarstedt_96_wellplate_200ul'
+    spri_plate_name = 'sarstedt_96_skirted_wellplate_200ul'
     dest_plates = [protocol.load_labware(spri_plate_name, str(slot))
                for slot in [available_slots[i] for i in range(number_of_destination_plates)]]
         
