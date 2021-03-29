@@ -26,6 +26,7 @@ def run(protocol: protocol_api.ProtocolContext):
     tiprack_3 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 9)
     outplate = protocol.load_labware('sarstedt_96_unskirted_wellplate_200ul', 5,
                                       label='Cleaned samples')
+    number_of_columns = 6
     
     # magnetic module and labware on it
     mag_mod = protocol.load_module('magdeck', 1)
