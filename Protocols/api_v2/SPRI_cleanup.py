@@ -20,13 +20,12 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
 
     # labware for protocol
-    reservoir = protocol.load_labware('sarstedt_96_wellplate_2200ul',2)
+    reservoir = protocol.load_labware('nest_12_reservoir_15ml',2)
     tiprack_1 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 3)
     tiprack_2 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 6)
     tiprack_3 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 9)
     outplate = protocol.load_labware('sarstedt_96_unskirted_wellplate_200ul', 5,
                                       label='Cleaned samples')
-    number_of_columns = 6
     
     # magnetic module and labware on it
     mag_mod = protocol.load_module('magdeck', 1)
@@ -46,9 +45,9 @@ def run(protocol: protocol_api.ProtocolContext):
     Tris_start_height = 20
     
     ##### Step 1 - Wait for 5 minutes then apply magnets for 5 minutes ####
-    protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
+    #protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
     mag_mod.engage(height=18.5)
-    protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
+    #protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
     #### Step 2 - Remove the supernatant ####
     # set pipetting parameters
@@ -70,6 +69,9 @@ def run(protocol: protocol_api.ProtocolContext):
     #### Step 3 - Ethanol wash 1 ####
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
     right_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
+    ######## fix aspirate heights, all above well top!! - could be cghange from 2.2ml plate to nest 12
+    ######## !!set fast aspirate here
+    ######## all of this can be much faster
     right_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
     # Set the aspirate height to the starting ethanol height
     right_pipette.well_bottom_clearance.aspirate = Ethanol_start_height
@@ -87,7 +89,7 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
-    protocol.delay(seconds = 10, msg = 'Washing beads')
+    ##protocol.delay(seconds = 10, msg = 'Washing beads')
     
     # Remove the bulk of the ethanol
     right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
@@ -121,7 +123,7 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
-    protocol.delay(seconds = 10, msg = 'Washing beads')
+    #protocol.delay(seconds = 10, msg = 'Washing beads')
     
     # Remove the bulk of the ethanol
     right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
@@ -136,9 +138,9 @@ def run(protocol: protocol_api.ProtocolContext):
     
     #### Step 5 - Dry SPRI beads ####
     mag_mod.engage(height=13.5)
-    protocol.delay(minutes = 2, msg = 'Pulling beads down')
+    #protocol.delay(minutes = 2, msg = 'Pulling beads down')
     mag_mod.disengage()
-    protocol.delay(minutes = 8, msg = 'Drying beads')
+    #protocol.delay(minutes = 8, msg = 'Drying beads')
     
     #### Step 5 - Elute ####
     # Add water ot 10mM Tris-HCl
@@ -165,11 +167,11 @@ def run(protocol: protocol_api.ProtocolContext):
             "Remove skirted plate from magdeck, cover with PCR film and shake on plate shaker for 2 minutes at 1400 rpm, take of lid, return to magdeck and resume protocol")
     
     # Wait 5 min
-    protocol.delay(minutes = 5, msg = 'Waiting for DNA to elute')
+    #protocol.delay(minutes = 5, msg = 'Waiting for DNA to elute')
     
     # Engage magnets for 5 min
     mag_mod.engage(height=18.5)
-    protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
+    #protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
     
     #### Step 7 - Transfer to unskirted plate for genetic analyser ####
     left_pipette.transfer(20, magplate.rows_by_name()['A'],
