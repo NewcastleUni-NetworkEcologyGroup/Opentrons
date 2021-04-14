@@ -41,7 +41,7 @@ def run(protocol: protocol_api.ProtocolContext):
     steps=len(well_name)
     
     # Set liquid starting heights
-    Ethanol_start_height = 30
+    Ethanol_start_height = 22
     Tris_start_height = 20
     
     ##### Step 1 - Wait for 5 minutes then apply magnets for 5 minutes ####
@@ -68,10 +68,8 @@ def run(protocol: protocol_api.ProtocolContext):
     
     #### Step 3 - Ethanol wash 1 ####
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    right_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
-    ######## fix aspirate heights, all above well top!! - could be cghange from 2.2ml plate to nest 12
-    ######## !!set fast aspirate here
-    ######## all of this can be much faster
+    right_pipette.well_bottom_clearance.dispense = 10 # near the bottom but not too near to make sure the tip doesn't block
+    right_pipette.flow_rate.aspirate = 100
     right_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
     # Set the aspirate height to the starting ethanol height
     right_pipette.well_bottom_clearance.aspirate = Ethanol_start_height
@@ -98,14 +96,15 @@ def run(protocol: protocol_api.ProtocolContext):
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
     right_pipette.flow_rate.aspirate = 10 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
-    right_pipette.well_bottom_clearance.aspirate = 0.1
+    right_pipette.well_bottom_clearance.aspirate = 0.1 #can be lower
     right_pipette.consolidate(100, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
                               blow_out=True)
        
         
     #### Step 4 - Ethanol wash 2 ####
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    right_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
+    right_pipette.well_bottom_clearance.dispense = 10 # near the bottom but not too near to make sure the tip doesn't block
+    right_pipette.flow_rate.aspirate = 100
     right_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
     # Set the aspirate height to the starting ethanol height
     right_pipette.well_bottom_clearance.aspirate = Ethanol_start_height
@@ -145,7 +144,8 @@ def run(protocol: protocol_api.ProtocolContext):
     #### Step 5 - Elute ####
     # Add water ot 10mM Tris-HCl
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    left_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
+    left_pipette.well_bottom_clearance.dispense = 12 # near the bottom but not too near to make sure the tip doesn't block
+    right_pipette.flow_rate.aspirate = 100
     left_pipette.flow_rate.dispense = 150 # doesn't really matter and a good rate will help mix beads
     # Set the aspirate height to the starting ethanol height
     left_pipette.well_bottom_clearance.aspirate = Tris_start_height
@@ -174,6 +174,7 @@ def run(protocol: protocol_api.ProtocolContext):
     #protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
     
     #### Step 7 - Transfer to unskirted plate for genetic analyser ####
+    # set aspirate height here or recalibrate pipette offset lengh
     left_pipette.transfer(20, magplate.rows_by_name()['A'],
                        outplate.rows_by_name()['A'],
                        air_gap = 5,
