@@ -26,6 +26,7 @@ def run(protocol: protocol_api.ProtocolContext):
     tiprack_3 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 9)
     outplate = protocol.load_labware('sarstedt_96_unskirted_wellplate_200ul', 5,
                                       label='Cleaned samples')
+    waste = protocol.load_labware('starlab_tip_box_waste', 7)
     
     # magnetic module and labware on it
     mag_mod = protocol.load_module('magdeck', 1)
@@ -46,7 +47,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     ##### Step 1 - Wait for 5 minutes then apply magnets for 5 minutes ####
     #protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
-    mag_mod.engage(height=18.5)
+    mag_mod.engage(height=19.5)
     #protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
     #### Step 2 - Remove the supernatant ####
@@ -58,12 +59,12 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # pipette out the bulk of the liquid
     right_pipette.well_bottom_clearance.aspirate = 1.5 # near the bottom but with a gap
-    right_pipette.consolidate(30, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the liquid
     right_pipette.flow_rate.aspirate = 5
     right_pipette.well_bottom_clearance.aspirate = 0.1 # as close as we can get to the bottom and half the previous speed
-    right_pipette.consolidate(30, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
     #### Step 3 - Ethanol wash 1 ####
@@ -88,16 +89,16 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # Pause briefly for ethanol wash
     ##protocol.delay(seconds = 10, msg = 'Washing beads')
-    
+    right_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
     # Remove the bulk of the ethanol
     right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
     right_pipette.well_bottom_clearance.aspirate = 3 # not right at the bottom to keep liquid flow around the beads gentle
-    right_pipette.consolidate(100, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(100, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
     right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
     right_pipette.well_bottom_clearance.aspirate = 0.1 #can be lower
-    right_pipette.consolidate(50, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
        
         
@@ -123,16 +124,16 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # Pause briefly for ethanol wash
     #protocol.delay(seconds = 10, msg = 'Washing beads')
-    
+    right_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
     # Remove the bulk of the ethanol
     right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
     right_pipette.well_bottom_clearance.aspirate = 3 # not right at the bottom to keep liquid flow around the beads gentle
-    right_pipette.consolidate(100, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(100, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
     right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
     right_pipette.well_bottom_clearance.aspirate = 0.1
-    right_pipette.consolidate(50, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
     #### Step 5 - Dry SPRI beads ####
@@ -176,7 +177,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     #### Step 7 - Transfer to unskirted plate for genetic analyser ####
     left_pipette.well_bottom_clearance.aspirate = 0.1
-    left_pipette.transfer(20, magplate.rows_by_name()['A'].bottom(),
+    left_pipette.transfer(20, magplate.rows_by_name()['A'],
                        outplate.rows_by_name()['A'],
                        air_gap = 5,
                        blow_out=False,
