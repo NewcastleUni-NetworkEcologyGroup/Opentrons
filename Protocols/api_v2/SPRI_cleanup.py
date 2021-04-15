@@ -95,9 +95,9 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.consolidate(100, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
-    right_pipette.flow_rate.aspirate = 10 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
+    right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
     right_pipette.well_bottom_clearance.aspirate = 0.1 #can be lower
-    right_pipette.consolidate(100, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(50, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
                               blow_out=True)
        
         
@@ -130,14 +130,15 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.consolidate(100, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
-    right_pipette.flow_rate.aspirate = 10 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
+    right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
     right_pipette.well_bottom_clearance.aspirate = 0.1
-    right_pipette.consolidate(100, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
+    right_pipette.consolidate(50, magplate.rows_by_name()['A'], protocol.fixed_trash['A1'],
                               blow_out=True)
     
     #### Step 5 - Dry SPRI beads ####
     mag_mod.engage(height=13.5)
     #protocol.delay(minutes = 2, msg = 'Pulling beads down')
+    protocol.delay(minutes = 1, msg = 'Pulling beads down')
     mag_mod.disengage()
     #protocol.delay(minutes = 8, msg = 'Drying beads')
     
@@ -174,9 +175,10 @@ def run(protocol: protocol_api.ProtocolContext):
     #protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
     
     #### Step 7 - Transfer to unskirted plate for genetic analyser ####
-    # set aspirate height here or recalibrate pipette offset lengh
-    left_pipette.transfer(20, magplate.rows_by_name()['A'],
+    left_pipette.well_bottom_clearance.aspirate = 0.1
+    left_pipette.transfer(20, magplate.rows_by_name()['A'].bottom(),
                        outplate.rows_by_name()['A'],
                        air_gap = 5,
                        blow_out=False,
+                       touch_tip=True,
                        new_tip = 'always')
