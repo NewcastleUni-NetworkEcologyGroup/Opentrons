@@ -19,87 +19,79 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
-    spri_vol = 30
+    PCR_matermix_vol = 7
+    primer_vol = 1
     
     # check for labware space
-    available_slots = [1,2,3,4,6,7,8,9]
+    available_slots = [1,2,3,4,7,8,9]
     number_of_destination_plates: int = 2
-    if number_of_destination_plates > 5:
-        raise Exception('Please specify 5 or fewer destination plates, you cant hold enough SPRI beads in a 2.2ml plate for more.') 
-        
-     #### Step 6 - pause, cover and shake ####
-    protocol.pause(
-            "Have you put 2000 ul of SPRI beads in column one of the reservoir?")
+    if number_of_destination_plates > 4:
+        raise Exception('Please specify 4 or fewer destination plates, you dont have enough cold plates.')
     
 
-    # labware for protocol
-    reservoir = protocol.load_labware('sarstedt_96_wellplate_2200ul',5)
-    beads = reservoir['A1']
-    # start_vol_beads = 2000
-    tiprack_300 = protocol.load_labware('opentrons_96_tiprack_300ul', 10)
-    spri_plate_name = 'sarstedt_96_skirted_wellplate_200ul'
-    dest_plates = [protocol.load_labware(spri_plate_name, str(slot))
+    # set up the reagent locations
+    primers = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul',5)
+    reservoir = protocol.load_labware('nest_12_reservoir_15ml',6)
+    mastermix = reservoir['A1']
+    
+    # set up tip locations
+    tiprack_200 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 10)
+    tiprack_10 = protocol.load_labware('opentrons_96_filtertiprack_20ul', 11)
+    
+    # set up the destination PCR plates
+    PCR_plate_name = 'sarstedt_96_skirted_wellplate_200ul'
+    dest_plates = [protocol.load_labware(PCR_plate_name, str(slot))
                for slot in [available_slots[i] for i in range(number_of_destination_plates)]]
-        
-    # # define tube parameters for deepwell tubes - no skirt
-    # total_length_deepwell: float = 41.85
-    # length_barrel_deepwell: float = 37.7
-    # tip_length_deepwell: float = round(total_length_deepwell-length_barrel_deepwell,1)
-    # width_deepwell: float = 8.3
     
-    # pipettes
-    left_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racks=[tiprack_300]) 
+    # generate a list of detinations to target for the primer distribute command
+    #all_dests = [well for plate in dest_plates for well in plate.rows('A')] 
+
+    # calculate a step number for pipette changes and aspirate heights
+    steps=len(dest_plates)      
     
-    #generate a list of detinations to target for the distribute command
-    #all_dests = [well for plate in dest_plates for well in plate.rows('A')]
+    # set up pipettes
+    pipette_multi50 = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_200]) 
+    pipette_multi10 = protocol.load_instrument('p10_multi', mount='right', tip_racks=[tiprack_10]) 
     
-    # # set pipetting parameters
-    left_pipette.flow_rate.aspirate = 25
-    left_pipette.well_bottom_clearance.aspirate = 35
-    left_pipette.flow_rate.dispense = 50
-    left_pipette.well_bottom_clearance.dispense = 2
-    left_pipette.flow_rate.blow_out = 10
+    # set pipetting parameters for mastermix distribution
+    pipette_multi50.flow_rate.aspirate = 25
+    pipette_multi50.well_bottom_clearance.aspirate = 35
+    pipette_multi50.flow_rate.dispense = 50
+    pipette_multi50.well_bottom_clearance.dispense = 2
+    pipette_multi50.flow_rate.blow_out = 10
+
+    # set pipetting parameters for primer distribution
+    pipette_multi10.flow_rate.aspirate = 25
+    pipette_multi10.well_bottom_clearance.aspirate = 35
+    pipette_multi10.flow_rate.dispense = 50
+    pipette_multi10.well_bottom_clearance.dispense = 2
+    pipette_multi10.flow_rate.blow_out = 10    
+
     
-    steps=len(dest_plates)
- 
-    # solution with aspirate and dispense
-    # for d in dest_plates:
-    #     left_pipette.pick_up_tip()
-    #     for ind in targets:
-    #         print(left_pipette.well_bottom_clearance.aspirate)
-    #         left_pipette.aspirate(spri_vol, beads).touch_tip()
-    #         left_pipette.dispense(spri_vol,d[ind]).touch_tip()
-    #         left_pipette.well_bottom_clearance.aspirate = round(left_pipette.well_bottom_clearance.aspirate-(left_pipette.well_bottom_clearance.aspirate/steps))
-    #     left_pipette.drop_tip()
-    
-    # solution with distribute and well referencing
+    # distributemastermix using distribute command and well referencing
     for d in dest_plates:
-        left_pipette.pick_up_tip()
-        print(left_pipette.well_bottom_clearance.aspirate)
-        left_pipette.distribute(spri_vol,beads,d.rows_by_name()['A'],
-                                touch_tip=True, new_tip='never',
-                                blowout_location='source well')
-        left_pipette.well_bottom_clearance.aspirate = round(left_pipette.well_bottom_clearance.aspirate-(left_pipette.well_bottom_clearance.aspirate/steps))
-        left_pipette.drop_tip()        
-        
-    
-    
-      all_dests = [well for plate in dest_plates for well in plate.rows('A')]
-    
-    
-        # distribute PCR master mix
-    m50.set_flow_rate(aspirate=25, dispense=50)
-    m50.pick_up_tip()
-    for d in all_dests:
-        m50.transfer(18, master_mix, d.top(), blow_out=True, new_tip='never')
-    m50.drop_tip()
+        pipette_multi50.pick_up_tip()
+        print(pipette_multi50.well_bottom_clearance.aspirate)
+        pipette_multi50.distribute(PCR_matermix_vol,mastermix,d.rows_by_name()['A'],
+                                touch_tip=True,
+                                new_tip='never',
+                                blow_out=True,
+                                blow_out_location='source well')
+        pipette_multi50.well_bottom_clearance.aspirate = round(pipette_multi50.well_bottom_clearance.aspirate-(pipette_multi50.well_bottom_clearance.aspirate/steps))
+        pipette_multi50.drop_tip()        
 
     # forward primer distribution
-    for ind, primer in enumerate(forward_primer.rows('A')):
-        dests = [plate.rows('A')[ind] for plate in dest_plates]
-        m10.distribute(1, primer, dests)
-
-    # reverse primer distribution
-    for ind, primer in enumerate(reverse_primer.rows('A')):
-        dests = [plate.rows('A')[ind] for plate in dest_plates]
-        m10.distribute(1, primer, dests)
+    for ind, primer in enumerate(primers.rows_by_name()['A']):
+        dests = [plate.rows_by_name()['A'][ind] for plate in dest_plates]
+        pipette_multi10.distribute(primer_vol,
+                                   primer,
+                                   dests,
+                                   touch_tip=True)
+        
+        
+        
+        
+        
+        
+        
+        
