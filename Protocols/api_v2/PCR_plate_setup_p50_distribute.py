@@ -39,7 +39,7 @@ def run(protocol: protocol_api.ProtocolContext):
     tiprack_10 = protocol.load_labware('opentrons_96_filtertiprack_20ul', 11)
     
     # set up the destination PCR plates
-    PCR_plate_name = 'sarstedt_96_skirted_wellplate_200ul'
+    PCR_plate_name = 'sarstedt_96_unskirted_wellplate_200ul'
     dest_plates = [protocol.load_labware(PCR_plate_name, str(slot))
                for slot in [available_slots[i] for i in range(number_of_destination_plates)]]
     
