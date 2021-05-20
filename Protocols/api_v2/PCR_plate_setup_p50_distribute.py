@@ -88,7 +88,7 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_multi10.distribute(primer_vol,
                                    primer,
                                    dests,
-                                   touch_tip=True).touch_tip(radius=0.75,v_offset=-2)
+                                   touch_tip=True)
         
         
         
