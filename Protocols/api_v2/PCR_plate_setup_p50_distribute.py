@@ -55,7 +55,8 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # set pipetting parameters for mastermix distribution
     pipette_50.flow_rate.aspirate = 25
-    pipette_50.well_bottom_clearance.aspirate = 35
+    initial_liquid_height = 7
+    pipette_50.well_bottom_clearance.aspirate = initial_liquid_height-(initial_liquid_height/steps)
     pipette_50.flow_rate.dispense = 50
     pipette_50.well_bottom_clearance.dispense = 2
     pipette_50.flow_rate.blow_out = 10
@@ -78,7 +79,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 blow_out=True,
                                 blow_out_location='source well',
                                 disposal_volume=2)
-        pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(pipette_50.well_bottom_clearance.aspirate/steps))
+        pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(initial_liquid_height/steps))+0.2
         pipette_50.drop_tip()        
 
     # forward primer distribution
