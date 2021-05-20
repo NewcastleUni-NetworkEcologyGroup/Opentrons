@@ -30,8 +30,8 @@ def run(protocol: protocol_api.ProtocolContext):
     
 
     # set up the reagent locations
-    primers = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul',5)
-    reservoir = protocol.load_labware('nest_12_reservoir_15ml',6)
+    primers = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul',6)
+    reservoir = protocol.load_labware('nest_12_reservoir_15ml',9)
     mastermix = reservoir['A1']
     
     # set up tip locations
@@ -78,7 +78,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 new_tip='never',
                                 blow_out=True,
                                 blow_out_location='source well',
-                                disposal_volume=2)
+                                disposal_volume=1)
         pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(initial_liquid_height/steps))+0.2
         pipette_50.drop_tip()        
 
@@ -89,7 +89,8 @@ def run(protocol: protocol_api.ProtocolContext):
                                    primer,
                                    dests,
                                    touch_tip=True,
-                                   blow_out=False)
+                                   blow_out=False,
+                                disposal_volume=0.5)
         
         
         
