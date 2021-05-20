@@ -76,7 +76,8 @@ def run(protocol: protocol_api.ProtocolContext):
                                 touch_tip=True,
                                 new_tip='never',
                                 blow_out=True,
-                                blow_out_location='source well')
+                                blow_out_location='source well',
+                                disposal_volume=2)
         pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(pipette_50.well_bottom_clearance.aspirate/steps))
         pipette_50.drop_tip()        
 
