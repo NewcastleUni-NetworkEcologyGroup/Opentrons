@@ -55,10 +55,10 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # set pipetting parameters for mastermix distribution
     pipette_50.flow_rate.aspirate = 25
-    initial_liquid_height = 7
+    initial_liquid_height = number_of_destination_plates*1.75
     pipette_50.well_bottom_clearance.aspirate = initial_liquid_height-(initial_liquid_height/steps)
     pipette_50.flow_rate.dispense = 50
-    pipette_50.well_bottom_clearance.dispense = 2
+    pipette_50.well_bottom_clearance.dispense = 5
     pipette_50.flow_rate.blow_out = 10
 
     # set pipetting parameters for primer distribution
@@ -88,7 +88,7 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_multi10.distribute(primer_vol,
                                    primer,
                                    dests,
-                                   touch_tip=True)
+                                   touch_tip=True).touch_tip(radius=0.75,v_offset=-2)
         
         
         
