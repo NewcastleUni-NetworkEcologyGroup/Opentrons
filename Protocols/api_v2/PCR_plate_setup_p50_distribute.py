@@ -19,8 +19,8 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
-    PCR_matermix_vol = 7
-    primer_vol = 1
+    PCR_matermix_vol = 13
+    primer_vol = 1.5
     
     # check for labware space
     available_slots = [1,2,3,4,7,8,9]
@@ -59,14 +59,14 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_50.well_bottom_clearance.aspirate = initial_liquid_height-(initial_liquid_height/steps)
     pipette_50.flow_rate.dispense = 50
     pipette_50.well_bottom_clearance.dispense = 5
-    pipette_50.flow_rate.blow_out = 10
+    pipette_50.flow_rate.blow_out = 100
 
     # set pipetting parameters for primer distribution
     pipette_multi10.flow_rate.aspirate = 25
-    pipette_multi10.well_bottom_clearance.aspirate = 5
+    pipette_multi10.well_bottom_clearance.aspirate = 3
     pipette_multi10.flow_rate.dispense = 50
-    pipette_multi10.well_bottom_clearance.dispense = 5
-    pipette_multi10.flow_rate.blow_out = 10    
+    pipette_multi10.well_bottom_clearance.dispense = 2
+    pipette_multi10.flow_rate.blow_out = 100    
 
     
     # distributemastermix using distribute command and well referencing
@@ -78,7 +78,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 new_tip='never',
                                 blow_out=True,
                                 blow_out_location='source well',
-                                disposal_volume=2).touch_tip(radius=0.75,v_offset=-2)
+                                disposal_volume=2)
         pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(initial_liquid_height/steps))+0.2
         pipette_50.drop_tip()        
 
@@ -88,7 +88,8 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_multi10.distribute(primer_vol,
                                    primer,
                                    dests,
-                                   touch_tip=True)
+                                   touch_tip=True,
+                                   blow_out=False)
         
         
         
