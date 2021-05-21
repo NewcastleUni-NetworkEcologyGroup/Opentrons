@@ -75,6 +75,7 @@ def run(protocol: protocol_api.ProtocolContext):
         print(pipette_50.well_bottom_clearance.aspirate)
         pipette_50.distribute(PCR_matermix_vol,mastermix,d.wells(),
                                 touch_tip=True,
+                                radius=0.8,
                                 new_tip='never',
                                 blow_out=True,
                                 blow_out_location='source well',
