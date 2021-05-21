@@ -63,9 +63,9 @@ def run(protocol: protocol_api.ProtocolContext):
 
     # set pipetting parameters for primer distribution
     pipette_multi10.flow_rate.aspirate = 25
-    pipette_multi10.well_bottom_clearance.aspirate = 5
+    pipette_multi10.well_bottom_clearance.aspirate = 2
     pipette_multi10.flow_rate.dispense = 50
-    pipette_multi10.well_bottom_clearance.dispense = 5
+    pipette_multi10.well_bottom_clearance.dispense = 2
     pipette_multi10.flow_rate.blow_out = 10    
 
     
@@ -89,7 +89,7 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_multi10.distribute(primer_vol,
                                    primer,
                                    dests,
-                                   touch_tip=True)
+                                   touch_tip=False)
         
         
         
