@@ -89,7 +89,8 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_multi10.distribute(primer_vol,
                                    primer,
                                    dests,
-                                   touch_tip=False)
+                                   touch_tip=False,
+                                disposal_volume=1.5)
         
         
         
