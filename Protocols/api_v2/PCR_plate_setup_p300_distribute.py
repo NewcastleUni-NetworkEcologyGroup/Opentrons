@@ -22,12 +22,31 @@ def run(protocol: protocol_api.ProtocolContext):
     PCR_matermix_vol = 7
     primer_vol = 1
     
+    # key labware dimensions
+    tip_height = 3
+    well_width =8.2
+    well_length = 71.2
+    
     # check for labware space
     available_slots = [1,2,3,4,7,8,9]
     number_of_destination_plates: int = 2
-    if number_of_destination_plates > 4:
-        raise Exception('Please specify 4 or fewer destination plates, you dont have enough cold plates.')
+    if number_of_destination_plates > 7:
+        raise Exception('Please specify 7 or fewer destination plates, you dont have enough space.')
     
+    # work out the initial master mix volume
+    start_vol = PCR_matermix_vol*number_of_destination_plates*96*1.3
+    
+    # create a function that works out the starting liquid height
+    def start_height(start_vol, tip_height, well_width, well_length):
+        # define the volume of the tip of the well tip
+        tip_vol = ((tip_height*well_width)/2)*well_length
+        # if the start volume > tip volume, work out the residual height, add it to the tip height and subrtact it from the total height of the tube
+        if start_vol > tip_vol:
+            return round(tip_height+((start_vol-tip_vol)/(well_width*well_length)))
+        # if the starting volume is less than the tip volume, work out the total height and subrtact it from the total height of the tube
+        else:
+            return ((start_vol/well_length)*2)/well_width #CHECK THIS!!!@
+
 
     # set up the reagent locations
     primers = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul',5)
@@ -55,8 +74,12 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # set pipetting parameters for mastermix distribution
     pipette_50.flow_rate.aspirate = 25
-    initial_liquid_height = 7
-    pipette_50.well_bottom_clearance.aspirate = initial_liquid_height-(initial_liquid_height/steps)
+    initial_mastermix_height = start_height(start_vol, tip_height, well_width, well_length)
+    print("The initial mastermix volume is: ", end='')
+    print(start_vol)
+    print("The initial mastermix height is: ", end='')
+    print(initial_mastermix_height)
+    pipette_50.well_bottom_clearance.aspirate = initial_mastermix_height-(initial_mastermix_height/steps)
     pipette_50.flow_rate.dispense = 50
     pipette_50.well_bottom_clearance.dispense = 5
     pipette_50.flow_rate.blow_out = 10
@@ -80,7 +103,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 blow_out=True,
                                 blow_out_location='source well',
                                 disposal_volume=2)
-        pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(initial_liquid_height/steps))+0.2
+        pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(initial_mastermix_height/steps))+0.2
         pipette_50.drop_tip()        
 
     # forward primer distribution
