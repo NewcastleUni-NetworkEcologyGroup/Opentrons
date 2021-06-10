@@ -24,7 +24,7 @@ def run(protocol: protocol_api.ProtocolContext):
     tiprack_1 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 3)
     tiprack_2 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 6)
     tiprack_3 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 9)
-    outplate = protocol.load_labware('sarstedt_96_unskirted_wellplate_200ul', 5,
+    outplate = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul', 5,
                                       label='Cleaned samples')
     waste = protocol.load_labware('starlab_tip_box_waste', 7)
     
