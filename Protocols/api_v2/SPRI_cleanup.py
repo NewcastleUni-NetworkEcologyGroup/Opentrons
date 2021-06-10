@@ -34,10 +34,10 @@ def run(protocol: protocol_api.ProtocolContext):
                                       label='Samples')
     
     # pipettes
-    left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_1, tiprack_2, tiprack_3])
+  #  left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_1, tiprack_2, tiprack_3])
     right_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racks=[tiprack_1, tiprack_2,tiprack_3])
     
-    # Create a list of target wells  and step numbers to iterate across so we can change aspirate heights when needed
+    # Create a list of target wells and step numbers to iterate across so we can change aspirate heights when needed
     well_name = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12']
     steps=len(well_name)
     
@@ -46,9 +46,9 @@ def run(protocol: protocol_api.ProtocolContext):
     Tris_start_height = 20
     
     ##### Step 1 - Wait for 5 minutes then apply magnets for 5 minutes ####
-    #protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
+    protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
     mag_mod.engage(height=19.5)
-    #protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
+    protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
     #### Step 2 - Remove the supernatant ####
     # set pipetting parameters
@@ -88,7 +88,7 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
-    ##protocol.delay(seconds = 10, msg = 'Washing beads')
+    protocol.delay(seconds = 10, msg = 'Washing beads')
     right_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
     # Remove the bulk of the ethanol
     right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
@@ -123,7 +123,7 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
-    #protocol.delay(seconds = 10, msg = 'Washing beads')
+    protocol.delay(seconds = 10, msg = 'Washing beads')
     right_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
     # Remove the bulk of the ethanol
     right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
@@ -138,46 +138,46 @@ def run(protocol: protocol_api.ProtocolContext):
     
     #### Step 5 - Dry SPRI beads ####
     mag_mod.engage(height=13.5)
-    #protocol.delay(minutes = 2, msg = 'Pulling beads down')
+    protocol.delay(minutes = 2, msg = 'Pulling beads down')
     protocol.delay(minutes = 1, msg = 'Pulling beads down')
     mag_mod.disengage()
-    #protocol.delay(minutes = 8, msg = 'Drying beads')
+    protocol.delay(minutes = 8, msg = 'Drying beads')
     
     #### Step 5 - Elute ####
     # Add water ot 10mM Tris-HCl
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    left_pipette.well_bottom_clearance.dispense = 12 # near the bottom but not too near to make sure the tip doesn't block
+    right_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
     right_pipette.flow_rate.aspirate = 100
-    left_pipette.flow_rate.dispense = 150 # doesn't really matter and a good rate will help mix beads
+    right_pipette.flow_rate.dispense = 150 # doesn't really matter and a good rate will help mix beads
     # Set the aspirate height to the starting ethanol height
-    left_pipette.well_bottom_clearance.aspirate = Tris_start_height
+    right_pipette.well_bottom_clearance.aspirate = Tris_start_height
     # Distribute Ethanol to all columns dropping the aspirate height after every transfer
-    left_pipette.pick_up_tip()
+    right_pipette.pick_up_tip()
     for well in well_name:
-        print(left_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        left_pipette.transfer(22, reservoir['A3'],
+        print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
+        right_pipette.transfer(22, reservoir['A3'],
                                magplate.wells_by_name()[well],
                                air_gap = 5,
                                blow_out=True,
                                blowout_location='source well',
                                new_tip = 'never')
-        left_pipette.well_bottom_clearance.aspirate = round(left_pipette.well_bottom_clearance.aspirate-(Tris_start_height/steps),1)
-    left_pipette.drop_tip() 
+        right_pipette.well_bottom_clearance.aspirate = round(right_pipette.well_bottom_clearance.aspirate-(Tris_start_height/steps),1)
+    right_pipette.drop_tip() 
     
     #### Step 6 - pause, cover and shake ####
     protocol.pause(
             "Remove skirted plate from magdeck, cover with PCR film and shake on plate shaker for 2 minutes at 1400 rpm, take of lid, return to magdeck and resume protocol")
     
     # Wait 5 min
-    #protocol.delay(minutes = 5, msg = 'Waiting for DNA to elute')
+    protocol.delay(minutes = 5, msg = 'Waiting for DNA to elute')
     
     # Engage magnets for 5 min
     mag_mod.engage(height=18.5)
-    #protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
+    protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
     
     #### Step 7 - Transfer to unskirted plate for genetic analyser ####
-    left_pipette.well_bottom_clearance.aspirate = 0.1
-    left_pipette.transfer(20, magplate.rows_by_name()['A'],
+    right_pipette.well_bottom_clearance.aspirate = 0.1
+    right_pipette.transfer(20, magplate.rows_by_name()['A'],
                        outplate.rows_by_name()['A'],
                        air_gap = 5,
                        blow_out=False,
