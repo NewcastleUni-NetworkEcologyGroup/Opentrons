@@ -175,11 +175,11 @@ def run(protocol: protocol_api.ProtocolContext):
     mag_mod.engage(height=18.5)
     protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
     
-    #### Step 7 - Transfer to unskirted plate for genetic analyser ####
+    #### Step 7 - Transfer to skirted plate for storage ####
     right_pipette.well_bottom_clearance.aspirate = 0.1
     right_pipette.transfer(20, magplate.rows_by_name()['A'],
                        outplate.rows_by_name()['A'],
                        air_gap = 5,
                        blow_out=False,
-                       touch_tip=True,
+                       touch_tip=False,
                        new_tip = 'always')
