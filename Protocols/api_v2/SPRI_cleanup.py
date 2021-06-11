@@ -63,7 +63,7 @@ def run(protocol: protocol_api.ProtocolContext):
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the liquid
     right_pipette.flow_rate.aspirate = 5
-    right_pipette.well_bottom_clearance.aspirate = 0.1 # as close as we can get to the bottom and half the previous speed
+    right_pipette.well_bottom_clearance.aspirate = 0.3
     right_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
@@ -78,11 +78,10 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.pick_up_tip()
     for well in well_name:
         print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(150, reservoir['A1'],
+        right_pipette.transfer(100, reservoir['A1'],
                                magplate.wells_by_name()[well],
                                air_gap = 10,
-                               blow_out=True,
-                               blowout_location='source well',
+                               blow_out=False,
                                new_tip = 'never')
         right_pipette.well_bottom_clearance.aspirate = round(right_pipette.well_bottom_clearance.aspirate-(Ethanol_start_height/steps),1)
     right_pipette.drop_tip() 
@@ -97,7 +96,7 @@ def run(protocol: protocol_api.ProtocolContext):
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
     right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
-    right_pipette.well_bottom_clearance.aspirate = 0.1 #can be lower
+    right_pipette.well_bottom_clearance.aspirate = 0.3 
     right_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
        
@@ -113,11 +112,10 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.pick_up_tip()
     for well in well_name:
         print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(150, reservoir['A2'],
+        right_pipette.transfer(100, reservoir['A2'],
                                magplate.wells_by_name()[well],
                                air_gap = 10,
-                               blow_out=True,
-                               blowout_location='source well',
+                               blow_out=False,
                                new_tip = 'never')
         right_pipette.well_bottom_clearance.aspirate = round(right_pipette.well_bottom_clearance.aspirate-(Ethanol_start_height/steps),1)
     right_pipette.drop_tip() 
@@ -132,19 +130,18 @@ def run(protocol: protocol_api.ProtocolContext):
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
     right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
-    right_pipette.well_bottom_clearance.aspirate = 0.1
+    right_pipette.well_bottom_clearance.aspirate = 0.3
     right_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
     #### Step 5 - Dry SPRI beads ####
     mag_mod.engage(height=13.5)
     protocol.delay(minutes = 2, msg = 'Pulling beads down')
-    protocol.delay(minutes = 1, msg = 'Pulling beads down')
     mag_mod.disengage()
     protocol.delay(minutes = 8, msg = 'Drying beads')
     
     #### Step 5 - Elute ####
-    # Add water ot 10mM Tris-HCl
+    # Add water or 10mM Tris-HCl
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
     right_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
     right_pipette.flow_rate.aspirate = 100
@@ -164,22 +161,25 @@ def run(protocol: protocol_api.ProtocolContext):
         right_pipette.well_bottom_clearance.aspirate = round(right_pipette.well_bottom_clearance.aspirate-(Tris_start_height/steps),1)
     right_pipette.drop_tip() 
     
-    #### Step 6 - pause, cover and shake ####
-    protocol.pause(
-            "Remove skirted plate from magdeck, cover with PCR film and shake on plate shaker for 2 minutes at 1400 rpm, take of lid, return to magdeck and resume protocol")
-    
-    # Wait 5 min
-    protocol.delay(minutes = 5, msg = 'Waiting for DNA to elute')
-    
-    # Engage magnets for 5 min
-    mag_mod.engage(height=18.5)
-    protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
-    
-    #### Step 7 - Transfer to skirted plate for storage ####
-    right_pipette.well_bottom_clearance.aspirate = 0.1
-    right_pipette.transfer(20, magplate.rows_by_name()['A'],
-                       outplate.rows_by_name()['A'],
-                       air_gap = 5,
-                       blow_out=False,
-                       touch_tip=False,
-                       new_tip = 'always')
+    #### Step 6 - pause, cover and shake this is only required if you are sanger ####
+    #### sequencing and need to move the suprenatant into a new plate ####
+# =============================================================================
+#     protocol.pause(
+#             "Remove skirted plate from magdeck, cover with PCR film and shake on plate shaker for 2 minutes at 1400 rpm, take of lid, return to magdeck and resume protocol")
+#     
+#     # Wait 5 min
+#     protocol.delay(minutes = 5, msg = 'Waiting for DNA to elute')
+#     
+#     # Engage magnets for 5 min
+#     mag_mod.engage(height=18.5)
+#     protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
+#     
+#     #### Step 7 - Transfer to skirted plate for storage ####
+#     right_pipette.well_bottom_clearance.aspirate = 0.1
+#     right_pipette.transfer(20, magplate.rows_by_name()['A'],
+#                        outplate.rows_by_name()['A'],
+#                        air_gap = 5,
+#                        blow_out=False,
+#                        touch_tip=False,
+#                        new_tip = 'always')
+# =============================================================================
