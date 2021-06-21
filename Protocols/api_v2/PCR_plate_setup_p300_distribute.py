@@ -19,7 +19,7 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
-    PCR_matermix_vol = 7
+    PCR_matermix_vol = 12
     primer_vol = 1
     
     # key labware dimensions
@@ -29,23 +29,24 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # check for labware space
     available_slots = [1,2,3,4,7,8,9]
-    number_of_destination_plates: int = 2
+    number_of_destination_plates: int = 4
     if number_of_destination_plates > 7:
         raise Exception('Please specify 7 or fewer destination plates, you dont have enough space.')
     
     # work out the initial master mix volume
-    start_vol = PCR_matermix_vol*number_of_destination_plates*96*1.3
+    start_vol = round(PCR_matermix_vol*number_of_destination_plates*96*1.3,1)
     
     # create a function that works out the starting liquid height
     def start_height(start_vol, tip_height, well_width, well_length):
         # define the volume of the tip of the well tip
-        tip_vol = ((tip_height*well_width)/2)*well_length
+        #tip_vol = ((tip_height*well_width)/2)*well_length
+        tip_vol = (well_length*well_width*tip_height)/2
         # if the start volume > tip volume, work out the residual height, add it to the tip height and subrtact it from the total height of the tube
         if start_vol > tip_vol:
-            return round(tip_height+((start_vol-tip_vol)/(well_width*well_length)))
+            return round(tip_height+((start_vol-tip_vol)/(well_width*well_length)),1)
         # if the starting volume is less than the tip volume, work out the total height and subrtact it from the total height of the tube
         else:
-            return ((start_vol/well_length)*2)/well_width #CHECK THIS!!!@
+            return (2*start_vol)/(well_length*well_width)
 
 
     # set up the reagent locations
@@ -69,20 +70,20 @@ def run(protocol: protocol_api.ProtocolContext):
     steps=len(dest_plates)      
     
     # set up pipettes
-    pipette_50 = protocol.load_instrument('p300_multi', mount='left', tip_racks=[tiprack_200]) 
+    pipette_300 = protocol.load_instrument('p300_multi', mount='left', tip_racks=[tiprack_200]) 
     pipette_multi10 = protocol.load_instrument('p10_multi', mount='right', tip_racks=[tiprack_10]) 
     
     # set pipetting parameters for mastermix distribution
-    pipette_50.flow_rate.aspirate = 25
+    pipette_300.flow_rate.aspirate = 25
     initial_mastermix_height = start_height(start_vol, tip_height, well_width, well_length)
     print("The initial mastermix volume is: ", end='')
     print(start_vol)
     print("The initial mastermix height is: ", end='')
     print(initial_mastermix_height)
-    pipette_50.well_bottom_clearance.aspirate = initial_mastermix_height-(initial_mastermix_height/steps)
-    pipette_50.flow_rate.dispense = 50
-    pipette_50.well_bottom_clearance.dispense = 5
-    pipette_50.flow_rate.blow_out = 10
+    pipette_300.well_bottom_clearance.aspirate = round(initial_mastermix_height-(initial_mastermix_height/steps),1)
+    pipette_300.flow_rate.dispense = 50
+    pipette_300.well_bottom_clearance.dispense = 5
+    pipette_300.flow_rate.blow_out = 10
 
     # set pipetting parameters for primer distribution
     pipette_multi10.flow_rate.aspirate = 25
@@ -94,17 +95,17 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # distributemastermix using distribute command and well referencing
     for d in dest_plates:
-        pipette_50.pick_up_tip()
-        print(pipette_50.well_bottom_clearance.aspirate)
-        pipette_50.distribute(PCR_matermix_vol,mastermix,d.wells(),
+        pipette_300.pick_up_tip()
+        print(pipette_300.well_bottom_clearance.aspirate)
+        pipette_300.distribute(PCR_matermix_vol,mastermix,d.wells(),
                                 #touch_tip=True,
                                 #radius=0.8,
                                 new_tip='never',
                                 blow_out=True,
                                 blow_out_location='source well',
                                 disposal_volume=2)
-        pipette_50.well_bottom_clearance.aspirate = round(pipette_50.well_bottom_clearance.aspirate-(initial_mastermix_height/steps))+0.2
-        pipette_50.drop_tip()        
+        pipette_300.well_bottom_clearance.aspirate = round(pipette_300.well_bottom_clearance.aspirate-(initial_mastermix_height/steps))+0.2
+        pipette_300.drop_tip()        
 
     # forward primer distribution
     for ind, primer in enumerate(primers.rows_by_name()['A']):
