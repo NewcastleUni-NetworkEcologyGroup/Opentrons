@@ -20,7 +20,7 @@ def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
     PCR_matermix_vol = 16
-    primer_vol = 1
+    primer_vol = 2
     
     # key labware dimensions
     tip_height = 3
