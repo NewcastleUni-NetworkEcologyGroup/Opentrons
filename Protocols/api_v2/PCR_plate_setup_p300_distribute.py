@@ -19,7 +19,7 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
-    PCR_matermix_vol = 12
+    PCR_matermix_vol = 16
     primer_vol = 1
     
     # key labware dimensions
@@ -29,7 +29,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # check for labware space
     available_slots = [1,2,3,4,7,8,9]
-    number_of_destination_plates: int = 4
+    number_of_destination_plates: int = 2
     if number_of_destination_plates > 7:
         raise Exception('Please specify 7 or fewer destination plates, you dont have enough space.')
     
