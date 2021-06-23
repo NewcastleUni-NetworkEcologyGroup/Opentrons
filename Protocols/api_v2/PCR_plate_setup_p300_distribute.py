@@ -21,6 +21,7 @@ def run(protocol: protocol_api.ProtocolContext):
     # key liquid volumes
     PCR_matermix_vol = 16
     primer_vol = 2
+    fudge_factor = 1.2
     
     # key labware dimensions
     tip_height = 3
@@ -28,13 +29,13 @@ def run(protocol: protocol_api.ProtocolContext):
     well_length = 71.2
     
     # check for labware space
-    available_slots = [1,2,3,4,7,8,9]
-    number_of_destination_plates: int = 2
-    if number_of_destination_plates > 7:
-        raise Exception('Please specify 7 or fewer destination plates, you dont have enough space.')
+    available_slots = [1,4,7,10,2,5,11] # this order minimises pipette travel over non-target wells
+    number_of_destination_plates: int = 5
+    if number_of_destination_plates > 5:
+        raise Exception('Please specify 5 or fewer destination plates, the P10 cant carry enough primer in one aspirate. Alternatively remake your primers at a higher concentration to dispense smaller volumes')
     
     # work out the initial master mix volume
-    start_vol = round(PCR_matermix_vol*number_of_destination_plates*96*1.3,1)
+    start_vol = round(PCR_matermix_vol*number_of_destination_plates*96*fudge_factor,1)
     
     # create a function that works out the starting liquid height
     def start_height(start_vol, tip_height, well_width, well_length):
@@ -50,13 +51,13 @@ def run(protocol: protocol_api.ProtocolContext):
 
 
     # set up the reagent locations
-    primers = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul',5)
-    reservoir = protocol.load_labware('nest_12_reservoir_15ml',6)
+    primers = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul',8)
+    reservoir = protocol.load_labware('nest_12_reservoir_15ml',9)
     mastermix = reservoir['A1']
     
     # set up tip locations
-    tiprack_200 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 10)
-    tiprack_10 = protocol.load_labware('opentrons_96_filtertiprack_20ul', 11)
+    tiprack_200 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 3)
+    tiprack_10 = protocol.load_labware('opentrons_96_filtertiprack_20ul', 6)
     
     # set up the destination PCR plates
     PCR_plate_name = 'sarstedt_96_skirted_wellplate_200ul'
@@ -114,7 +115,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                    primer,
                                    dests,
                                    touch_tip=False,
-                                disposal_volume=1.5)
+                                disposal_volume=1)
         
         
         
