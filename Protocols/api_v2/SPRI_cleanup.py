@@ -28,22 +28,56 @@ def run(protocol: protocol_api.ProtocolContext):
                                       label='Cleaned samples')
     waste = protocol.load_labware('starlab_tip_box_waste', 7)
     
+    # key labware dimensions
+    tip_height = 3
+    well_width =8.2
+    well_length = 71.2
+    
     # magnetic module and labware on it
     mag_mod = protocol.load_module('magdeck', 1)
     magplate = mag_mod.load_labware('sarstedt_96_skirted_wellplate_200ul',
                                       label='Samples')
     
     # pipettes
-  #  left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_1, tiprack_2, tiprack_3])
+    # left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_1, tiprack_2, tiprack_3])
     right_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racks=[tiprack_1, tiprack_2,tiprack_3])
     
     # Create a list of target wells and step numbers to iterate across so we can change aspirate heights when needed
     well_name = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12']
     steps=len(well_name)
+
+    # create a function that works out the starting liquid height
+    def start_height(start_vol, tip_height, well_width, well_length):
+        # define the volume of the tip of the well tip
+        #tip_vol = ((tip_height*well_width)/2)*well_length
+        tip_vol = (well_length*well_width*tip_height)/2
+        # if the start volume > tip volume, work out the residual height, add it to the tip height and subrtact it from the total height of the tube
+        if start_vol > tip_vol:
+            return round(tip_height+((start_vol-tip_vol)/(well_width*well_length)),1)
+        # if the starting volume is less than the tip volume, work out the total height and subrtact it from the total height of the tube
+        else:
+            return (2*start_vol)/(well_length*well_width)
+    
+    # Key reagent volumes
+    Ethanol_wash_vol=100
+    Ethanol_start_vol=96*Ethanol_wash_vol*1.2
+    Tris_elute_vol=22
+    Tris_start_vol=96*Tris_elute_vol*1.2
     
     # Set liquid starting heights
-    Ethanol_start_height = 22
-    Tris_start_height = 20
+    Ethanol_start_height = start_height(Ethanol_start_vol, tip_height, well_width, well_length)
+    Tris_start_height = start_height(Tris_start_vol, tip_height, well_width, well_length)
+
+    # Print out the starting volumes and heights as a sense check
+    print("The initial ethanol volume in reservoir wells A1 and A2 is: ", end='')
+    print(Ethanol_start_vol)
+    print("The initial ethanol height in reservoir wells A1 and A2 is: ", end='')
+    print(Ethanol_start_height)
+    print("The initial tris volume in reservoir well A10 is: ", end='')
+    print(Tris_start_vol)
+    print("The initial tris height in reservoir well A10 is: ", end='')
+    print(Tris_start_height)
+    
     
     ##### Step 1 - Wait for 5 minutes then apply magnets for 5 minutes ####
     protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
@@ -73,17 +107,17 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.flow_rate.aspirate = 100
     right_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
     # Set the aspirate height to the starting ethanol height
-    right_pipette.well_bottom_clearance.aspirate = Ethanol_start_height
+    right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-(Ethanol_start_height/steps),1)
     # Distribute Ethanol to all columns dropping the aspirate height after every transfer
     right_pipette.pick_up_tip()
-    for well in well_name:
+    for ind, well in enumerate(well_name):
         print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(100, reservoir['A1'],
+        right_pipette.transfer(Ethanol_wash_vol, reservoir['A1'],
                                magplate.wells_by_name()[well],
                                air_gap = 10,
                                blow_out=False,
                                new_tip = 'never')
-        right_pipette.well_bottom_clearance.aspirate = round(right_pipette.well_bottom_clearance.aspirate-(Ethanol_start_height/steps),1)
+        right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-((Ethanol_start_height/steps)*(ind+2)),1)+0.2
     right_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
@@ -99,7 +133,7 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.well_bottom_clearance.aspirate = 0.3 
     right_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
-       
+        
         
     #### Step 4 - Ethanol wash 2 ####
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
@@ -107,17 +141,17 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.flow_rate.aspirate = 100
     right_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
     # Set the aspirate height to the starting ethanol height
-    right_pipette.well_bottom_clearance.aspirate = Ethanol_start_height
+    right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-(Ethanol_start_height/steps),1)
     # Distribute Ethanol to all columns dropping the aspirate height after every transfer
     right_pipette.pick_up_tip()
-    for well in well_name:
+    for ind, well in enumerate(well_name):
         print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(100, reservoir['A2'],
+        right_pipette.transfer(Ethanol_wash_vol, reservoir['A2'],
                                magplate.wells_by_name()[well],
                                air_gap = 10,
                                blow_out=False,
                                new_tip = 'never')
-        right_pipette.well_bottom_clearance.aspirate = round(right_pipette.well_bottom_clearance.aspirate-(Ethanol_start_height/steps),1)
+        right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-((Ethanol_start_height/steps)*(ind+2)),1)+0.2
     right_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
@@ -147,19 +181,20 @@ def run(protocol: protocol_api.ProtocolContext):
     right_pipette.flow_rate.aspirate = 100
     right_pipette.flow_rate.dispense = 150 # doesn't really matter and a good rate will help mix beads
     # Set the aspirate height to the starting ethanol height
-    right_pipette.well_bottom_clearance.aspirate = Tris_start_height
+    right_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-(Tris_start_height/steps),1)
     # Distribute Ethanol to all columns dropping the aspirate height after every transfer
     right_pipette.pick_up_tip()
-    for well in well_name:
+    for ind, well in enumerate(well_name):
         print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(22, reservoir['A3'],
-                               magplate.wells_by_name()[well],
-                               air_gap = 5,
-                               blow_out=True,
-                               blowout_location='source well',
-                               new_tip = 'never')
-        right_pipette.well_bottom_clearance.aspirate = round(right_pipette.well_bottom_clearance.aspirate-(Tris_start_height/steps),1)
+        right_pipette.transfer(Tris_elute_vol, reservoir['A10'],
+                                magplate.wells_by_name()[well],
+                                air_gap = 5,
+                                blow_out=True,
+                                blowout_location='source well',
+                                new_tip = 'never')
+        right_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-((Tris_start_height/steps)*(ind+2)),1)+0.2
     right_pipette.drop_tip() 
+
     
     #### Step 6 - pause, cover and shake this is only required if you are sanger ####
     #### sequencing and need to move the suprenatant into a new plate ####
@@ -176,7 +211,7 @@ def run(protocol: protocol_api.ProtocolContext):
 #     
 #     #### Step 7 - Transfer to skirted plate for storage ####
 #     right_pipette.well_bottom_clearance.aspirate = 0.1
-#     right_pipette.transfer(20, magplate.rows_by_name()['A'],
+#     right_pipette.transfer(Tris_elute_vol-2, magplate.rows_by_name()['A'],
 #                        outplate.rows_by_name()['A'],
 #                        air_gap = 5,
 #                        blow_out=False,
