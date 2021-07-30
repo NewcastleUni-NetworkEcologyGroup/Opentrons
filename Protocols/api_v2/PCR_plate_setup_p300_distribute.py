@@ -30,9 +30,9 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # check for labware space
     available_slots = [1,4,7,10,2,5,11] # this order minimises pipette travel over non-target wells
-    number_of_destination_plates: int = 5
-    if number_of_destination_plates > 5:
-        raise Exception('Please specify 5 or fewer destination plates, the P10 cant carry enough primer in one aspirate. Alternatively remake your primers at a higher concentration to dispense smaller volumes')
+    number_of_destination_plates: int = 4
+    if number_of_destination_plates > 4:
+        raise Exception('Please specify 4 or fewer destination plates, the P10 cant carry enough primer in one aspirate. Alternatively remake your primers at a higher concentration to dispense smaller volumes')
     
     # work out the initial master mix volume
     start_vol = round(PCR_matermix_vol*number_of_destination_plates*96*fudge_factor,1)
@@ -94,8 +94,8 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_multi10.flow_rate.blow_out = 10    
 
     
-    # distributemastermix using distribute command and well referencing
-    for d in dest_plates:
+    # distribute mastermix using distribute command and well referencing
+    for ind, d in enumerate(dest_plates):
         pipette_300.pick_up_tip()
         print(pipette_300.well_bottom_clearance.aspirate)
         pipette_300.distribute(PCR_matermix_vol,mastermix,d.wells(),
@@ -105,7 +105,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 blow_out=True,
                                 blow_out_location='source well',
                                 disposal_volume=2)
-        pipette_300.well_bottom_clearance.aspirate = round(pipette_300.well_bottom_clearance.aspirate-(initial_mastermix_height/steps))+0.2
+        pipette_300.well_bottom_clearance.aspirate = round(initial_mastermix_height-((initial_mastermix_height/steps)*(ind+2)),1)+0.2
         pipette_300.drop_tip()        
 
     # forward primer distribution
