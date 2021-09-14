@@ -19,7 +19,7 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
-    PCR_matermix_vol = 16
+    PCR_mastermix_vol = 16
     primer_vol = 2
     fudge_factor = 1.2
     
@@ -35,7 +35,7 @@ def run(protocol: protocol_api.ProtocolContext):
         raise Exception('Please specify 4 or fewer destination plates, the P10 cant carry enough primer in one aspirate. Alternatively remake your primers at a higher concentration to dispense smaller volumes')
     
     # work out the initial master mix volume
-    start_vol = round(PCR_matermix_vol*number_of_destination_plates*96*fudge_factor,1)
+    start_vol = round(PCR_mastermix_vol*number_of_destination_plates*96*fudge_factor,1)
     
     # create a function that works out the starting liquid height
     def start_height(start_vol, tip_height, well_width, well_length):
@@ -97,8 +97,8 @@ def run(protocol: protocol_api.ProtocolContext):
     # distribute mastermix using distribute command and well referencing
     for ind, d in enumerate(dest_plates):
         pipette_300.pick_up_tip()
-        print(pipette_300.well_bottom_clearance.aspirate)
-        pipette_300.distribute(PCR_matermix_vol,mastermix,d.wells(),
+        print('Round', ind+1, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
+        pipette_300.distribute(PCR_mastermix_vol,mastermix,d.wells(),
                                 #touch_tip=True,
                                 #radius=0.8,
                                 new_tip='never',
