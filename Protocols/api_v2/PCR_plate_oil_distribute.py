@@ -18,24 +18,27 @@ metadata = {'apiLevel': '2.8',
 
 def run(protocol: protocol_api.ProtocolContext):
    
-    # key liquid volumes
-    oil_vol = 15
-    fudge_factor = 1.2
-    
+   
     # key labware dimensions
     tip_height = 3
     well_width =8.2
     well_length = 71.2
     
     # check for labware space
-    available_slots = [1,4,7,10,2,5,11] # this order minimises pipette travel over non-target wells
-    number_of_destination_plates: int = 1
-    if number_of_destination_plates > 4:
-        raise Exception('Please specify 4 or fewer destination plates, the P10 cant carry enough primer in one aspirate. Alternatively remake your primers at a higher concentration to dispense smaller volumes')
+    available_slots = [1,2,4,5,6,7,8,10,11,12] # this order minimises pipette travel over non-target wells
+    number_of_destination_plates: int = 9
+    max_destination_plates = 9
+    if number_of_destination_plates > max_destination_plates:
+        raise Exception('Please specify 9 or fewer destination plates, you cannot hold enough oil in this reservoir')
+    # key liquid volumes
+    oil_vol = 15
+    fudge_factor = round(1.2-(0.1/(max_destination_plates/number_of_destination_plates)),2)
     
     # work out the initial master mix volume
     start_vol = round(oil_vol*number_of_destination_plates*96*fudge_factor,1)
-    
+    if start_vol > 15000:
+       raise Exception('You cannot hold enough oil in the reservoir to fill this many plates')
+       
     # create a function that works out the starting liquid height
     def start_height(start_vol, tip_height, well_width, well_length):
         # define the volume of the tip of the well tip
@@ -63,9 +66,10 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # generate a list of detinations to target for the primer distribute command
     #all_dests = [well for plate in dest_plates for well in plate.rows('A')] 
-
+    
     # calculate a step number for pipette changes and aspirate heights
-    steps=len(dest_plates)      
+    #steps=len(dest_plates)      
+    steps=len(dest_plates)*12
     
     # set up pipettes
     pipette_300 = protocol.load_instrument('p300_multi', mount='left', tip_racks=[tiprack_200]) 
@@ -73,6 +77,7 @@ def run(protocol: protocol_api.ProtocolContext):
     # set pipetting parameters for oil distribution
     pipette_300.flow_rate.aspirate = 10
     initial_oil_height = start_height(start_vol, tip_height, well_width, well_length)
+    print("The fudge factor for oil volumes is: ", fudge_factor)
     print("The initial oil volume is: ", end='')
     print(start_vol)
     print("The initial oil height is: ", end='')
@@ -84,28 +89,47 @@ def run(protocol: protocol_api.ProtocolContext):
     elif round(initial_oil_height-(initial_oil_height/steps),1) == 0:
         pipette_300.well_bottom_clearance.aspirate = 0.3
     
-    # Set some really slow pipetting rates for the viscous oil    
+    # # Set some really slow pipetting rates for the viscous oil    
     pipette_300.flow_rate.dispense = 10
     pipette_300.well_bottom_clearance.dispense = 5
     pipette_300.flow_rate.blow_out = 10
 
+    # # distribute oil using distribute command and well referencing - may need replacing with aspirate and dispense if I need waiting times etc
+    # for ind, d in enumerate(dest_plates):
+    #     pipette_300.pick_up_tip()
+    #     print('Round', ind+1, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
+    #     pipette_300.distribute(oil_vol,oil,d.wells(),
+    #                             touch_tip=True,
+    #                             radius=0.8,
+    #                             new_tip='never',
+    #                             blow_out=True,
+    #                             blow_out_location='source well',
+    #                             disposal_volume=30)
+    #     pipette_300.well_bottom_clearance.aspirate = round(initial_oil_height-((initial_oil_height/steps)*(ind+2)),1)+0.3
+    #     pipette_300.drop_tip()                
+        
+    ticker = 0        
     # distribute oil using distribute command and well referencing - may need replacing with aspirate and dispense if I need waiting times etc
-    for ind, d in enumerate(dest_plates):
+    for d in dest_plates:
         pipette_300.pick_up_tip()
-        print('Round', ind+1, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
-        pipette_300.distribute(oil_vol,oil,d.wells(),
-                                touch_tip=True,
-                                radius=0.8,
-                                new_tip='never',
-                                blow_out=True,
-                                blow_out_location='source well',
-                                disposal_volume=30)
-        pipette_300.well_bottom_clearance.aspirate = round(initial_oil_height-((initial_oil_height/steps)*(ind+2)),1)+0.3
+        for target_well in d.rows_by_name()['A']:
+          ticker = ticker+1
+          print('Round', ticker, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
+          # move to oil reservoir and aspirate then wait for viscous fluid to catch up
+          pipette_300.aspirate(oil_vol,oil)
+          protocol.delay(seconds=1)
+          # move to the top of the reservoir and let the oil form a drip then touch it off gently to the well wall 
+          pipette_300.move_to(oil.top(-2))
+          protocol.delay(seconds=2)
+          pipette_300.touch_tip(oil, radius=0.75,v_offset=-2)
+          # dispence the oil in the tip into the target well and wait for the viscous fluid to catch up
+          pipette_300.dispense(oil_vol,target_well)
+          protocol.delay(seconds=1)
+          # move to the top of the target well and let the oil form a drip then touch it off gently to the well wall 
+          pipette_300.move_to(target_well.top(-2))
+          protocol.delay(seconds=2)
+          pipette_300.touch_tip(target_well, radius=0.75,v_offset=-2)
+          # change the aspirate height on the oil to move down a bit
+          pipette_300.well_bottom_clearance.aspirate = round(initial_oil_height-((initial_oil_height/steps)*(ticker+1)),1)+0.3
         pipette_300.drop_tip()                
-        
-        
-        
-        
-        
-        
-        
+            
