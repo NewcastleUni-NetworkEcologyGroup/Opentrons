@@ -33,7 +33,7 @@ def run(protocol: protocol_api.ProtocolContext):
     # key liquid volumes
     oil_vol = 13
     # set a fudge factor that is more generous for smaller numbers of plates
-    fudge_factor = 1.2
+    fudge_factor = oil_vol*48
     
     # work out the initial oil volume
     start_vol = round(oil_vol*number_of_destination_plates*96,1)
@@ -81,11 +81,11 @@ def run(protocol: protocol_api.ProtocolContext):
     print("The initial oil height is: ", initial_oil_height)
     
     # work out the oil fill volume as it is very viscous and you need to asccount for the miniscus
-    print("The oil fill volume is: ", start_vol*fudge_factor)
-    if start_vol*fudge_factor > 15000:
+    print("The oil fill volume is: ", start_vol + fudge_factor)
+    if (start_vol + fudge_factor) > 15000:
        raise Exception('You cannot hold enough oil in the reservoir to fill this many plates')
-    elif start_vol*fudge_factor < 15000:
-        message = print("Put", start_vol*fudge_factor, "microlitres of oil in well A1 of the reservoir")
+    elif (start_vol + fudge_factor) < 15000:
+        message = print("Put", start_vol+fudge_factor, "microlitres of oil in well A1 of the reservoir")
         protocol.pause(message)
     
     # Define initial pipetting height that deals with workng on single rows
