@@ -109,14 +109,16 @@ def run(protocol: protocol_api.ProtocolContext):
           # move to the top of the reservoir and let the oil form a drip then touch it off gently to the well wall 
           pipette_300.move_to(oil.top(-2))
           protocol.delay(seconds=2)
-          pipette_300.touch_tip(oil, radius=0.75,v_offset=-2)
+          #pipette_300.touch_tip(oil, radius=0.75,v_offset=-2)
+          pipette_300.touch_tip()
           # dispence the oil in the tip into the target well and wait for the viscous fluid to catch up
           pipette_300.dispense(oil_vol,oil_dest)
           protocol.delay(seconds=1)
           # move to the top of the target well and let the oil form a drip then touch it off gently to the well wall 
           pipette_300.move_to(oil_dest.top(-2))
           protocol.delay(seconds=2)
-          pipette_300.touch_tip(oil_dest, radius=0.75,v_offset=-2)
+          #pipette_300.touch_tip(oil_dest, radius=0.75,v_offset=-2)
+          pipette_300.touch_tip()
           
           # tasks done so add one to the ticker to calulate new pipette heights.
           ticker = ticker+1

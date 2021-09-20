@@ -25,20 +25,18 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # check for labware space
     available_slots = [1,2,4,5,6,7,8,10,11,12] # this order minimises pipette travel over non-target wells
-    number_of_destination_plates: int = 1
+    number_of_destination_plates: int = 2
     max_destination_plates = 9
     if number_of_destination_plates > max_destination_plates:
         raise Exception('Please specify 9 or fewer destination plates, you cannot hold enough oil in this reservoir')
    
     # key liquid volumes
-    oil_vol = 15
+    oil_vol = 13
     # set a fudge factor that is more generous for smaller numbers of plates
-    fudge_factor = round(1.2-(0.1/(max_destination_plates/number_of_destination_plates)),2)
+    fudge_factor = 1.2
     
-    # work out the initial master mix volume
-    start_vol = round(oil_vol*number_of_destination_plates*96*fudge_factor,1)
-    if start_vol > 15000:
-       raise Exception('You cannot hold enough oil in the reservoir to fill this many plates')
+    # work out the initial oil volume
+    start_vol = round(oil_vol*number_of_destination_plates*96,1)
        
     # create a function that works out the starting liquid height
     def start_height(start_vol, tip_height, well_width, well_length):
@@ -82,6 +80,14 @@ def run(protocol: protocol_api.ProtocolContext):
     print("The initial oil volume is: ", start_vol)
     print("The initial oil height is: ", initial_oil_height)
     
+    # work out the oil fill volume as it is very viscous and you need to asccount for the miniscus
+    print("The oil fill volume is: ", start_vol*fudge_factor)
+    if start_vol*fudge_factor > 15000:
+       raise Exception('You cannot hold enough oil in the reservoir to fill this many plates')
+    elif start_vol*fudge_factor < 15000:
+        message = print("Put", start_vol*fudge_factor, "microlitres of oil in well A1 of the reservoir")
+        protocol.pause(message)
+    
     # Define initial pipetting height that deals with workng on single rows
     if round(initial_oil_height-(initial_oil_height/steps),1) > 0:
         pipette_300.well_bottom_clearance.aspirate = round(initial_oil_height-(initial_oil_height/steps),1)
@@ -108,14 +114,15 @@ def run(protocol: protocol_api.ProtocolContext):
           # move to the top of the reservoir and let the oil form a drip then touch it off gently to the well wall 
           pipette_300.move_to(oil.top(-2))
           protocol.delay(seconds=2)
-          pipette_300.touch_tip(oil, radius=0.75,v_offset=-2)
+          pipette_300.touch_tip(oil, radius=0.65,v_offset=-2, speed=25)
           # dispence the oil in the tip into the target well and wait for the viscous fluid to catch up
           pipette_300.dispense(oil_vol,target_well)
-          protocol.delay(seconds=1)
+          protocol.delay(seconds=2)
           # move to the top of the target well and let the oil form a drip then touch it off gently to the well wall 
           pipette_300.move_to(target_well.top(-2))
           protocol.delay(seconds=2)
-          pipette_300.touch_tip(target_well, radius=0.75,v_offset=-2)
+          pipette_300.blow_out()
+          pipette_300.touch_tip(target_well, radius=0.65,v_offset=-2, speed=25)
           
           # tasks done so add one to the ticker to calulate new pipette heights.
           ticker = ticker+1
@@ -124,7 +131,7 @@ def run(protocol: protocol_api.ProtocolContext):
           if ticker < steps:
               pipette_300.well_bottom_clearance.aspirate = round((initial_oil_height)-((initial_oil_height/steps)*(ticker)),1)
           elif ticker == steps:
-              pipette_300.well_bottom_clearance.aspirate = 0.3
+              pipette_300.well_bottom_clearance.aspirate = 2
               pipette_300.flow_rate.aspirate = 5
         pipette_300.drop_tip()                
             
