@@ -94,8 +94,7 @@ def run(protocol: protocol_api.ProtocolContext):
     # pipette out the bulk of the liquid
     left_pipette.well_bottom_clearance.aspirate = 1.5 # near the bottom but with a gap
     left_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
-                              blow_out=True,
-                              touch_tip=True)
+                              blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the liquid
     left_pipette.flow_rate.aspirate = 5
     left_pipette.well_bottom_clearance.aspirate = 0.5
