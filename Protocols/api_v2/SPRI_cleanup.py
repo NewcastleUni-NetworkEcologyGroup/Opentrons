@@ -80,9 +80,9 @@ def run(protocol: protocol_api.ProtocolContext):
     
     
     ##### Step 1 - Wait for 5 minutes then apply magnets for 5 minutes ####
-    protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
+    #protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
     mag_mod.engage(height=19.5)
-    protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
+    #protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
     #### Step 2 - Remove the supernatant ####
     # set pipetting parameters
@@ -97,7 +97,7 @@ def run(protocol: protocol_api.ProtocolContext):
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the liquid
     left_pipette.flow_rate.aspirate = 5
-    left_pipette.well_bottom_clearance.aspirate = 0.3
+    left_pipette.well_bottom_clearance.aspirate = 0.5
     left_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
@@ -130,7 +130,7 @@ def run(protocol: protocol_api.ProtocolContext):
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
     left_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
-    left_pipette.well_bottom_clearance.aspirate = 0.3 
+    left_pipette.well_bottom_clearance.aspirate = 0.5 
     left_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
         
@@ -164,15 +164,15 @@ def run(protocol: protocol_api.ProtocolContext):
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
     left_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
-    left_pipette.well_bottom_clearance.aspirate = 0.3
+    left_pipette.well_bottom_clearance.aspirate = 0.5
     left_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
     #### Step 5 - Dry SPRI beads ####
     mag_mod.engage(height=13.5)
-    protocol.delay(minutes = 2, msg = 'Pulling beads down')
+    #protocol.delay(minutes = 2, msg = 'Pulling beads down')
     mag_mod.disengage()
-    protocol.delay(minutes = 8, msg = 'Drying beads')
+    #protocol.delay(minutes = 8, msg = 'Drying beads')
     
     #### Step 5 - Elute ####
     # Add water or 10mM Tris-HCl
