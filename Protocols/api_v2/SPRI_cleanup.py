@@ -40,7 +40,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # pipettes
     # left_pipette = protocol.load_instrument('p50_multi', mount='left', tip_racks=[tiprack_1, tiprack_2, tiprack_3])
-    right_pipette = protocol.load_instrument('p300_multi', mount='right', tip_racks=[tiprack_1, tiprack_2,tiprack_3])
+    left_pipette = protocol.load_instrument('p300_multi', mount='left', tip_racks=[tiprack_1, tiprack_2,tiprack_3])
     
     # Create a list of target wells and step numbers to iterate across so we can change aspirate heights when needed
     well_name = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12']
@@ -86,86 +86,86 @@ def run(protocol: protocol_api.ProtocolContext):
     
     #### Step 2 - Remove the supernatant ####
     # set pipetting parameters
-    right_pipette.flow_rate.aspirate = 10 # slow here as SPRI mix is viscous
-    right_pipette.flow_rate.dispense = 150 # this doesn't matter as it's dispensing to 'trash'
-    right_pipette.flow_rate.blow_out = 150 # this doesn't matter as it's dispensing to 'trash'
-    right_pipette.well_bottom_clearance.dispense = 30 # I just want this a bit down in the 'trash' in case of splattering
+    left_pipette.flow_rate.aspirate = 10 # slow here as SPRI mix is viscous
+    left_pipette.flow_rate.dispense = 150 # this doesn't matter as it's dispensing to 'trash'
+    left_pipette.flow_rate.blow_out = 150 # this doesn't matter as it's dispensing to 'trash'
+    left_pipette.well_bottom_clearance.dispense = 30 # I just want this a bit down in the 'trash' in case of splattering
     
     # pipette out the bulk of the liquid
-    right_pipette.well_bottom_clearance.aspirate = 1.5 # near the bottom but with a gap
-    right_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
+    left_pipette.well_bottom_clearance.aspirate = 1.5 # near the bottom but with a gap
+    left_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the liquid
-    right_pipette.flow_rate.aspirate = 5
-    right_pipette.well_bottom_clearance.aspirate = 0.3
-    right_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
+    left_pipette.flow_rate.aspirate = 5
+    left_pipette.well_bottom_clearance.aspirate = 0.3
+    left_pipette.consolidate(30, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
     #### Step 3 - Ethanol wash 1 ####
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    right_pipette.well_bottom_clearance.dispense = 10 # near the bottom but not too near to make sure the tip doesn't block
-    right_pipette.flow_rate.aspirate = 100
-    right_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
+    left_pipette.well_bottom_clearance.dispense = 10 # near the bottom but not too near to make sure the tip doesn't block
+    left_pipette.flow_rate.aspirate = 100
+    left_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
     # Set the aspirate height to the starting ethanol height
-    right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-(Ethanol_start_height/steps),1)
+    left_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-(Ethanol_start_height/steps),1)
     # Distribute Ethanol to all columns dropping the aspirate height after every transfer
-    right_pipette.pick_up_tip()
+    left_pipette.pick_up_tip()
     for ind, well in enumerate(well_name):
-        print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(Ethanol_wash_vol, reservoir['A1'],
+        print(left_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
+        left_pipette.transfer(Ethanol_wash_vol, reservoir['A1'],
                                magplate.wells_by_name()[well],
                                air_gap = 10,
                                blow_out=False,
                                new_tip = 'never')
-        right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-((Ethanol_start_height/steps)*(ind+2)),1)+0.2
-    right_pipette.drop_tip() 
+        left_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-((Ethanol_start_height/steps)*(ind+2)),1)+0.2
+    left_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
     protocol.delay(seconds = 10, msg = 'Washing beads')
-    right_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
+    left_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
     # Remove the bulk of the ethanol
-    right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
-    right_pipette.well_bottom_clearance.aspirate = 3 # not right at the bottom to keep liquid flow around the beads gentle
-    right_pipette.consolidate(100, magplate.rows_by_name()['A'], waste['A1'],
+    left_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
+    left_pipette.well_bottom_clearance.aspirate = 3 # not right at the bottom to keep liquid flow around the beads gentle
+    left_pipette.consolidate(100, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
-    right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
-    right_pipette.well_bottom_clearance.aspirate = 0.3 
-    right_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
+    left_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
+    left_pipette.well_bottom_clearance.aspirate = 0.3 
+    left_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
         
         
     #### Step 4 - Ethanol wash 2 ####
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    right_pipette.well_bottom_clearance.dispense = 10 # near the bottom but not too near to make sure the tip doesn't block
-    right_pipette.flow_rate.aspirate = 100
-    right_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
+    left_pipette.well_bottom_clearance.dispense = 10 # near the bottom but not too near to make sure the tip doesn't block
+    left_pipette.flow_rate.aspirate = 100
+    left_pipette.flow_rate.dispense = 50 # gentle dispense rate to preserve beads
     # Set the aspirate height to the starting ethanol height
-    right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-(Ethanol_start_height/steps),1)
+    left_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-(Ethanol_start_height/steps),1)
     # Distribute Ethanol to all columns dropping the aspirate height after every transfer
-    right_pipette.pick_up_tip()
+    left_pipette.pick_up_tip()
     for ind, well in enumerate(well_name):
-        print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(Ethanol_wash_vol, reservoir['A2'],
+        print(left_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
+        left_pipette.transfer(Ethanol_wash_vol, reservoir['A2'],
                                magplate.wells_by_name()[well],
                                air_gap = 10,
                                blow_out=False,
                                new_tip = 'never')
-        right_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-((Ethanol_start_height/steps)*(ind+2)),1)+0.2
-    right_pipette.drop_tip() 
+        left_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-((Ethanol_start_height/steps)*(ind+2)),1)+0.2
+    left_pipette.drop_tip() 
     
     # Pause briefly for ethanol wash
     protocol.delay(seconds = 10, msg = 'Washing beads')
-    right_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
+    left_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
     # Remove the bulk of the ethanol
-    right_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
-    right_pipette.well_bottom_clearance.aspirate = 3 # not right at the bottom to keep liquid flow around the beads gentle
-    right_pipette.consolidate(100, magplate.rows_by_name()['A'], waste['A1'],
+    left_pipette.flow_rate.aspirate = 100 # the first aspirate can be quite fast
+    left_pipette.well_bottom_clearance.aspirate = 3 # not right at the bottom to keep liquid flow around the beads gentle
+    left_pipette.consolidate(100, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     # drop pipette height and aspirate speed then pipette out the remainder of the ethanol
-    right_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
-    right_pipette.well_bottom_clearance.aspirate = 0.3
-    right_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
+    left_pipette.flow_rate.aspirate = 20 # slowing right down as we're pipetting very close to the bottom and don't want to disturb the beads
+    left_pipette.well_bottom_clearance.aspirate = 0.3
+    left_pipette.consolidate(50, magplate.rows_by_name()['A'], waste['A1'],
                               blow_out=True)
     
     #### Step 5 - Dry SPRI beads ####
@@ -177,23 +177,23 @@ def run(protocol: protocol_api.ProtocolContext):
     #### Step 5 - Elute ####
     # Add water or 10mM Tris-HCl
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    right_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
-    right_pipette.flow_rate.aspirate = 100
-    right_pipette.flow_rate.dispense = 150 # doesn't really matter and a good rate will help mix beads
+    left_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
+    left_pipette.flow_rate.aspirate = 100
+    left_pipette.flow_rate.dispense = 150 # doesn't really matter and a good rate will help mix beads
     # Set the aspirate height to the starting ethanol height
-    right_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-(Tris_start_height/steps),1)
+    left_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-(Tris_start_height/steps),1)
     # Distribute Ethanol to all columns dropping the aspirate height after every transfer
-    right_pipette.pick_up_tip()
+    left_pipette.pick_up_tip()
     for ind, well in enumerate(well_name):
-        print(right_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
-        right_pipette.transfer(Tris_elute_vol, reservoir['A10'],
+        print(left_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
+        left_pipette.transfer(Tris_elute_vol, reservoir['A10'],
                                 magplate.wells_by_name()[well],
                                 air_gap = 5,
                                 blow_out=True,
                                 blowout_location='source well',
                                 new_tip = 'never')
-        right_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-((Tris_start_height/steps)*(ind+2)),1)+0.2
-    right_pipette.drop_tip() 
+        left_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-((Tris_start_height/steps)*(ind+2)),1)+0.2
+    left_pipette.drop_tip() 
 
     
     #### Step 6 - pause, cover and shake this is only required if you are sanger ####
@@ -210,8 +210,8 @@ def run(protocol: protocol_api.ProtocolContext):
 #     protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
 #     
 #     #### Step 7 - Transfer to skirted plate for storage ####
-#     right_pipette.well_bottom_clearance.aspirate = 0.1
-#     right_pipette.transfer(Tris_elute_vol-2, magplate.rows_by_name()['A'],
+#     left_pipette.well_bottom_clearance.aspirate = 0.1
+#     left_pipette.transfer(Tris_elute_vol-2, magplate.rows_by_name()['A'],
 #                        outplate.rows_by_name()['A'],
 #                        air_gap = 5,
 #                        blow_out=False,
