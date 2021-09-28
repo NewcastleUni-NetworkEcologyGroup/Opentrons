@@ -112,8 +112,7 @@ def run(protocol: protocol_api.ProtocolContext):
         protocol.delay(seconds = 1)
         left_pipette.touch_tip(target_well, radius=0.50,v_offset=-5, speed=25)
         # put it all in the waste
-        left_pipette.dispense(80,waste['A1'].top(-10))
-        left_pipette.blow_out()
+        left_pipette.blow_out(waste['A1'].top(-10))
         left_pipette.touch_tip(waste['A1'], radius=0.80,v_offset=-5, speed=25)
     left_pipette.drop_tip()
 
@@ -163,7 +162,7 @@ def run(protocol: protocol_api.ProtocolContext):
         # create an air gap for the drippy ethanol
         left_pipette.aspirate(10, target_well.top(-1))
         # put it all in the waste
-        left_pipette.blow_out()
+        left_pipette.blow_out(waste['A2'].top(-10))
         # get rid of the drips
         left_pipette.touch_tip(waste['A2'], radius=0.80,v_offset=-5, speed=25)
     left_pipette.drop_tip()  
@@ -214,7 +213,7 @@ def run(protocol: protocol_api.ProtocolContext):
         # create an air gap for the drippy ethanol
         left_pipette.aspirate(10, target_well.top(-1))
         # put it all in the waste
-        left_pipette.blow_out()
+        left_pipette.blow_out(waste['A3'].top(-10))
         # get rid of the drips
         left_pipette.touch_tip(waste['A3'], radius=0.80,v_offset=-5, speed=25)
     left_pipette.drop_tip()

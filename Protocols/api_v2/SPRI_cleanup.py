@@ -79,6 +79,7 @@ def run(protocol: protocol_api.ProtocolContext):
     print(Tris_start_height)
     
     
+
     ##### Step 1 - Wait for 5 minutes then apply magnets for 5 minutes ####
     protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
     mag_mod.engage(height=15)
@@ -135,6 +136,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 new_tip = 'never')
         left_pipette.well_bottom_clearance.aspirate = round(Ethanol_start_height-((Ethanol_start_height/steps)*(ind+2)),1)+0.2
     left_pipette.drop_tip() 
+
     
     # Pause briefly for ethanol wash
     protocol.delay(seconds = 10, msg = 'Washing beads')
@@ -163,7 +165,7 @@ def run(protocol: protocol_api.ProtocolContext):
         # create an air gap for the drippy ethanol
         left_pipette.aspirate(10, target_well.top(-1))
         # put it all in the waste
-        left_pipette.blow_out()
+        left_pipette.blow_out(waste['A2'].top(-10))
         # get rid of the drips
         left_pipette.touch_tip(waste['A2'], radius=0.80,v_offset=-5, speed=25)
     left_pipette.drop_tip()  
@@ -214,7 +216,7 @@ def run(protocol: protocol_api.ProtocolContext):
         # create an air gap for the drippy ethanol
         left_pipette.aspirate(10, target_well.top(-1))
         # put it all in the waste
-        left_pipette.blow_out()
+        left_pipette.blow_out(waste['A3'].top(-10))
         # get rid of the drips
         left_pipette.touch_tip(waste['A3'], radius=0.80,v_offset=-5, speed=25)
     left_pipette.drop_tip()
