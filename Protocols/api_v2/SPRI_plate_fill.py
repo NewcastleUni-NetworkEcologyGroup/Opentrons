@@ -25,15 +25,13 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # check for labware space
     available_slots = [1,2,4,5,6,7,8,10,11,12] # this order minimises pipette travel over non-target wells
-    number_of_destination_plates: int = 2
+    number_of_destination_plates: int = 6
     max_destination_plates = 4
     if number_of_destination_plates > max_destination_plates:
-        raise Exception('Please specify 4 or fewer destination plates, you cannot hold enough SPRI beads in this reservoir')
+        raise Exception('Please specify 4 or fewer destination plates, you do not have enough space in a reservoir well')
    
     # key liquid volumes
     SPRI_vol = 30
-    # set a fudge factor that is more generous for smaller numbers of plates
-    fudge_factor = SPRI_vol*48
     
     # work out the initial SPRI volume
     start_vol = round(SPRI_vol*number_of_destination_plates*96,1)
@@ -70,23 +68,17 @@ def run(protocol: protocol_api.ProtocolContext):
     #steps=len(dest_plates)      
     steps=len(dest_plates)*12
     
+   
     # set up pipettes
     pipette_300 = protocol.load_instrument('p300_multi', mount='left', tip_racks=[tiprack_200]) 
  
     # set pipetting parameters for SPRI distribution
     pipette_300.flow_rate.aspirate = 10
     initial_SPRI_height = start_height(start_vol, tip_height, well_width, well_length)
-    print("The fudge factor for SPRI volumes is: ", fudge_factor)
     print("The initial SPRI volume is: ", start_vol)
     print("The initial SPRI height is: ", initial_SPRI_height)
     
-    # work out the SPRI fill volume as it is very viscous and you need to asccount for the miniscus
-    print("The SPRI fill volume is: ", start_vol + fudge_factor)
-    if (start_vol + fudge_factor) > 15000:
-       raise Exception('You cannot hold enough SPRI in the reservoir to fill this many plates')
-    elif (start_vol + fudge_factor) < 15000:
-        message = print("Put 3200 microlitres of SPRI beads in well A1 of the reservoir per plate being set up")
-        protocol.pause(message)
+    protocol.pause("Put 3300 microlitres of SPRI beads in well A1 of the reservoir per plate being set up, if over 4 plates, place the SPRi beads for plates 5-8 in well A2 of the resevoir")
     
     # Define initial pipetting height that deals with workng on single rows
     if round(initial_SPRI_height-(initial_SPRI_height/steps),1) > 0:
@@ -109,6 +101,10 @@ def run(protocol: protocol_api.ProtocolContext):
         for target_well in d.rows_by_name()['A']:
           print('Round', ticker, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
           # move to SPRI reservoir and aspirate then wait for viscous fluid to catch up
+          if ticker < 49:
+              SPRI = reservoir['A1']
+          elif ticker > 48:
+              SPRI = reservoir['A2']
           pipette_300.aspirate(SPRI_vol,SPRI)
           protocol.delay(seconds=1)
           # move to the top of the reservoir and let the SPRI form a drip then touch it off gently to the well wall 

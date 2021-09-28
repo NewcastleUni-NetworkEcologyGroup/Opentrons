@@ -221,6 +221,17 @@ def run(protocol: protocol_api.ProtocolContext):
         left_pipette.blow_out()
     left_pipette.drop_tip() 
     
+    left_pipette.pick_up_tip()
+    for target_well in magplate.rows_by_name()['A']:
+        left_pipette.move_to(target_well.bottom(0.3))
+        left_pipette.aspirate(10, target_well)
+        left_pipette.move_to(target_well.bottom(0.5))
+        left_pipette.move_to(target_well.bottom(0.7))
+        left_pipette.move_to(target_well.bottom(0.9))
+        left_pipette.move_to(target_well.bottom(1.1))
+    left_pipette.blow_out(waste['A1'])
+    left_pipette.drop_tip() 
+    
     #### Step 5 - Dry SPRI beads ####
     mag_mod.engage(height=13.5)
     #protocol.delay(minutes = 2, msg = 'Pulling beads down')
