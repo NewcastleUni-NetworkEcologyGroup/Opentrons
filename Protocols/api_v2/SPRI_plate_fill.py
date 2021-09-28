@@ -25,7 +25,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # check for labware space
     available_slots = [1,2,4,5,6,7,8,10,11,12] # this order minimises pipette travel over non-target wells
-    number_of_destination_plates: int = 6
+    number_of_destination_plates: int = 4
     max_destination_plates = 4
     if number_of_destination_plates > max_destination_plates:
         raise Exception('Please specify 4 or fewer destination plates, you do not have enough space in a reservoir well')
@@ -78,7 +78,7 @@ def run(protocol: protocol_api.ProtocolContext):
     print("The initial SPRI volume is: ", start_vol)
     print("The initial SPRI height is: ", initial_SPRI_height)
     
-    protocol.pause("Put 3300 microlitres of SPRI beads in well A1 of the reservoir per plate being set up, if over 4 plates, place the SPRi beads for plates 5-8 in well A2 of the resevoir")
+    protocol.pause("Put 3300 microlitres of SPRI beads in well A1 of the reservoir per plate being set up")
     
     # Define initial pipetting height that deals with workng on single rows
     if round(initial_SPRI_height-(initial_SPRI_height/steps),1) > 0:
