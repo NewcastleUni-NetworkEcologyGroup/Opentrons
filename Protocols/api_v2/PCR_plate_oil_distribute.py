@@ -25,7 +25,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # check for labware space
     available_slots = [1,2,4,5,6,7,8,10,11,12] # this order minimises pipette travel over non-target wells
-    number_of_destination_plates: int = 2
+    number_of_destination_plates: int = 8
     max_destination_plates = 9
     if number_of_destination_plates > max_destination_plates:
         raise Exception('Please specify 9 or fewer destination plates, you cannot hold enough oil in this reservoir')
@@ -127,11 +127,18 @@ def run(protocol: protocol_api.ProtocolContext):
           # tasks done so add one to the ticker to calulate new pipette heights.
           ticker = ticker+1
                     
+          # # change the aspirate height on the oil to move down a bit, if it is the last step, set a special heigh that isn't zero and slow the aspirate right down
+          # if ticker < steps:
+          #     pipette_300.well_bottom_clearance.aspirate = round((initial_oil_height)-((initial_oil_height/steps)*(ticker)),1)
+          # elif ticker == steps:
+          #     pipette_300.well_bottom_clearance.aspirate = 2
+          #     pipette_300.flow_rate.aspirate = 5
+              
           # change the aspirate height on the oil to move down a bit, if it is the last step, set a special heigh that isn't zero and slow the aspirate right down
           if ticker < steps:
-              pipette_300.well_bottom_clearance.aspirate = round((initial_oil_height)-((initial_oil_height/steps)*(ticker)),1)
+              pipette_300.well_bottom_clearance.aspirate = round((initial_oil_height)-((initial_oil_height/steps)*(ticker*0.9)),1)
           elif ticker == steps:
-              pipette_300.well_bottom_clearance.aspirate = 2
+              pipette_300.well_bottom_clearance.aspirate = round((initial_oil_height)-((initial_oil_height/steps)*(ticker*0.9)),1)
               pipette_300.flow_rate.aspirate = 5
         pipette_300.drop_tip()                
             
