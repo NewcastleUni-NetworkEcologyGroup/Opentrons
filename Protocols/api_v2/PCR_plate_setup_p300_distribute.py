@@ -19,8 +19,8 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
-    PCR_mastermix_vol = 16
-    primer_vol = 2
+    PCR_mastermix_vol = 9.25
+    primer_vol = 1.25
     fudge_factor = 1.2
     
     # key labware dimensions
