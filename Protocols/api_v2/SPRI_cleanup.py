@@ -267,26 +267,3 @@ def run(protocol: protocol_api.ProtocolContext):
         left_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-((Tris_start_height/steps)*(ind+2)),1)+0.2
     left_pipette.drop_tip() 
 
-    
-    #### Step 6 - pause, cover and shake this is only required if you are sanger ####
-    #### sequencing and need to move the suprenatant into a new plate ####
-# =============================================================================
-#     protocol.pause(
-#             "Remove skirted plate from magdeck, cover with PCR film and shake on plate shaker for 2 minutes at 1400 rpm, take of lid, return to magdeck and resume protocol")
-#     
-#     # Wait 5 min
-#     protocol.delay(minutes = 5, msg = 'Waiting for DNA to elute')
-#     
-#     # Engage magnets for 5 min
-#     mag_mod.engage(height=18.5)
-#     protocol.delay(minutes = 5, msg = 'Separating SPRI beads')
-#     
-#     #### Step 7 - Transfer to skirted plate for storage ####
-#     left_pipette.well_bottom_clearance.aspirate = 0.1
-#     left_pipette.transfer(Tris_elute_vol-2, magplate.rows_by_name()['A'],
-#                        outplate.rows_by_name()['A'],
-#                        air_gap = 5,
-#                        blow_out=False,
-#                        touch_tip=False,
-#                        new_tip = 'always')
-# =============================================================================

@@ -19,8 +19,8 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
    
     # key liquid volumes
-    PCR_mastermix_vol = 16
-    primer_vol = 2
+    PCR_mastermix_vol = 9.25
+    primer_vol = 1.25
     fudge_factor = 1.2
     
     # key labware dimensions
@@ -105,7 +105,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 blow_out=True,
                                 blow_out_location='source well',
                                 disposal_volume=2)
-        pipette_300.well_bottom_clearance.aspirate = round(initial_mastermix_height-((initial_mastermix_height/steps)*(ind+2)),1)+0.3
+        pipette_300.well_bottom_clearance.aspirate = round(initial_mastermix_height-(initial_mastermix_height/steps)*((ind+2)*0.9),1)
         pipette_300.drop_tip()        
 
     # forward primer distribution
