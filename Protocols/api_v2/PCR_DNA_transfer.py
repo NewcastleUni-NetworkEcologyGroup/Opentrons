@@ -9,9 +9,9 @@ from opentrons import protocol_api
 
 # metadata
 metadata = {'apiLevel': '2.8',
-            'protocolName': 'Oil multiplate dispense',
+            'protocolName': 'DNA transfer to PCR plate',
             'author': 'James Kitson <james.kitson@newcastle.ac.uk>',
-            'description': 'A protocol to distribute mineral oil to multiple PCR plates'}
+            'description': 'A protocol to distribute template DNA into a target PCR plate'}
 
 # protocol run function. the part after the colon lets your editor know
 # where to look for autocomplete suggestions
