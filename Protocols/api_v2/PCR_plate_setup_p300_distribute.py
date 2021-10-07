@@ -105,7 +105,7 @@ def run(protocol: protocol_api.ProtocolContext):
                                 blow_out=True,
                                 blow_out_location='source well',
                                 disposal_volume=2)
-        pipette_300.well_bottom_clearance.aspirate = round(initial_mastermix_height-(initial_mastermix_height/steps)*((ind+2)*0.9),1)
+        pipette_300.well_bottom_clearance.aspirate = round(initial_mastermix_height-(initial_mastermix_height/steps)*((ind+2)*0.95),1)
         pipette_300.drop_tip()        
 
     # forward primer distribution
