@@ -218,6 +218,10 @@ def run(protocol: protocol_api.ProtocolContext):
         left_pipette.touch_tip(waste['A3'], radius=0.80,v_offset=-5, speed=25)
     left_pipette.drop_tip()
     
+    # Pull the SPRI beads down a bit to make elution easier
+    mag_mod.engage(height=7)
+    protocol.delay(seconds = 5, msg = 'Pulling beads down')
+    
     # remove the last drips of ethanol from the bead wells
     left_pipette.pick_up_tip()
     for target_well in magplate.rows_by_name()['A']:
@@ -238,10 +242,8 @@ def run(protocol: protocol_api.ProtocolContext):
     left_pipette.drop_tip() 
     
     #### Step 5 - Dry SPRI beads ####
-    mag_mod.engage(height=10)
-    protocol.delay(minutes = 2, msg = 'Pulling beads down')
     mag_mod.disengage()
-    protocol.delay(minutes = 8, msg = 'Drying beads')
+    protocol.delay(minutes = 10, msg = 'Drying beads')
     
     #### Step 5 - Elute ####
     # Add water or 10mM Tris-HCl
