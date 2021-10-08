@@ -88,6 +88,7 @@ def run(protocol: protocol_api.ProtocolContext):
     #for source_well, idx in enumerate(source_plate.rows_by_name()['A']):
     for source_well in source_plate.rows_by_name()['A']:
         right_pipette.pick_up_tip()
+        right_pipette.flow_rate.aspirate = 5
         # pipette off most of the ethanol
         right_pipette.aspirate(10, source_well.bottom(0.3))
         # step up releasing any blockages and giving liquid time to flow into the pipette
@@ -104,11 +105,12 @@ def run(protocol: protocol_api.ProtocolContext):
         protocol.delay(seconds = 2)
         right_pipette.touch_tip(source_well, radius=0.75,v_offset=-2, speed=25)
         
+        right_pipette.flow_rate.aspirate = 10
         right_pipette.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(2))
-        right_pipette.mix(5, 10, magplate.rows_by_name()['A'][ticker].bottom(2))
-        right_pipette.mix(5, 10, magplate.rows_by_name()['A'][ticker].bottom(4))
-        right_pipette.mix(5, 10, magplate.rows_by_name()['A'][ticker].bottom(6))
-        right_pipette.touch_tip(magplate.rows_by_name()['A'][ticker], radius=0.75,v_offset=-5, speed=25)
+        right_pipette.mix(10, 10, magplate.rows_by_name()['A'][ticker].bottom(6))
+        right_pipette.mix(10, 10, magplate.rows_by_name()['A'][ticker].bottom(4))
+        right_pipette.mix(10, 10, magplate.rows_by_name()['A'][ticker].bottom(2))
+        right_pipette.touch_tip(magplate.rows_by_name()['A'][ticker], radius=0.75,v_offset=-8, speed=25)
         right_pipette.drop_tip() 
         ticker = ticker+1
     
@@ -144,7 +146,7 @@ def run(protocol: protocol_api.ProtocolContext):
         protocol.delay(seconds = 1)
         left_pipette.move_to(target_well.bottom(1.3))
         protocol.delay(seconds = 1)
-        left_pipette.touch_tip(target_well, radius=0.50,v_offset=-5, speed=25)
+        left_pipette.touch_tip(target_well, radius=0.50,v_offset=-8, speed=25)
         # put it all in the waste
         left_pipette.blow_out(waste['A1'].top(-10))
         left_pipette.touch_tip(waste['A1'], radius=0.80,v_offset=-5, speed=25)
@@ -174,6 +176,7 @@ def run(protocol: protocol_api.ProtocolContext):
     left_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
     
     # Using a loop pick up ethanol and step the pipette height up in increments to release the pressure on blocked tips    
+    left_pipette.flow_rate.aspirate = 30 # slow here to protect beads
     left_pipette.pick_up_tip()
     for target_well in magplate.rows_by_name()['A']:
         # pipette off most of the ethanol
@@ -192,7 +195,7 @@ def run(protocol: protocol_api.ProtocolContext):
         protocol.delay(seconds = 1)
         left_pipette.move_to(target_well.bottom(1.3))
         protocol.delay(seconds = 1)
-        left_pipette.touch_tip(target_well, radius=0.50,v_offset=-5, speed=25)
+        left_pipette.touch_tip(target_well, radius=0.50,v_offset=-8, speed=25)
         # create an air gap for the drippy ethanol
         left_pipette.aspirate(10, target_well.top(-1))
         # put it all in the waste
@@ -224,7 +227,8 @@ def run(protocol: protocol_api.ProtocolContext):
     protocol.delay(seconds = 10, msg = 'Washing beads')
     left_pipette.well_bottom_clearance.dispense = 25 # raise it up so the tips don't dip in the waste
 
-    # Using a loop pick up ethanol and step the pipette height up in increments to release the pressure on blocked tips    
+    # Using a loop pick up ethanol and step the pipette height up in increments to release the pressure on blocked tips   
+    left_pipette.flow_rate.aspirate = 30 # slow here to protect beads
     left_pipette.pick_up_tip()
     for target_well in magplate.rows_by_name()['A']:
         # pipette off most of the ethanol
@@ -243,7 +247,7 @@ def run(protocol: protocol_api.ProtocolContext):
         protocol.delay(seconds = 1)
         left_pipette.move_to(target_well.bottom(1.3))
         protocol.delay(seconds = 1)
-        left_pipette.touch_tip(target_well, radius=0.50,v_offset=-5, speed=25)
+        left_pipette.touch_tip(target_well, radius=0.50,v_offset=-8, speed=25)
         # create an air gap for the drippy ethanol
         left_pipette.aspirate(10, target_well.top(-1))
         # put it all in the waste
@@ -251,10 +255,6 @@ def run(protocol: protocol_api.ProtocolContext):
         # get rid of the drips
         left_pipette.touch_tip(waste['A3'], radius=0.80,v_offset=-5, speed=25)
     left_pipette.drop_tip()
-    
-    # Pull the SPRI beads down a bit to make elution easier
-    mag_mod.engage(height=7)
-    protocol.delay(seconds = 5, msg = 'Pulling beads down')
     
     # remove the last drips of ethanol from the bead wells
     left_pipette.flow_rate.aspirate = 5
@@ -277,17 +277,30 @@ def run(protocol: protocol_api.ProtocolContext):
     left_pipette.drop_tip() 
     
     #### Step 5 - Dry SPRI beads ####
+    #Pull the SPRI beads down a bit to make elution easier
+    mag_mod.engage(height=7)
+    protocol.delay(minutes = 2, msg = 'Pulling beads down')
+    
     mag_mod.disengage()
-    protocol.delay(minutes = 10, msg = 'Drying beads')
+    protocol.delay(minutes = 8, msg = 'Drying beads')
     
     #### Step 6 - Elute ####
     # Add water or 10mM Tris-HCl
     # Set the dispense height and rate to a reasonable gentle height that doesn't end up with too much tip in the liquid
-    left_pipette.well_bottom_clearance.dispense = 12 # near the bottom but not too near to make sure the tip doesn't block
-    left_pipette.well_bottom_clearance.aspirate = 1
+    left_pipette.well_bottom_clearance.dispense = 5 # near the bottom but not too near to make sure the tip doesn't block
     left_pipette.flow_rate.aspirate = 100
     left_pipette.flow_rate.dispense = 150 # doesn't really matter and a good rate will help mix beads
-    # Distribute Tris-HCl to all columns
-    left_pipette.distribute(Tris_elute_vol, reservoir['A10'],
-                            magplate.rows_by_name()['A'],
-                            new_tip = 'once')
+    # Set the aspirate height to the starting ethanol height
+    left_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-(Tris_start_height/steps),1)
+    # Distribute Ethanol to all columns dropping the aspirate height after every transfer
+    left_pipette.pick_up_tip()
+    for ind, well in enumerate(well_name):
+        print(left_pipette.well_bottom_clearance.aspirate) # this is just a sense check and can go once the protocol is tested
+        left_pipette.transfer(Tris_elute_vol, reservoir['A10'],
+                                magplate.wells_by_name()[well],
+                                air_gap = 5,
+                                blow_out=True,
+                                blowout_location='source well',
+                                new_tip = 'never')
+        left_pipette.well_bottom_clearance.aspirate = round(Tris_start_height-((Tris_start_height/steps)*(ind+2)),1)+0.2
+    left_pipette.drop_tip() 
