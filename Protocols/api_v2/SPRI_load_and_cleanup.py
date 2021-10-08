@@ -21,12 +21,12 @@ def run(protocol: protocol_api.ProtocolContext):
 
     # labware for protocol
     reservoir = protocol.load_labware('nest_12_reservoir_15ml',2)
-    tiprack_1 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 3)
+    tiprack_1 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 3, "Tips for SPRI process")
     tiprack_2 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 6)
-    tiprack_3 = protocol.load_labware('opentrons_96_filtertiprack_20ul', 9)
+    tiprack_3 = protocol.load_labware('opentrons_96_filtertiprack_20ul', 9, "Tips for PCR product transfer")
     source_plate = protocol.load_labware('sarstedt_96_skirted_wellplate_200ul', 10, "PCRs to be cleaned")
 
-    waste = protocol.load_labware('sarstedt_96_wellplate_2200ul', 7)
+    waste = protocol.load_labware('sarstedt_96_wellplate_2200ul', 7, "waste plate")
     
     # key labware dimensions
     tip_height = 3
