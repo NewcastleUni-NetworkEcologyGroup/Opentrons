@@ -105,13 +105,21 @@ def run(protocol: protocol_api.ProtocolContext):
         protocol.delay(seconds = 2)
         right_pipette.touch_tip(source_well, radius=0.75,v_offset=-2, speed=25)
         
-        right_pipette.flow_rate.aspirate = 10
+        # right_pipette.flow_rate.aspirate = 50
+        # right_pipette.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(2))
+        # right_pipette.mix(10, 6, magplate.rows_by_name()['A'][ticker].bottom(7))
+        # right_pipette.mix(10, 6, magplate.rows_by_name()['A'][ticker].bottom(5))
+        # right_pipette.mix(10, 6, magplate.rows_by_name()['A'][ticker].bottom(3))
+        # right_pipette.touch_tip(magplate.rows_by_name()['A'][ticker], radius=0.75,v_offset=-8, speed=25)
+        # right_pipette.drop_tip() 
+        
+        right_pipette.flow_rate.aspirate = 50
         right_pipette.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(2))
-        right_pipette.mix(10, 10, magplate.rows_by_name()['A'][ticker].bottom(6))
-        right_pipette.mix(10, 10, magplate.rows_by_name()['A'][ticker].bottom(4))
-        right_pipette.mix(10, 10, magplate.rows_by_name()['A'][ticker].bottom(2))
+        for iter in range(9):
+            right_pipette.aspirate(10, magplate.rows_by_name()['A'][ticker].bottom(2))
+            right_pipette.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(7))
         right_pipette.touch_tip(magplate.rows_by_name()['A'][ticker], radius=0.75,v_offset=-8, speed=25)
-        right_pipette.drop_tip() 
+        right_pipette.drop_tip()
         ticker = ticker+1
     
     
