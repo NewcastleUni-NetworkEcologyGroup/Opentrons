@@ -1,49 +1,23 @@
 import json
 from opentrons import protocol_api, types
 
-CALIBRATION_CROSS_COORDS = {
-    '1': {
-        'x': 12.13,
-        'y': 9.0,
-        'z': 0.0
-    },
-    '3': {
-        'x': 380.87,
-        'y': 9.0,
-        'z': 0.0
-    },
-    '7': {
-        'x': 12.13,
-        'y': 258.0,
-        'z': 0.0
-    }
-}
-CALIBRATION_CROSS_SLOTS = ['1', '3', '7']
-TEST_LABWARE_SLOT = '2'
+
+TEST_LABWARE_SLOT = '5'
 
 RATE = 0.25  # % of default speeds
-SLOWER_RATE = 0.1
 
 PIPETTE_MOUNT = 'right'
-PIPETTE_NAME = 'p50_single'
+PIPETTE_NAME = 'p300_multi'
 
-TIPRACK_SLOT = '5'
+TIPRACK_SLOT = '11'
 TIPRACK_LOADNAME = 'opentrons_96_tiprack_300ul'
-
-LABWARE_DEF_JSON = """{"ordering":[["A1","B1","C1","D1","E1","F1","G1","H1"],["A2","B2","C2","D2","E2","F2","G2","H2"],["A3","B3","C3","D3","E3","F3","G3","H3"],["A4","B4","C4","D4","E4","F4","G4","H4"],["A5","B5","C5","D5","E5","F5","G5","H5"],["A6","B6","C6","D6","E6","F6","G6","H6"],["A7","B7","C7","D7","E7","F7","G7","H7"],["A8","B8","C8","D8","E8","F8","G8","H8"],["A9","B9","C9","D9","E9","F9","G9","H9"],["A10","B10","C10","D10","E10","F10","G10","H10"],["A11","B11","C11","D11","E11","F11","G11","H11"],["A12","B12","C12","D12","E12","F12","G12","H12"]],"brand":{"brand":"Sarstedt","brandId":["72.1980.202"]},"metadata":{"displayName":"Sarstedt 96 Skirted Well Plate 200 μl","displayCategory":"wellPlate","displayVolumeUnits":"µL","tags":[]},"dimensions":{"xDimension":127.8,"yDimension":85.5,"zDimension":15.5},"wells":{"A1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":74.3,"z":0.5},"B1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":65.3,"z":0.5},"C1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":56.3,"z":0.5},"D1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":47.3,"z":0.5},"E1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":38.3,"z":0.5},"F1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":29.3,"z":0.5},"G1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":20.3,"z":0.5},"H1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.4,"y":11.3,"z":0.5},"A2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":74.3,"z":0.5},"B2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":65.3,"z":0.5},"C2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":56.3,"z":0.5},"D2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":47.3,"z":0.5},"E2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":38.3,"z":0.5},"F2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":29.3,"z":0.5},"G2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":20.3,"z":0.5},"H2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.4,"y":11.3,"z":0.5},"A3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":74.3,"z":0.5},"B3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":65.3,"z":0.5},"C3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":56.3,"z":0.5},"D3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":47.3,"z":0.5},"E3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":38.3,"z":0.5},"F3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":29.3,"z":0.5},"G3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":20.3,"z":0.5},"H3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.4,"y":11.3,"z":0.5},"A4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":74.3,"z":0.5},"B4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":65.3,"z":0.5},"C4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":56.3,"z":0.5},"D4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":47.3,"z":0.5},"E4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":38.3,"z":0.5},"F4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":29.3,"z":0.5},"G4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":20.3,"z":0.5},"H4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.4,"y":11.3,"z":0.5},"A5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":74.3,"z":0.5},"B5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":65.3,"z":0.5},"C5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":56.3,"z":0.5},"D5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":47.3,"z":0.5},"E5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":38.3,"z":0.5},"F5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":29.3,"z":0.5},"G5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":20.3,"z":0.5},"H5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.4,"y":11.3,"z":0.5},"A6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":74.3,"z":0.5},"B6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":65.3,"z":0.5},"C6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":56.3,"z":0.5},"D6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":47.3,"z":0.5},"E6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":38.3,"z":0.5},"F6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":29.3,"z":0.5},"G6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":20.3,"z":0.5},"H6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.4,"y":11.3,"z":0.5},"A7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":74.3,"z":0.5},"B7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":65.3,"z":0.5},"C7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":56.3,"z":0.5},"D7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":47.3,"z":0.5},"E7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":38.3,"z":0.5},"F7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":29.3,"z":0.5},"G7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":20.3,"z":0.5},"H7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.4,"y":11.3,"z":0.5},"A8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":74.3,"z":0.5},"B8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":65.3,"z":0.5},"C8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":56.3,"z":0.5},"D8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":47.3,"z":0.5},"E8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":38.3,"z":0.5},"F8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":29.3,"z":0.5},"G8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":20.3,"z":0.5},"H8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.4,"y":11.3,"z":0.5},"A9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":74.3,"z":0.5},"B9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":65.3,"z":0.5},"C9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":56.3,"z":0.5},"D9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":47.3,"z":0.5},"E9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":38.3,"z":0.5},"F9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":29.3,"z":0.5},"G9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":20.3,"z":0.5},"H9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.4,"y":11.3,"z":0.5},"A10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":74.3,"z":0.5},"B10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":65.3,"z":0.5},"C10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":56.3,"z":0.5},"D10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":47.3,"z":0.5},"E10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":38.3,"z":0.5},"F10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":29.3,"z":0.5},"G10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":20.3,"z":0.5},"H10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.4,"y":11.3,"z":0.5},"A11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":74.3,"z":0.5},"B11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":65.3,"z":0.5},"C11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":56.3,"z":0.5},"D11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":47.3,"z":0.5},"E11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":38.3,"z":0.5},"F11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":29.3,"z":0.5},"G11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":20.3,"z":0.5},"H11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.4,"y":11.3,"z":0.5},"A12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":74.3,"z":0.5},"B12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":65.3,"z":0.5},"C12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":56.3,"z":0.5},"D12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":47.3,"z":0.5},"E12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":38.3,"z":0.5},"F12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":29.3,"z":0.5},"G12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":20.3,"z":0.5},"H12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.4,"y":11.3,"z":0.5}},"groups":[{"metadata":{"wellBottomShape":"v"},"wells":["A1","B1","C1","D1","E1","F1","G1","H1","A2","B2","C2","D2","E2","F2","G2","H2","A3","B3","C3","D3","E3","F3","G3","H3","A4","B4","C4","D4","E4","F4","G4","H4","A5","B5","C5","D5","E5","F5","G5","H5","A6","B6","C6","D6","E6","F6","G6","H6","A7","B7","C7","D7","E7","F7","G7","H7","A8","B8","C8","D8","E8","F8","G8","H8","A9","B9","C9","D9","E9","F9","G9","H9","A10","B10","C10","D10","E10","F10","G10","H10","A11","B11","C11","D11","E11","F11","G11","H11","A12","B12","C12","D12","E12","F12","G12","H12"]}],"parameters":{"format":"irregular","quirks":[],"isTiprack":false,"isMagneticModuleCompatible":false,"loadName":"sarstedt_96_skirted_wellplate_200ul"},"namespace":"custom_beta","version":1,"schemaVersion":2,"cornerOffsetFromSlot":{"x":0,"y":0,"z":0}}"""
+LABWARE_DEF_JSON = """{"ordering":[["A1","B1","C1","D1","E1","F1","G1","H1"],["A2","B2","C2","D2","E2","F2","G2","H2"],["A3","B3","C3","D3","E3","F3","G3","H3"],["A4","B4","C4","D4","E4","F4","G4","H4"],["A5","B5","C5","D5","E5","F5","G5","H5"],["A6","B6","C6","D6","E6","F6","G6","H6"],["A7","B7","C7","D7","E7","F7","G7","H7"],["A8","B8","C8","D8","E8","F8","G8","H8"],["A9","B9","C9","D9","E9","F9","G9","H9"],["A10","B10","C10","D10","E10","F10","G10","H10"],["A11","B11","C11","D11","E11","F11","G11","H11"],["A12","B12","C12","D12","E12","F12","G12","H12"]],"brand":{"brand":"Sarstedt","brandId":["72.1980.202"]},"metadata":{"displayName":"sarstedt 96 skirted wellplate 200ul (79.1980.202","displayCategory":"wellPlate","displayVolumeUnits":"µL","tags":[]},"dimensions":{"xDimension":127.76,"yDimension":85.48,"zDimension":15.5},"wells":{"A1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":74.24,"z":0.5},"B1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":65.24,"z":0.5},"C1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":56.24,"z":0.5},"D1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":47.24,"z":0.5},"E1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":38.24,"z":0.5},"F1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":29.24,"z":0.5},"G1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":20.24,"z":0.5},"H1":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":14.3,"y":11.24,"z":0.5},"A2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":74.24,"z":0.5},"B2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":65.24,"z":0.5},"C2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":56.24,"z":0.5},"D2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":47.24,"z":0.5},"E2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":38.24,"z":0.5},"F2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":29.24,"z":0.5},"G2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":20.24,"z":0.5},"H2":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":23.3,"y":11.24,"z":0.5},"A3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":74.24,"z":0.5},"B3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":65.24,"z":0.5},"C3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":56.24,"z":0.5},"D3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":47.24,"z":0.5},"E3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":38.24,"z":0.5},"F3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":29.24,"z":0.5},"G3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":20.24,"z":0.5},"H3":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":32.3,"y":11.24,"z":0.5},"A4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":74.24,"z":0.5},"B4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":65.24,"z":0.5},"C4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":56.24,"z":0.5},"D4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":47.24,"z":0.5},"E4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":38.24,"z":0.5},"F4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":29.24,"z":0.5},"G4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":20.24,"z":0.5},"H4":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":41.3,"y":11.24,"z":0.5},"A5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":74.24,"z":0.5},"B5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":65.24,"z":0.5},"C5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":56.24,"z":0.5},"D5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":47.24,"z":0.5},"E5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":38.24,"z":0.5},"F5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":29.24,"z":0.5},"G5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":20.24,"z":0.5},"H5":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":50.3,"y":11.24,"z":0.5},"A6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":74.24,"z":0.5},"B6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":65.24,"z":0.5},"C6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":56.24,"z":0.5},"D6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":47.24,"z":0.5},"E6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":38.24,"z":0.5},"F6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":29.24,"z":0.5},"G6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":20.24,"z":0.5},"H6":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":59.3,"y":11.24,"z":0.5},"A7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":74.24,"z":0.5},"B7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":65.24,"z":0.5},"C7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":56.24,"z":0.5},"D7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":47.24,"z":0.5},"E7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":38.24,"z":0.5},"F7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":29.24,"z":0.5},"G7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":20.24,"z":0.5},"H7":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":68.3,"y":11.24,"z":0.5},"A8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":74.24,"z":0.5},"B8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":65.24,"z":0.5},"C8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":56.24,"z":0.5},"D8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":47.24,"z":0.5},"E8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":38.24,"z":0.5},"F8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":29.24,"z":0.5},"G8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":20.24,"z":0.5},"H8":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":77.3,"y":11.24,"z":0.5},"A9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":74.24,"z":0.5},"B9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":65.24,"z":0.5},"C9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":56.24,"z":0.5},"D9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":47.24,"z":0.5},"E9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":38.24,"z":0.5},"F9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":29.24,"z":0.5},"G9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":20.24,"z":0.5},"H9":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":86.3,"y":11.24,"z":0.5},"A10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":74.24,"z":0.5},"B10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":65.24,"z":0.5},"C10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":56.24,"z":0.5},"D10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":47.24,"z":0.5},"E10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":38.24,"z":0.5},"F10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":29.24,"z":0.5},"G10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":20.24,"z":0.5},"H10":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":95.3,"y":11.24,"z":0.5},"A11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":74.24,"z":0.5},"B11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":65.24,"z":0.5},"C11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":56.24,"z":0.5},"D11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":47.24,"z":0.5},"E11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":38.24,"z":0.5},"F11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":29.24,"z":0.5},"G11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":20.24,"z":0.5},"H11":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":104.3,"y":11.24,"z":0.5},"A12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":74.24,"z":0.5},"B12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":65.24,"z":0.5},"C12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":56.24,"z":0.5},"D12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":47.24,"z":0.5},"E12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":38.24,"z":0.5},"F12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":29.24,"z":0.5},"G12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":20.24,"z":0.5},"H12":{"depth":15,"totalLiquidVolume":200,"shape":"circular","diameter":5.5,"x":113.3,"y":11.24,"z":0.5}},"groups":[{"metadata":{"wellBottomShape":"v"},"wells":["A1","B1","C1","D1","E1","F1","G1","H1","A2","B2","C2","D2","E2","F2","G2","H2","A3","B3","C3","D3","E3","F3","G3","H3","A4","B4","C4","D4","E4","F4","G4","H4","A5","B5","C5","D5","E5","F5","G5","H5","A6","B6","C6","D6","E6","F6","G6","H6","A7","B7","C7","D7","E7","F7","G7","H7","A8","B8","C8","D8","E8","F8","G8","H8","A9","B9","C9","D9","E9","F9","G9","H9","A10","B10","C10","D10","E10","F10","G10","H10","A11","B11","C11","D11","E11","F11","G11","H11","A12","B12","C12","D12","E12","F12","G12","H12"]}],"parameters":{"format":"irregular","quirks":[],"isTiprack":false,"isMagneticModuleCompatible":false,"loadName":"sarstedt_96_skirted_wellplate_200ul"},"namespace":"custom_beta","version":1,"schemaVersion":2,"cornerOffsetFromSlot":{"x":0,"y":0,"z":0}}"""
 LABWARE_DEF = json.loads(LABWARE_DEF_JSON)
 LABWARE_LABEL = LABWARE_DEF.get('metadata', {}).get(
     'displayName', 'test labware')
+LABWARE_DIMENSIONS = LABWARE_DEF.get('wells', {}).get('A1', {}).get('yDimension')
 
 metadata = {'apiLevel': '2.0'}
-
-
-def uniq(l):
-    res = []
-    for i in l:
-        if i not in res:
-            res.append(i)
-    return res
 
 
 def run(protocol: protocol_api.ProtocolContext):
@@ -59,10 +33,7 @@ def run(protocol: protocol_api.ProtocolContext):
 
     num_cols = len(LABWARE_DEF.get('ordering', [[]]))
     num_rows = len(LABWARE_DEF.get('ordering', [[]])[0])
-    well_locs = uniq([
-        'A1',
-        '{}{}'.format(chr(ord('A') + num_rows - 1), str(num_cols))])
-
+    total = num_cols * num_rows
     pipette.pick_up_tip()
 
     def set_speeds(rate):
@@ -80,45 +51,203 @@ def run(protocol: protocol_api.ProtocolContext):
 
     set_speeds(RATE)
 
-    for slot in CALIBRATION_CROSS_SLOTS:
-        coordinate = CALIBRATION_CROSS_COORDS[slot]
-        location = types.Location(point=types.Point(**coordinate),
-                                  labware=None)
-        pipette.move_to(location)
-        protocol.pause(
-            f"Confirm {PIPETTE_MOUNT} pipette is at slot {slot} calibration cross")
-
     pipette.home()
-    protocol.pause(f"Place your labware in Slot {TEST_LABWARE_SLOT}")
+    if(PIPETTE_NAME == 'p20_single_gen2' or PIPETTE_NAME == 'p300_single_gen2' or PIPETTE_NAME == 'p1000_single_gen2' or PIPETTE_NAME == 'p50_single' or PIPETTE_NAME == 'p10_single' or PIPETTE_NAME == 'p300_single' or PIPETTE_NAME == 'p1000_single'):
+        if(total > 1):
+            #testing with single channel
+            well = test_labware.well('A1')
+            all_4_edges = [
+                [well._from_center_cartesian(x=-1, y=0, z=1), 'left'],
+                [well._from_center_cartesian(x=1, y=0, z=1), 'right'],
+                [well._from_center_cartesian(x=0, y=-1, z=1), 'front'],
+                [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+            ]
 
-    for well_loc in well_locs:
-        well = test_labware.well(well_loc)
-        all_4_edges = [
-            [well._from_center_cartesian(x=-1, y=0, z=1), 'left'],
-            [well._from_center_cartesian(x=1, y=0, z=1), 'right'],
-            [well._from_center_cartesian(x=0, y=-1, z=1), 'front'],
-            [well._from_center_cartesian(x=0, y=1, z=1), 'back']
-        ]
+            set_speeds(RATE)
+            pipette.move_to(well.top())
+            protocol.pause("If the position is accurate click 'resume.'")
 
-        set_speeds(RATE)
-        pipette.move_to(well.top())
-        protocol.pause("Moved to the top of the well")
+            for edge_pos, edge_name in all_4_edges:
+                set_speeds(RATE)
+                edge_location = types.Location(point=edge_pos, labware=None)
+                pipette.move_to(edge_location)
+                protocol.pause("If the position is accurate click 'resume.'")
+            
+            #last well testing
+            last_well = (num_cols) * (num_rows)
+            well = test_labware.well(last_well-1)
+            all_4_edges = [
+                [well._from_center_cartesian(x=-1, y=0, z=1), 'left'],
+                [well._from_center_cartesian(x=1, y=0, z=1), 'right'],
+                [well._from_center_cartesian(x=0, y=-1, z=1), 'front'],
+                [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+            ]
+            for edge_pos, edge_name in all_4_edges:
+                set_speeds(RATE)
+                edge_location = types.Location(point=edge_pos, labware=None)
+                pipette.move_to(edge_location)
+                protocol.pause("If the position is accurate click 'resume.'")
+            set_speeds(RATE)
+            #test bottom of last well
+            pipette.move_to(well.bottom())
+            protocol.pause("If the position is accurate click 'resume.'")
+            pipette.blow_out(well)
+        else:
+            #testing with single channel + 1 well labware
+            well = test_labware.well('A1')
+            all_4_edges = [
+                [well._from_center_cartesian(x=-1, y=0, z=1), 'left'],
+                [well._from_center_cartesian(x=1, y=0, z=1), 'right'],
+                [well._from_center_cartesian(x=0, y=-1, z=1), 'front'],
+                [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+            ]
 
-        for edge_pos, edge_name in all_4_edges:
-            set_speeds(SLOWER_RATE)
-            edge_location = types.Location(point=edge_pos, labware=None)
-            pipette.move_to(edge_location)
-            protocol.pause(f'Moved to {edge_name} edge')
+            set_speeds(RATE)
+            pipette.move_to(well.top())
+            protocol.pause("If the position is accurate click 'resume.'")
 
-    # go to bottom last. (If there is more than one well, use the last well first
-    # because the pipette is already at the last well at this point)
-    for well_loc in reversed(well_locs):
-        well = test_labware.well(well_loc)
-        set_speeds(RATE)
-        pipette.move_to(well.bottom())
-        protocol.pause("Moved to the bottom of the well")
+            for edge_pos, edge_name in all_4_edges:
+                set_speeds(RATE)
+                edge_location = types.Location(point=edge_pos, labware=None)
+                pipette.move_to(edge_location)
+                protocol.pause("If the position is accurate click 'resume.'")
+            
+            #test bottom of first well
+            well = test_labware.well('A1')
+            pipette.move_to(well.bottom())
+            protocol.pause("If the position is accurate click 'resume.'")
+            pipette.blow_out(well)
+    else:
+        #testing for multichannel
+        if(total == 96 or total == 384): #testing for 96 well plates and 384 first column
+            #test first column
+            well = test_labware.well('A1')
+            all_4_edges = [
+                [well._from_center_cartesian(x=-1, y=0, z=1), 'left'],
+                [well._from_center_cartesian(x=1, y=0, z=1), 'right'],
+                [well._from_center_cartesian(x=0, y=-1, z=1), 'front'],
+                [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+            ]
+            set_speeds(RATE)
+            pipette.move_to(well.top())
+            protocol.pause("If the position is accurate click 'resume.'")
 
-        pipette.blow_out(well)
+            for edge_pos, edge_name in all_4_edges:
+                set_speeds(RATE)
+                edge_location = types.Location(point=edge_pos, labware=None)
+                pipette.move_to(edge_location)
+                protocol.pause("If the position is accurate click 'resume.'")
+            
+            #test last column
+            if(total == 96):
+                last_col = (num_cols * num_rows) - num_rows
+                well = test_labware.well(last_col)
+                all_4_edges = [
+                    [well._from_center_cartesian(x=-1, y=0, z=1), 'left'],
+                    [well._from_center_cartesian(x=1, y=0, z=1), 'right'],
+                    [well._from_center_cartesian(x=0, y=-1, z=1), 'front'],
+                    [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+                ]
+                for edge_pos, edge_name in all_4_edges:
+                    set_speeds(RATE)
+                    edge_location = types.Location(point=edge_pos, labware=None)
+                    pipette.move_to(edge_location)
+                    protocol.pause("If the position is accurate click 'resume.'")
+                set_speeds(RATE)
+                #test bottom of last column
+                pipette.move_to(well.bottom())
+                protocol.pause("If the position is accurate click 'resume.'")
+                pipette.blow_out(well)
+            elif(total == 384):
+                #testing for 384 well plates - need to hit well 369, last column
+                well369 = (total) - (num_rows) + 1
+                well = test_labware.well(well369)
+                pipette.move_to(well.top())
+                protocol.pause("If the position is accurate click 'resume.'")
+                all_4_edges = [
+                    [well._from_center_cartesian(x=-1, y=0, z=1), 'left'],
+                    [well._from_center_cartesian(x=1, y=0, z=1), 'right'],
+                    [well._from_center_cartesian(x=0, y=-1, z=1), 'front'],
+                    [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+                ]
+                for edge_pos, edge_name in all_4_edges:
+                    set_speeds(RATE)
+                    edge_location = types.Location(point=edge_pos, labware=None)
+                    pipette.move_to(edge_location)
+                    protocol.pause("If the position is accurate click 'resume.'")
+                set_speeds(RATE)
+                #test bottom of last column
+                pipette.move_to(well.bottom())
+                protocol.pause("If the position is accurate click 'resume.'")
+                pipette.blow_out(well)
+        elif(num_rows == 1 and total > 1 and LABWARE_DIMENSIONS >= 71.2):
+            #for 1 row reservoirs - ex: 12 well reservoirs
+            well = test_labware.well('A1')
+            all_4_edges = [
+                [well._from_center_cartesian(x=-1, y=1, z=1), 'left'],
+                [well._from_center_cartesian(x=1, y=1, z=1), 'right'],
+                [well._from_center_cartesian(x=0, y=0.75, z=1), 'front'],
+                [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+            ]
+            set_speeds(RATE)
+            pipette.move_to(well.top())
+            protocol.pause("If the position is accurate click 'resume.'")
+
+            for edge_pos, edge_name in all_4_edges:
+                set_speeds(RATE)
+                edge_location = types.Location(point=edge_pos, labware=None)
+                pipette.move_to(edge_location)
+                protocol.pause("If the position is accurate click 'resume.'")
+            #test last well
+            well = test_labware.well(-1)
+            all_4_edges = [
+                [well._from_center_cartesian(x=-1, y=1, z=1), 'left'],
+                [well._from_center_cartesian(x=1, y=1, z=1), 'right'],
+                [well._from_center_cartesian(x=0, y=0.75, z=1), 'front'],
+                [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+            ]
+            set_speeds(RATE)
+
+            for edge_pos, edge_name in all_4_edges:
+                set_speeds(RATE)
+                edge_location = types.Location(point=edge_pos, labware=None)
+                pipette.move_to(edge_location)
+                protocol.pause("If the position is accurate click 'resume.'")
+                #test bottom of first well
+            pipette.move_to(well.bottom())
+            protocol.pause("If the position is accurate click 'resume.'")
+            pipette.blow_out(well)
+
+        
+        elif(total == 1 and LABWARE_DIMENSIONS >= 71.2 ):
+            #for 1 well reservoirs
+            well = test_labware.well('A1')
+            all_4_edges = [
+                [well._from_center_cartesian(x=-1, y=1, z=1), 'left'],
+                [well._from_center_cartesian(x=1, y=1, z=1), 'right'],
+                [well._from_center_cartesian(x=0, y=0.75, z=1), 'front'],
+                [well._from_center_cartesian(x=0, y=1, z=1), 'back']
+            ]
+            set_speeds(RATE)
+            pipette.move_to(well.top())
+            protocol.pause("If the position is accurate click 'resume.'")
+
+            for edge_pos, edge_name in all_4_edges:
+                set_speeds(RATE)
+                edge_location = types.Location(point=edge_pos, labware=None)
+                pipette.move_to(edge_location)
+                protocol.pause("If the position is accurate click 'resume.'")
+                #test bottom of first well
+            pipette.move_to(well.bottom())
+            protocol.pause("If the position is accurate click 'resume.'")
+            pipette.blow_out(well)
+        
+        else:
+            #for incompatible labwares
+            protocol.pause("labware is incompatible to calibrate with a multichannel pipette")
+
+
+
 
     set_speeds(1.0)
     pipette.return_tip()
