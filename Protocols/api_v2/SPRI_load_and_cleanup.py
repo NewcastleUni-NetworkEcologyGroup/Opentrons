@@ -90,16 +90,16 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_10.pick_up_tip()
         pipette_10.flow_rate.aspirate = 5
         # pipette off most of the ethanol
-        pipette_10.aspirate(10, source_well.bottom(0.3))
+        pipette_10.aspirate(10, source_well.bottom(z=0.3))
         # step up releasing any blockages and giving liquid time to flow into the pipette
         protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(0.5))
+        pipette_10.move_to(source_well.bottom(z=0.5))
         protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(0.7))
+        pipette_10.move_to(source_well.bottom(z=0.7))
         protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(0.9))
+        pipette_10.move_to(source_well.bottom(z=0.9))
         protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(1.1))
+        pipette_10.move_to(source_well.bottom(z=1.1))
         protocol.delay(seconds = 1)
         pipette_10.move_to(source_well.top(-2))
         protocol.delay(seconds = 2)
@@ -111,7 +111,7 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_10.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(2))
         for iter in range(10):
             pipette_10.aspirate(10, magplate.rows_by_name()['A'][ticker].bottom(2))
-            pipette_10.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(10))
+            pipette_10.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(z=10))
         pipette_10.touch_tip(magplate.rows_by_name()['A'][ticker], radius=0.75,v_offset=-8, speed=25)
         pipette_10.drop_tip()
         ticker = ticker+1
@@ -119,7 +119,7 @@ def run(protocol: protocol_api.ProtocolContext):
     
     ##### Step 2 - Wait for 5 minutes then apply magnets for 5 minutes ####
    # protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
-    mag_mod.engage(height=17)
+    mag_mod.engage(height=19)
   #  protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
     #### Step 2 - Remove the supernatant ####
@@ -133,20 +133,20 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_300.pick_up_tip()
     for target_well in magplate.rows_by_name()['A']:
         # pipette off most of the supernatant
-        pipette_300.aspirate(50, target_well.bottom(1.5))
+        pipette_300.aspirate(50, target_well.bottom(z=1.5))
         # move down and pipette off the rest
-        pipette_300.aspirate(30, target_well.bottom(0.3))
+        pipette_300.aspirate(30, target_well.bottom(z=0.3))
         # step up releasing any blockages and giving liquid time to flow into the pipette
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.5))
+        pipette_300.move_to(target_well.bottom(z=0.5))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.7))
+        pipette_300.move_to(target_well.bottom(z=0.7))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.9))
+        pipette_300.move_to(target_well.bottom(z=0.9))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.1))
+        pipette_300.move_to(target_well.bottom(z=1.1))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.3))
+        pipette_300.move_to(target_well.bottom(z=1.3))
         protocol.delay(seconds = 1)
         pipette_300.touch_tip(target_well, radius=0.50,v_offset=-8, speed=25)
         # put it all in the waste
@@ -182,20 +182,20 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_300.pick_up_tip()
     for target_well in magplate.rows_by_name()['A']:
         # pipette off most of the ethanol
-        pipette_300.aspirate(80, target_well.bottom(1.5))
+        pipette_300.aspirate(80, target_well.bottom(z=1.5))
         # move down and pipette off the rest
-        pipette_300.aspirate(40, target_well.bottom(0.3))
+        pipette_300.aspirate(40, target_well.bottom(z=0.3))
         # step up releasing any blockages and giving liquid time to flow into the pipette
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.5))
+        pipette_300.move_to(target_well.bottom(z=0.5))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.7))
+        pipette_300.move_to(target_well.bottom(z=0.7))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.9))
+        pipette_300.move_to(target_well.bottom(z=0.9))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.1))
+        pipette_300.move_to(target_well.bottom(z=1.1))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.3))
+        pipette_300.move_to(target_well.bottom(z=1.3))
         protocol.delay(seconds = 1)
         pipette_300.touch_tip(target_well, radius=0.50,v_offset=-8, speed=25)
         # create an air gap for the drippy ethanol
@@ -234,20 +234,20 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_300.pick_up_tip()
     for target_well in magplate.rows_by_name()['A']:
         # pipette off most of the ethanol
-        pipette_300.aspirate(80, target_well.bottom(1.5))
+        pipette_300.aspirate(80, target_well.bottom(z=1.5))
         # move down and pipette off the rest
-        pipette_300.aspirate(40, target_well.bottom(0.3))
+        pipette_300.aspirate(40, target_well.bottom(z=0.3))
         # step up releasing any blockages and giving liquid time to flow into the pipette
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.5))
+        pipette_300.move_to(target_well.bottom(z=0.5))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.7))
+        pipette_300.move_to(target_well.bottom(z=0.7))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.9))
+        pipette_300.move_to(target_well.bottom(z=0.9))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.1))
+        pipette_300.move_to(target_well.bottom(z=1.1))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.3))
+        pipette_300.move_to(target_well.bottom(z=1.3))
         protocol.delay(seconds = 1)
         pipette_300.touch_tip(target_well, radius=0.50,v_offset=-8, speed=25)
         # create an air gap for the drippy ethanol
@@ -262,17 +262,17 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_300.flow_rate.aspirate = 5
     pipette_300.pick_up_tip()
     for target_well in magplate.rows_by_name()['A']:
-        pipette_300.aspirate(10, target_well.bottom(0.3))
+        pipette_300.aspirate(10, target_well.bottom(z=0.3))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.5))
+        pipette_300.move_to(target_well.bottom(z=0.5))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.7))
+        pipette_300.move_to(target_well.bottom(z=0.7))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(0.9))
+        pipette_300.move_to(target_well.bottom(z=0.9))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.1))
+        pipette_300.move_to(target_well.bottom(z=1.1))
         protocol.delay(seconds = 1)
-        pipette_300.move_to(target_well.bottom(1.3))
+        pipette_300.move_to(target_well.bottom(z=1.3))
         protocol.delay(seconds = 1)
     pipette_300.blow_out(waste['A4'].top(-4))
     pipette_300.touch_tip(waste['A4'], radius=0.80,v_offset=-5, speed=25)
