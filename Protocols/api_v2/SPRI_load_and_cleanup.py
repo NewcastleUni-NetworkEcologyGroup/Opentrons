@@ -90,7 +90,7 @@ def run(protocol: protocol_api.ProtocolContext):
         pipette_10.pick_up_tip()
         pipette_10.flow_rate.aspirate = 5
         # pipette off most of the ethanol
-        pipette_10.aspirate(10, source_well.bottom(z=0.3))
+        pipette_10.aspirate(10, source_well.from_center_cartesian(x=-0.2,y=0,z=-0.75))
         # step up releasing any blockages and giving liquid time to flow into the pipette
         protocol.delay(seconds = 1)
         pipette_10.move_to(source_well.bottom(z=0.5))
