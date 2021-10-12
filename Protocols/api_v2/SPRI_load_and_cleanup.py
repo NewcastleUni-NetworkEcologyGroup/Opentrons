@@ -83,44 +83,45 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_10.well_bottom_clearance.dispense = 2 
     ticker=0
     
-    ##### Step 1 - Transfer PCR products to magdeck and mix ####
-    # Using a loop pick up PCR products and mix 
-    #for source_well, idx in enumerate(source_plate.rows_by_name()['A']):
-    for source_well in source_plate.rows_by_name()['A']:
-        pipette_10.pick_up_tip()
-        pipette_10.flow_rate.aspirate = 5
-        # pipette off most of the ethanol
-        pipette_10.aspirate(10, source_well.from_center_cartesian(x=-0.2,y=0,z=-0.75))
-        # step up releasing any blockages and giving liquid time to flow into the pipette
-        protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(z=0.5))
-        protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(z=0.7))
-        protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(z=0.9))
-        protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.bottom(z=1.1))
-        protocol.delay(seconds = 1)
-        pipette_10.move_to(source_well.top(-2))
-        protocol.delay(seconds = 2)
-        pipette_10.touch_tip(source_well, radius=0.75,v_offset=-2, speed=25)
+    # ##### Step 1 - Transfer PCR products to magdeck and mix ####
+    # # Using a loop pick up PCR products and mix 
+    # #for source_well, idx in enumerate(source_plate.rows_by_name()['A']):
+    # for source_well in source_plate.rows_by_name()['A']:
+    #     pipette_10.pick_up_tip()
+    #     pipette_10.flow_rate.aspirate = 5
+    #     # pipette off most of the ethanol
+    #     pipette_10.aspirate(10, source_well.bottom(z=0.3))
+    #     # step up releasing any blockages and giving liquid time to flow into the pipette
+    #     protocol.delay(seconds = 1)
+    #     pipette_10.move_to(source_well.bottom(z=0.5))
+    #     protocol.delay(seconds = 1)
+    #     pipette_10.move_to(source_well.bottom(z=0.7))
+    #     protocol.delay(seconds = 1)
+    #     pipette_10.move_to(source_well.bottom(z=0.9))
+    #     protocol.delay(seconds = 1)
+    #     pipette_10.move_to(source_well.bottom(z=1.1))
+    #     protocol.delay(seconds = 1)
+    #     pipette_10.move_to(source_well.top(-2))
+    #     protocol.delay(seconds = 2)
+    #     pipette_10.touch_tip(source_well, radius=0.75,v_offset=-2, speed=25)
+
         
-        # make the pipetting faster and mix PCR products with SPRI beads
-        pipette_10.flow_rate.aspirate = 50
-        pipette_10.flow_rate.dispense = 50
-        pipette_10.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(2))
-        for iter in range(10):
-            pipette_10.aspirate(10, magplate.rows_by_name()['A'][ticker].bottom(2))
-            pipette_10.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(z=10))
-        pipette_10.touch_tip(magplate.rows_by_name()['A'][ticker], radius=0.75,v_offset=-8, speed=25)
-        pipette_10.drop_tip()
-        ticker = ticker+1
+    #     # make the pipetting faster and mix PCR products with SPRI beads
+    #     pipette_10.flow_rate.aspirate = 50
+    #     pipette_10.flow_rate.dispense = 50
+    #     pipette_10.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(2))
+    #     for iter in range(10):
+    #         pipette_10.aspirate(10, magplate.rows_by_name()['A'][ticker].bottom(2))
+    #         pipette_10.dispense(10, magplate.rows_by_name()['A'][ticker].bottom(z=10))
+    #     pipette_10.touch_tip(magplate.rows_by_name()['A'][ticker], radius=0.75,v_offset=-8, speed=25)
+    #     pipette_10.drop_tip()
+    #     ticker = ticker+1
     
     
     ##### Step 2 - Wait for 5 minutes then apply magnets for 5 minutes ####
-   # protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
+    protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
     mag_mod.engage(height=19)
-  #  protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
+    protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
     #### Step 2 - Remove the supernatant ####
     # set pipetting parameters
