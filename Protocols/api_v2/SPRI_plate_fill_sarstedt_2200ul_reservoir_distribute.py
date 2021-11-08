@@ -53,8 +53,8 @@ def run(protocol: protocol_api.ProtocolContext):
 
     # set up the reagent locations
     reservoir = protocol.load_labware('sarstedt_96_wellplate_2200ul',9)
-    SPRI = reservoir['A1']
-    water = reservoir['A2']
+    SPRI = reservoir['A3']
+    water = reservoir['A4']
     
     # set up tip locations
     tiprack_200 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 3)
@@ -110,7 +110,7 @@ def run(protocol: protocol_api.ProtocolContext):
     for d in dest_plates:
       print('Round', ticker, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
       # move to SPRI reservoir and aspirate then wait for viscous fluid to catch up
-      pipette_300.aspirate((SPRI_vol*6),SPRI)
+      pipette_300.aspirate(((SPRI_vol*6)+5),SPRI)
       protocol.delay(seconds=1)
       # move to the top of the reservoir and let the SPRI form a drip then touch it off gently to the well wall 
       pipette_300.move_to(SPRI.top(-2))
@@ -122,9 +122,9 @@ def run(protocol: protocol_api.ProtocolContext):
             pipette_300.dispense(SPRI_vol,d[well])
             protocol.delay(seconds=2)
             # move to the top of the target well and let the SPRI form a drip then touch it off gently to the well wall 
-            pipette_300.move_to(d[well].top(-2))
-            protocol.delay(seconds=2)
-            pipette_300.touch_tip(d[well], radius=0.65,v_offset=-2, speed=25)
+      pipette_300.move_to(d[well].top(-2))
+      protocol.delay(seconds=2)
+      pipette_300.touch_tip(d[well], radius=0.65,v_offset=-2, speed=25)
       pipette_300.blow_out(SPRI)
       pipette_300.touch_tip(SPRI, radius=0.65,v_offset=-2, speed=25)
       
@@ -140,7 +140,7 @@ def run(protocol: protocol_api.ProtocolContext):
           
       print('Round', ticker, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
       # move to SPRI reservoir and aspirate then wait for viscous fluid to catch up
-      pipette_300.aspirate((SPRI_vol*6),SPRI)
+      pipette_300.aspirate(((SPRI_vol*6)+5),SPRI)
       protocol.delay(seconds=1)
       # move to the top of the reservoir and let the SPRI form a drip then touch it off gently to the well wall 
       pipette_300.move_to(SPRI.top(-2))
@@ -152,9 +152,9 @@ def run(protocol: protocol_api.ProtocolContext):
             pipette_300.dispense(SPRI_vol,d[well])
             protocol.delay(seconds=2)
             # move to the top of the target well and let the SPRI form a drip then touch it off gently to the well wall 
-            pipette_300.move_to(d[well].top(-2))
-            protocol.delay(seconds=2)
-            pipette_300.touch_tip(d[well], radius=0.65,v_offset=-2, speed=25)
+      pipette_300.move_to(d[well].top(-2))
+      protocol.delay(seconds=2)
+      pipette_300.touch_tip(d[well], radius=0.65,v_offset=-2, speed=25)
       pipette_300.blow_out(SPRI)
       pipette_300.touch_tip(SPRI, radius=0.65,v_offset=-2, speed=25)
       
@@ -185,8 +185,8 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette_300.flow_rate.aspirate = 50
 
     # distribute water using distribute command and well referencing
+    pipette_300.pick_up_tip()
     for ind, d in enumerate(dest_plates):
-        pipette_300.pick_up_tip()
         print('Round', ind+1, 'pipetting height', pipette_300.well_bottom_clearance.aspirate)
         pipette_300.distribute(water_vol,water,d.wells(),
                                 #touch_tip=True,
@@ -196,5 +196,5 @@ def run(protocol: protocol_api.ProtocolContext):
                                 blow_out_location='source well',
                                 disposal_volume=2)
         pipette_300.well_bottom_clearance.aspirate = round(initial_water_height-(initial_water_height/water_steps)*((ind+2)*0.95),1)
-        pipette_300.drop_tip() 
+    pipette_300.drop_tip() 
             
