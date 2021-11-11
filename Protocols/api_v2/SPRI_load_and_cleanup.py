@@ -117,7 +117,8 @@ def run(protocol: protocol_api.ProtocolContext):
     
     
     ##### Step 2 - Wait for 5 minutes then apply magnets for 5 minutes ####
-    protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
+    protocol.pause("Remove SPRI plate, cover with film and mix for 2 min on ika plate shaker at 1400 rpm")
+    protocol.delay(minutes = 3, msg = 'Finishing binding DNA to SPRI beads')
     mag_mod.engage(height=19)
     protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
@@ -280,10 +281,10 @@ def run(protocol: protocol_api.ProtocolContext):
     #### Step 5 - Dry SPRI beads ####
     #Pull the SPRI beads down a bit to make elution easier
     mag_mod.engage(height=7)
-   # protocol.delay(minutes = 2, msg = 'Pulling beads down')
+    protocol.delay(minutes = 2, msg = 'Pulling beads down')
     
     mag_mod.disengage()
-   # protocol.delay(minutes = 8, msg = 'Drying beads')
+    protocol.delay(minutes = 8, msg = 'Drying beads')
     
     #### Step 6 - Elute ####
     # Add water or 10mM Tris-HCl
