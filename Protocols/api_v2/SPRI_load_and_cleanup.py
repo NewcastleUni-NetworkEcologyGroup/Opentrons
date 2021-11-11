@@ -20,7 +20,7 @@ metadata = {'apiLevel': '2.8',
 def run(protocol: protocol_api.ProtocolContext):
 
     # labware for protocol
-    reservoir = protocol.load_labware('nest_12_reservoir_15ml',2)
+    reservoir = protocol.load_labware('sarstedt_96_wellplate_2200ul',2)
     tiprack_1 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 3, "Tips for SPRI process")
     tiprack_2 = protocol.load_labware('opentrons_96_filtertiprack_200ul', 6)
     tiprack_3 = protocol.load_labware('opentrons_96_filtertiprack_20ul', 9, "Tips for PCR product transfer")
@@ -29,9 +29,9 @@ def run(protocol: protocol_api.ProtocolContext):
     waste = protocol.load_labware('sarstedt_96_wellplate_2200ul', 7, "waste plate")
     
     # key labware dimensions
-    tip_height = 3
-    well_width =8.2
-    well_length = 71.2
+    tip_height = 3.5
+    well_width =8.3
+    well_length = 8.3
     
     # magnetic module and labware on it
     mag_mod = protocol.load_module('magdeck', 1)
@@ -60,9 +60,9 @@ def run(protocol: protocol_api.ProtocolContext):
     
     # Key reagent volumes
     Ethanol_wash_vol=100
-    Ethanol_start_vol=96*Ethanol_wash_vol*1.2
+    Ethanol_start_vol=(96*Ethanol_wash_vol*1.2)/8
     Tris_elute_vol=22
-    Tris_start_vol=96*Tris_elute_vol*1.2
+    Tris_start_vol=(96*Tris_elute_vol*1.2)/8
     
     # Set liquid starting heights
     Ethanol_start_height = start_height(Ethanol_start_vol, tip_height, well_width, well_length)
@@ -73,9 +73,9 @@ def run(protocol: protocol_api.ProtocolContext):
     print(Ethanol_start_vol)
     print("The initial ethanol height in reservoir wells A1 and A2 is: ", end='')
     print(Ethanol_start_height)
-    print("The initial tris volume in reservoir well A10 is: ", end='')
+    print("The initial tris volume in reservoir well A4 is: ", end='')
     print(Tris_start_vol)
-    print("The initial tris height in reservoir well A10 is: ", end='')
+    print("The initial tris height in reservoir well A4 is: ", end='')
     print(Tris_start_height)
     
     # set up pipettes
