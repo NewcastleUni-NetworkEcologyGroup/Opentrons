@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+##!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov  8 11:53:00 2019
@@ -117,9 +117,9 @@ def run(protocol: protocol_api.ProtocolContext):
     
     
     ##### Step 2 - Wait for 5 minutes then apply magnets for 5 minutes ####
-   # protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
+    protocol.delay(minutes = 5, msg = 'Binding DNA to SPRI beads')
     mag_mod.engage(height=19)
-  #  protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
+    protocol.delay(minutes = 5, msg = 'Separating SPRI beads from supernatant')
     
     #### Step 2 - Remove the supernatant ####
     # set pipetting parameters
