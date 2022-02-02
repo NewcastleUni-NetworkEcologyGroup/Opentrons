@@ -87,6 +87,9 @@ def run(ctx):
         number = well[1:]
         return letter.upper() + str(int(number))
 
+    pip.well_bottom_clearance.dispense=5
+
+
     if tip_reuse == 'never':
         pick_up()
     for line in transfer_info:
@@ -98,6 +101,7 @@ def run(ctx):
         if tip_reuse == 'always':
             pick_up()
         pip.transfer(float(vol), source, dest, new_tip='never')
+        pip.touch_tip(dest, radius=0.80,v_offset=-5, speed=25)
         if tip_reuse == 'always':
             pip.drop_tip()
     if pip.hw_pipette['has_tip']:
